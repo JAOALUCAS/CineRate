@@ -1,0 +1,161 @@
+
+header{
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    width: 100%;
+    position: fixed;
+    padding: 0px 20px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent);
+    color: white;
+    transition: 0.7s;
+}
+
+@font-face {
+    font-family: "Anton";
+    src: url(../fonts/Anton/Anton-Regular.ttf);
+}
+
+.logo{
+    user-select: none;
+    display: flex;
+    font-family: "Roboto";
+}
+
+.logo #rate{
+    color: #fd5624;
+}
+
+.search-bar{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input{
+    color: white;
+    height: 30px;
+    width: 200px;
+    background-color: rgba(128, 128, 128, 0.5);
+    margin-left: 20px;
+    outline: none;
+    border: 1px gray solid;
+    border-radius: 30px;
+    padding-left: 35px; 
+}
+
+.search-bar input:focus{
+    border-color: #fd5624;
+    box-shadow: 0 0 6px rgba(253, 86, 36, 0.8);
+    transition: 0.1s ease-in-out;
+}
+
+.search-bar input::placeholder{
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.search-bar input:focus::placeholder {
+    opacity: 0;
+}
+
+.pesq{
+    position: absolute;
+    left: 21.5px;
+    pointer-events: none;
+    padding: 6px;
+    background-color: #fd5624;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-bar:hover .pesq{
+    filter: brightness(1.5);
+    transition: 0.1s;
+}
+
+.pesq img{
+    height: 16px;
+}
+
+.nav, .search-bar, .logo, .user, .save{
+    margin-top: 10px;
+}
+
+.nav ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+}
+
+.nav ul li{
+    list-style: none;
+    margin: 0px 15px;
+}
+
+.nav li a, .user a{
+    color: white;
+    text-decoration: none;
+    transition: 0.2s;
+    padding: 10px 5px;
+    position: relative;
+}
+
+.nav li a::before, .user a::before{
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #fd5624;
+    transition: width 0.4s ease, left 0.3s ease;
+}
+.nav a:hover::before , .user a:hover::before{
+    width: 100%;
+    left: 0;
+}
+
+.nav li a:hover, .user a:hover{
+    color: #fd5624;
+}
+
+.nav li a img{
+   height: 15px;
+   margin-bottom: -2px;
+}
+
+.nav{
+    margin-left: 100px;
+    margin-right: 0px;
+}
+
+.save{
+    margin: 0px 20px;
+    transition: 0.3s;
+}
+
+.save a img{
+    height: 16px;
+    margin-top: 15px;
+}
+
+header p{
+    color: rgb(90, 90, 90);
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.user{
+    margin-left: 10px;
+}
+
+.scrollingHeader{
+    background: transparent;
+    background-color: #141820;
+    box-shadow: 30px black;
+}

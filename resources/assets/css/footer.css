@@ -1,0 +1,88 @@
+footer{
+    margin-top: 90px;
+    width: 100%;
+    border-top: 70px #141820 solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.contatos{
+    margin-top: 90px;
+    margin-bottom: 40px;
+}
+
+.contatos ul, .help ul{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.help{
+    padding-top: 10px;
+    width: 80%;
+    border-top: 1px rgba(255, 255, 255, 0.5) solid;
+}
+
+.contatos li, .help li{
+    list-style: none;
+    margin: 0px 10px;
+}
+
+.contatos li a, .help li a{
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    background-color: #141820;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s;
+}
+
+.help li a{
+    margin-top: 20px;
+    background-color: transparent;
+}
+
+.contatos li a:hover, .help li a:hover{
+    filter: brightness(1.5);
+}
+
+.contatos li a img{
+    height: 20px;
+}
+
+.copyright{
+    border: none;
+    margin: 20px 0px;
+}
+
+.copyright p{
+    color: white;
+}
+
+.scrolltop{
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.2s;
+}
+
+.scrolltop img{
+    height: 50px;
+}
+
+.scrolltop.active{
+    opacity: 1;
+    visibility: visible;
+}

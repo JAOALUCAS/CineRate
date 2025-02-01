@@ -12,9 +12,9 @@ class Home{
 
         $viewName = "pages/" . $view;
 
-        $content = View::getContentView($viewName);
+        $pageContent = View::getContentView($viewName);
 
-        return Page::callRenderPage("home", "Cinerate - home", $content);
+        return Page::callRenderPage("template", "Cinerate - home", $pageContent, $view);
 
     }
 

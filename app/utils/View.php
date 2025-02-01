@@ -29,6 +29,8 @@ class View{
     public static function renderPage($view, $vars = [])
     {
         
+        $templateContentView = self::getContentView($view);
+
         $contentView = self::getContentView($view);
 
         $keys = array_keys($vars);
@@ -37,7 +39,7 @@ class View{
             return "{{".$item."}}";
         }, $keys);
 
-        return str_replace($keys, array_values($vars), $contentView);
+        return str_replace($keys, array_values($vars), $templateContentView);
 
     }
 
