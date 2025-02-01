@@ -1,0 +1,213 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: white;
+}
+
+.container{
+    background-color: #0c0c1d;
+    height: 100%;
+}
+
+header, footer, section, nav{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header, footer{
+    background-color: #12122b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header{
+    height: 70px;
+    margin-bottom: 50px;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url(../fonts/Bebas_Neue/BebasNeue-Regular.ttf);
+}
+
+.logo-container{
+    height: 40px;
+    width: 150px;
+    color: #1d1d40;
+    background-color: #f8ba62;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: larger;
+    letter-spacing: 3px;
+    font-family: "Roboto";
+    box-shadow: 0 0 5px #c28d42;
+}
+
+.logo-container img{
+    height: 35px;
+    padding-bottom: 9px;
+    padding-left: 3px;
+}
+
+#cine{
+    color: #1d1d40;
+}
+
+.search-bar{
+    margin: 0px 20px 0px 500px;
+}
+
+.search-bar input{
+    height: 30px;
+    width: 300px;
+    background-color: #1d1d40;
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+    outline: none;
+    border: none;
+    border-radius: 30px;
+    padding-left: 20px;
+}
+
+.search-bar img{
+    height: 20px;
+    position: absolute;
+    top: 4%;
+    right: 18%;
+}
+
+.user img{
+    height: 40px;
+}
+
+footer{
+    flex-wrap: wrap;
+    height: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.company{
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: justify;
+}
+
+.company .text-company{
+    margin-top: 20px;
+}
+
+.links{
+    display: flex;
+    flex-direction: column;
+    margin: 0px 90px;
+}
+
+.links li img, .info li img{
+    height: 20px;
+    margin-right: 10px;
+    margin-bottom: -5px;
+}
+
+.inspirations{
+    margin: 0px 90px;
+}
+
+li{
+    list-style: none;
+    margin: 10px 0px;
+}
+
+a{
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+.copyright{
+    padding-top: 20px;
+    border-top: 1px solid;
+    width: 80%;
+    text-align: center;
+}
+
+.carrossel{
+    height: 450px;
+    width: 900px;
+    background-color: #1d1d40;
+}
+
+section{
+    height: 300vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+section h1{
+    padding-left: 20px;
+    margin: 20px;
+    border-left: 10px solid #f8ba62;
+}
+
+.em-alta, .destaques, .top-10, .principais-noticias{
+    height: 300px;
+    margin: 30px 20px;
+}
+
+.card-container{
+    margin-top: 10px;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-filme{
+    height: 100%;
+    width: 175px;
+    background-color: #1d1d40;
+    margin: 0px 15px;
+}
+
+.notice-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.card-notice{
+    height: 200px;
+    width: 220px;
+    background-color: #1d1d40;
+    margin: 0px 15px;
+}
+
+nav{
+    margin-top: 60px;
+    height: 700px;
+    width: 40px;
+    position: fixed;
+    top: 0%;
+    left: 0;
+    font-size: 20px;
+}
+
+nav img{
+    height: 30px;
+    margin: 30px 20px;
+}

@@ -1,0 +1,16 @@
+{
+    "name": "jaoalucas/cinerate",
+    "description": "Criando um site de avaliações de filmes, séries e etc.",
+    "type": "project",
+    "authors": [
+        {    
+            "name": "João Lucas", 
+            "email": "joao.lucast02@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
