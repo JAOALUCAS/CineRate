@@ -2,6 +2,10 @@
 let scroll = this.document.querySelector(".scrolltop");
 let scrollHeader = document.querySelector(".scrollheader");
 let saveImg = document.getElementById("saveImg");
+let navOl = document.querySelectorAll(".ulNav li ol");
+let lineContainer = document.querySelectorAll(".line-container");
+let menuMobileDiv = document.querySelector(".mobile-menu ul");
+let mobileLi = document.querySelectorAll(".mobile-menu ul li");
 
 headerScrolling();
 
@@ -30,7 +34,7 @@ function headerScrolling(){
 
 let mouseIsOver = false;
 
-function saveImgChande(){
+function saveImgChange(){
 
     mouseIsOver = !mouseIsOver;
 
@@ -38,5 +42,67 @@ function saveImgChande(){
 
 }
 
-saveImg.addEventListener("mouseover", saveImgChande);
-saveImg.addEventListener("mouseout", saveImgChande);
+function activeLink(){
+
+    navOl.forEach((item)=>{
+
+        let paiLi = item.parentElement;
+        let linkItem = paiLi.getElementsByTagName("a")[0];
+    
+        item.addEventListener("mouseenter", ()=>{
+            linkItem.classList.add("active");      
+        });
+        
+        item.addEventListener("mouseleave", ()=>{   
+            linkItem.classList.remove("active");      
+        });
+    
+    });
+
+}
+
+let liVisivel = false;
+
+function mobileMenu(){
+
+    lineContainer[0].addEventListener("click", ()=>{
+
+        liVisivel = !liVisivel;
+
+        menuMobileDiv.classList.toggle("menu-active");
+
+        let lines = lineContainer[0].querySelectorAll(".line");
+
+        lines.forEach((line)=>{
+
+            line.classList.toggle("menu-active");
+
+        });
+
+
+        if (liVisivel) {
+
+            mobileLi.forEach((li, index) => {
+
+                li.style.animation = `navLinkFade 0.5s ease-in ${index / 10}s forwards`;
+
+            });
+
+        } else {
+
+            mobileLi.forEach((li) => {
+
+                li.style.animation = "none";
+
+            });
+
+        }
+
+    });
+
+}
+
+activeLink();
+mobileMenu();
+saveImg.addEventListener("mouseover", saveImgChange);
+saveImg.addEventListener("mouseout", saveImgChange);

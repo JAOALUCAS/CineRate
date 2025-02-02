@@ -2,10 +2,9 @@
 
 namespace App\controllers\pages;
 
-use \App\controllers\pages\Page;
 use \App\Utils\View;
 
-class Home{
+class Home extends Page{
 
     public static function homeGetPage($view)
     {
@@ -14,7 +13,7 @@ class Home{
 
         $pageContent = View::getContentView($viewName);
 
-        return Page::callRenderPage("template", "Cinerate - home", $pageContent, $view);
+        return parent::callRenderPage("template", "Cinerate - home", $pageContent, $view);
 
     }
 

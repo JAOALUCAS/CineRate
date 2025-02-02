@@ -14,7 +14,7 @@ class Page{
     private static function getHeader()
     {
 
-        return View::getContentView("pages/header");
+        return View::renderPage("pages/header");
 
     }
 
@@ -26,7 +26,7 @@ class Page{
     private static function getFooter()
     {
 
-        return View::getContentView("pages/footer");
+        return View::renderPage("pages/footer");
 
     }
 
@@ -46,7 +46,7 @@ class Page{
             "cssSpecific" => $css,
             "header" => self::getHeader(),
             "pageContent" => $pageContent,
-            "footer" => self::getFooter()
+            "footer" => self::getFooter(),
         ]);
 
     }

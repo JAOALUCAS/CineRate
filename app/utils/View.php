@@ -5,6 +5,13 @@ namespace App\utils;
 class View{
 
     /**
+     * Váriaveis dinâmicas
+     *
+     * @var array
+     */
+    private static $vars = [];
+
+    /**
      * Método responsável por pegar o conteúdo de uma view
      *
      * @param string $view
@@ -16,6 +23,17 @@ class View{
         $file = __DIR__ . "/../../resources/" . $view . ".html";
 
         return file_exists($file) ? file_get_contents($file) : '';
+
+    }
+
+    /**
+     *  Método responsável por definir os dados iniciais da classe
+     * @param array $vars
+     */
+    public static function init($vars = [])
+    {
+
+        self::$vars = $vars;
 
     }
 
@@ -32,6 +50,8 @@ class View{
         $templateContentView = self::getContentView($view);
 
         $contentView = self::getContentView($view);
+
+        $vars = array_merge(self::$vars ,$vars);
 
         $keys = array_keys($vars);
         

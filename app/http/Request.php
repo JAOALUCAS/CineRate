@@ -19,6 +19,13 @@ class Request{
     private $queryParams;
 
     /**
+     * Váriaveis post
+     *
+     * @var string
+     */
+    private $postVars;
+
+    /**
      * Método da requisição
      *
      * @var string
@@ -36,6 +43,8 @@ class Request{
         $this->queryParams = $_GET;
 
         $this->method = $_SERVER["REQUEST_METHOD"];
+
+        $this->postVars = $_POST;
         
     }
 
@@ -46,6 +55,16 @@ class Request{
     {
 
         return $this->uri;
+
+    }
+
+    /**
+     * Método responsável por retornar as váriaveis post
+     */
+    public function getPostVars()
+    {
+
+        return $this->postVars;
 
     }
 

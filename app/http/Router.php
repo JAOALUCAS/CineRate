@@ -40,15 +40,33 @@ class Router{
     public function run($request)
     {
     
+        $codeError = "";
+
         foreach($this->routes as $route){
 
-            if($route["method"] == $request->getMethod() && $route["path"] == $request->getUri()){
+            if($route["method"] == $request->getMethod()){
 
-                $response = new Response(200, $route["handler"]);
+                if($route["path"] == $request->getUri()){
 
-                return $response->sendResponse();
+                    $response = new Response(200, $route["handler"]);
+
+                    return $response->sendResponse();
+
+                }
+
+                $codeError = 404;
 
             }
+
+            $codeError = 405;
+
+        }
+
+        if($codeError){
+
+            $response = new Response($codeError, "");
+
+            return $response->sendResponse();
 
         }
 
