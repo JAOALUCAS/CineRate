@@ -3,11 +3,9 @@
 
 require __DIR__  . "/../vendor/autoload.php";
 
-use \App\controllers\pages\Home;
 use \App\common\Enviroment;
-use \App\http\Request;
-use \App\http\Router;
 use \App\utils\View;
+use \App\database\Database;
 
 Enviroment::load(__DIR__ . "/../");
 
@@ -17,9 +15,16 @@ View::init([
     "URL" => URL
 ]);
 
-$request = new Request();
+Database::setConfig([
+    getenv("DB_NAME"),
+    getenv("DB_HOST"),
+    getenv("DB_PORT"),
+    getenv("DB_USER"),
+    getenv("DB_PASS")
+]);
 
-$router = new Router();
-$router->add("GET", "/", Home::homeGetPage("homeContent"));
-$router->run($request);
+// Rotas de home
+include __DIR__ . "/../routes/home.php";
 
+// Rotas de account
+include __DIR__ . "/../routes/auth.php";

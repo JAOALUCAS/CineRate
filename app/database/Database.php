@@ -11,11 +11,9 @@ class Database{
      */
     private $dbConfigs = [];
 
-    private $table;
+    private  $params = [];
 
-    private  $params;
-
-    private static function setConnection($querry)
+    private static function setConnection($query)
     {
 
     }
@@ -25,30 +23,22 @@ class Database{
 
     }
 
-    public function buildQuerry($querry, $params, $table)
+    private function buildQuery($request, $query, $params)
     {
+
+        $value = $request->getPostVars();
+
+
 
     }
 
-    private static function update($params, $table)
+    public function prepare($request, $query, $params = [])
     {
 
-    }
+        $this->params = $params;
 
-    
-    private static function insert($params, $table)
-    {
-        
-    }
+        $this->buildQuery($request, $query, $this->params);
 
-    private static function delete($params, $table)
-    {
-        
-    }
-
-    private static function select($params, $table)
-    {
-        
     }
 
 }

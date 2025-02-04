@@ -48,6 +48,12 @@ class Router{
 
                 if($route["path"] == $request->getUri()){
 
+                    if (is_callable($route["handler"])) {
+
+                        call_user_func($route["handler"], $request);
+
+                    } 
+
                     $response = new Response(200, $route["handler"]);
 
                     return $response->sendResponse();

@@ -1,0 +1,178 @@
+<section>
+
+    <div class="forms-container">
+
+        <div class="signin-signup">
+
+            <form action="" method="post" class="form-sign sign-in-form">
+
+                <h2 class="tittle">Fazer login</h2>
+
+                <div class="input-field">
+
+                    <input type="email" name="email"  placeholder="Digite seu email..." autocomplete="email">
+
+                </div>
+
+                <div class="input-field">
+
+                    <input type="password" name="senha"  placeholder="Digite sua senha..." autocomplete="current-password">
+
+                </div>
+
+                <button type="submit" class="btn">Logar</button>
+
+                <p class="social-text">Ou logue usando as plataformas</p>
+
+                <div class="social-media">
+
+                    <a href="">
+
+                        <img src="../../resources/assets/icons/icons8-facebook-32.png">
+
+                    </a>
+
+                    <a href="">
+
+                        <img src="../../resources/assets/icons/icons8-x-50.png">
+
+                    </a>
+                    
+                    <a href="">
+
+                        <img src="../../resources/assets/icons/icons8-google-logo-60.png">
+
+                    </a>
+                    
+                    <a href="">
+
+                        <img src="../../resources/assets/icons/icons8-linkedin-2-60.png">
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="signin-signup">
+
+            <form action="" method="post" class="form-sign sign-up-form">
+
+                <h2 class="tittle">Registrar-se</h2>
+
+                <input type="hidden" name="action" value="login">
+
+                <div class="input-field">
+
+                    <input type="text" name="nome"  placeholder="Digite seu nome..." autocomplete="username">
+
+                </div>
+
+                <div class="input-field">
+
+                    <input type="email" name="email"  placeholder="Digite seu email..." autocomplete="email">
+
+                </div>
+
+                <div class="input-field">
+
+                    <input type="password" name="senha"  placeholder="Digite sua senha..." autocomplete="current-password">
+
+                </div>
+
+                <button type="submit" class="btn">Registrar-se</button>
+
+                <p class="social-text">Ou registre-se usando as plataformas</p>
+
+                <div class="social-media">
+
+                    <a href="">
+
+                        <img src="../../resources/assets/icons/icons8-facebook-32.png">
+
+                    </a>
+
+                    <a href="">
+
+                        <img src="../../resources/assets/icons/icons8-x-50.png">
+
+                    </a>
+                    
+                    <a href="">
+
+                        <img src="../../resources/assets/icons/icons8-google-logo-60.png">
+
+                    </a>
+                    
+                    <a href="">
+
+                        <img src="../../resources/assets/icons/icons8-linkedin-2-60.png">
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="panels-controller">
+
+        <div class="panel panel-left">
+                
+            <div class="logo">
+
+                <a href="{{URL}}">
+        
+                    <img src="../../resources/assets/favicon/cinerate.png" alt="logo cinerate">
+
+                </a>
+        
+            </div>
+
+            <h3>Novo por aqui?</h3>
+
+            <p>Crie já uma conta e tenha acesso ao melhor conteúdo e comunidade de filmes!</p>
+
+            <button class="btn transparent" id="sign-up-btn">
+                Ir criar conta
+            </button>
+
+        </div>
+
+        <div class="panel panel-right">
+                
+            <div class="logo">
+
+                <a href="{{URL}}">
+        
+                    <img src="../../resources/assets/favicon/cinerate.png" alt="logo cinerate">
+
+                </a>
+        
+            </div>
+
+            <h3>Já possui uma conta?</h3>
+
+            <p>Faça login para ter acesso ao melhor conteúdo de filmes possiveis!</p>
+
+            
+            <button class="btn transparent" id="sign-in-btn">
+                Ir fazer login
+            </button>
+
+        </div>
+
+    </div>
+
+    <p id="link-fake-signin">Ir criar conta</p>
+
+    <p id="link-fake-signup">Ir fazer login</p>
+
+</section>
+
+<script src="../../resources/assets/js/auth.js"></script>
