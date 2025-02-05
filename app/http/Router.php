@@ -39,42 +39,24 @@ class Router{
      */
     public function run($request)
     {
-    
-        $codeError = "";
 
         foreach($this->routes as $route){
 
-            if($route["method"] == $request->getMethod()){
+            if ($route["method"] === $request->getMethod() && $route["path"] === $request->getUri()){
 
-                if($route["path"] == $request->getUri()){
+                if (is_callable($route["handler"])) {
 
-                    if (is_callable($route["handler"])) {
+                    call_user_func($route["handler"], $request);
 
-                        call_user_func($route["handler"], $request);
+                } 
 
-                    } 
-
-                    $response = new Response(200, $route["handler"]);
-
-                    return $response->sendResponse();
-
-                }
-
-                $codeError = 404;
+                return (new Response(200, $route["handler"]))->sendResponse();
 
             }
 
-            $codeError = 405;
-
         }
 
-        if($codeError){
-
-            $response = new Response($codeError, "");
-
-            return $response->sendResponse();
-
-        }
+        return (new Response(404, ""))->sendResponse();
 
     }
 

@@ -10,15 +10,13 @@ class Auth extends Page{
     public static function loginInUser($request)
     {
 
-        $obUser = new User($request);
         
         $queryDefine = $request->getPostVars();
 
-        if(isset($queryDefine["action"])){
-
-            $queryDefine == "insert" ? User::insertUser() : User::registerUser();
-
-        }
+        echo "<pre>";
+        print_r($queryDefine);
+        echo "</pre>";
+        die();
 
     }
 

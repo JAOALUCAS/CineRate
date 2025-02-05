@@ -23,6 +23,8 @@ Database::setConfig([
     getenv("DB_PASS")
 ]);
 
+ob_start();
+
 // Rotas de home
 include __DIR__ . "/../routes/home.php";
 

@@ -71,7 +71,7 @@ class Request{
     /**
      * Método retornar paramêtros get
      */
-    public function getQuerryParams()
+    public function getQueryParams()
     {
 
         return $this->queryParams;

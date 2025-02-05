@@ -60,7 +60,7 @@ class Response{
 
         $this->contentType = $contentType;
 
-        $this->addHeaders("Content Type" ,$contentType);
+        $this->addHeaders("Content-Type" ,$contentType);
 
     }
 
@@ -74,8 +74,6 @@ class Response{
     {
 
         $this->headers[$key] = $value;
-
-        $this->sendHeaders();
         
     }
 
@@ -89,7 +87,7 @@ class Response{
 
         foreach($this->headers as $key=>$value){
 
-            header($key . " : " . $value);
+            header("$key: $value");
 
         }
 
@@ -100,6 +98,9 @@ class Response{
      */
     public function sendResponse()
     {
+
+        $this->sendHeaders();
+
         switch($this->contentType){
             case "text/html":
                 echo $this->content;

@@ -1,11 +1,11 @@
 
-let scroll = this.document.querySelector(".scrolltop");
-let scrollHeader = document.querySelector(".scrollheader");
-let saveImg = document.getElementById("saveImg");
-let navOl = document.querySelectorAll(".ulNav li ol");
-let lineContainer = document.querySelectorAll(".line-container");
-let menuMobileDiv = document.querySelector(".mobile-menu ul");
-let mobileLi = document.querySelectorAll(".mobile-menu ul li");
+const scroll = this.document.querySelector(".scrolltop");
+const scrollHeader = document.querySelector(".scrollheader");
+const saveImg = document.getElementById("saveImg");
+const navOl = document.querySelectorAll(".ulNav li ol");
+const lineContainer = document.querySelectorAll(".line-container");
+const menuMobileDiv = document.querySelector(".mobile-menu ul");
+const mobileLi = document.querySelectorAll(".mobile-menu ul li");
 
 headerScrolling();
 

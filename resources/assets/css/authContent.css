@@ -36,10 +36,6 @@ body{
     opacity: 0;
 }
 
-.sign-up-form .input-field input{
-    margin: 10px 0px;
-}
-
 .sign-in-form{
     margin-bottom: 70px;
 }
@@ -57,6 +53,18 @@ body{
     margin-bottom: 50px;
 }
 
+.tittle .sign-up-form{
+    margin: 30px 0px;
+}
+
+.input-field{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+
 .input-field input{
     color: white;
     height: 50px;
@@ -66,7 +74,7 @@ body{
     border: none;
     border-radius: 30px;
     padding-left: 30px;
-    margin: 20px 0;
+    margin: 5px 0;
 }
 
 .btn{
@@ -201,6 +209,44 @@ body{
     cursor: pointer;
 }
 
+.error{
+    font-size: 10px;
+    color: #EA2027;
+}
+
+input.haveError{
+    border: 1px #EA2027 solid;
+    box-shadow: 0;
+}
+
+input.haveError:focus{
+    box-shadow: 0 0 6px #ea2027ab;
+}
+
+.senhaReveal {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+label.error {
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+.senhaReveal{
+    position: absolute;
+    right: 38%;
+    filter: opacity(0.6);
+    cursor: pointer;
+}
+
+.sign-up-form .senhaReveal{
+    right: 6%;
+}
+
+
 @media (max-width: 1024px){
     .container{
         height: 100%;
@@ -227,12 +273,23 @@ body{
         display: block;
     }
 
-    .container.sign-up-mode #link-fake-signup, .container.sign-up-mode #link-fake-signin{
+    .container.sign-up-mode #link-fake-signup{
         display: block;
+    }
+
+    .container.sign-up-mode #link-fake-signin{
+        display: none;
     }
 
     .container.sign-up-mode .sign-up-form{
         transform: translateY(-450px);
     }
 
+    .social-text{
+        margin: 15px 0px;
+    }
+
+    .senhaReveal{
+        right: 33%;
+    }
 }

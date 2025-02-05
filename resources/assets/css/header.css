@@ -1,4 +1,3 @@
-
 header{
     background-color: transparent;
     display: flex;
@@ -60,7 +59,7 @@ header .logo a img{
     padding-left: 35px; 
 }
 
-.search-bar input:focus{
+input:focus{
     border-color: #fd5624;
     box-shadow: 0 0 6px rgba(253, 86, 36, 0.8);
     transition: 0.1s ease-in-out;
