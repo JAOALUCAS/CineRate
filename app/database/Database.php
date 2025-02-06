@@ -4,40 +4,62 @@ namespace App\database;
 
 class Database{
 
-    /**
-     * Array responsável por guadar as configurações do banco de dados
-     *
-     * @var array
-     */
-    private $dbConfigs = [];
+    private static $dbName;
 
-    private  $params = [];
+    private static $dbHost;
 
-    private static function setConnection($query)
+    private static $dbPort;
+
+    private static $dbUser;
+
+    private static $dbPass;
+
+    private static $table;
+
+    private static $connection;
+
+    public function __construct($table)
+    {
+        
+        $this->table = $table;
+
+        $this->setConnection();
+
+    }
+
+    public static function setConfig($dbName, $dbHost, $dbPort, $dbUser, $dbPass)
+    {
+
+        self::$dbName = $dbName;
+
+        self::$dbHost = $dbHost;
+
+        self::$dbPort = $dbPort;
+
+        self::$dbUser = $dbUser;
+
+        self::$dbPass = $dbPass;     
+
+    }
+    
+    private static function setConnection()
     {
 
     }
 
-    public static function setConfig(Array $dbConfigs)
-    {
+    public function insert($values){
 
     }
 
-    private function buildQuery($request, $query, $params)
-    {
-
-        $value = $request->getPostVars();
-
-
+    public function select($values){
 
     }
 
-    public function prepare($request, $query, $params = [])
-    {
+    public function update($values){
 
-        $this->params = $params;
+    }
 
-        $this->buildQuery($request, $query, $this->params);
+    public function delete($values){
 
     }
 

@@ -6,6 +6,7 @@ require __DIR__  . "/../vendor/autoload.php";
 use \App\common\Enviroment;
 use \App\utils\View;
 use \App\database\Database;
+use \App\controllers\api\Api;
 
 Enviroment::load(__DIR__ . "/../");
 
@@ -15,13 +16,19 @@ View::init([
     "URL" => URL
 ]);
 
-Database::setConfig([
+Database::setConfig(
     getenv("DB_NAME"),
     getenv("DB_HOST"),
     getenv("DB_PORT"),
     getenv("DB_USER"),
     getenv("DB_PASS")
-]);
+);
+
+Api::setConfig(
+    getenv("API_TMDB_TOKEN")
+);
+
+Api::getDetails();
 
 ob_start();
 

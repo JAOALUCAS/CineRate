@@ -4,6 +4,7 @@ namespace App\controllers\pages;
 
 use \App\database\Database;
 use \App\Utils\View;
+use \App\models\entity\User;
 
 class Auth extends Page{
 
@@ -13,10 +14,19 @@ class Auth extends Page{
         
         $queryDefine = $request->getPostVars();
 
+        if(isset($queryDefine["nome"])){
+
+            $result =  User::cadastrar();
+
+        }
+
+        $result =  User::selecionar();
+
         echo "<pre>";
-        print_r($queryDefine);
+        print_r($result);
         echo "</pre>";
         die();
+        
 
     }
 
