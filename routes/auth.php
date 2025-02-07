@@ -8,6 +8,6 @@ $request = new Request();
 
 $router = new Router();
 $router->add("GET", "/Account", Auth::authGetPage("authContent"));
-$router->add("POST", "/Account", [Auth::class, 'loginInUser']);
+$router->add("POST", "/Account", [Auth::class, 'decideAuth']);
 
 $router->run($request);

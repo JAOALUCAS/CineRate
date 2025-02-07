@@ -2,6 +2,9 @@
 
 namespace App\database;
 
+use PDO;
+use PDOException;
+
 class Database{
 
     private static $dbName;
@@ -45,21 +48,86 @@ class Database{
     private static function setConnection()
     {
 
+        try{
+
+            $dsn = "mysql:host=".self::$dbHost.",dbname=".self::$dbName.",port=".self::$dbPort;
+
+            self::$connection = new PDO($dsn, self::$dbUser, self::$dbPass);
+
+            self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        }catch(PDOException $e){
+            
+            die("ERROR: " . $e->getMessage());
+
+        }
+
     }
 
-    public function insert($values){
+    public function execute($sql, $params = [])
+    {
+
+        try{
+                
+            $statement = self::$connection->prepare($sql);
+
+            $statement->execute($params);
+
+            return $statement;
+
+        }catch(PDOException $e){
+            
+            die("ERROR: " . $e->getMessage());
+
+        }
 
     }
 
-    public function select($values){
+    public function insert($values)
+    {
+
+        $fields = array_keys($values);
+
+        $binds = array_pad([], count($fields), "?");
+
+        $sql = "INSERT INTO ".$this->table."(".implode(",",$fields).") VALUES (".implode(",",$fields).")";
+
+        $this->execute($sql, array_values($values));
 
     }
 
-    public function update($values){
+    public function select($where = null, $order = null, $limit = null, $fields = "*")
+    {
+
+        $where = strlen($where) ? "WHERE " : "";
+
+        $order = strlen($order) ? "ORDER" : ""; 
+
+        $limit = strlen($limit) ? "LIMIT" : "";
+
+        $sql = "SELECT ".$fields." FROM ".$this->table." ".$where." ".$order." ".$limit." ";
+
+        $this->execute($sql);
 
     }
 
-    public function delete($values){
+    public function update($where, $values)
+    {
+        
+        $fields = array_keys($values);
+
+        $sql = "UPDATE ".$this->table."SET (".implode("=?",$fields)."=? WHERE ".$where;
+
+        $this->execute($sql, array_values($values));
+
+    }
+
+    public function delete($values)
+    {
+
+        $sql = "DELETE FROM ".$this->table." WHERE ".$values;
+
+        $this->execute($sql);
 
     }
 

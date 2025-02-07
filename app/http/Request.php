@@ -88,4 +88,14 @@ class Request{
 
     }
 
+    /**
+     * Método responsável por instanciar o roteador 
+     */
+    public function getRouter()
+    {
+
+        return (new Router());
+
+    }
+
 }
