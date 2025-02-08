@@ -44,7 +44,7 @@ class Router{
 
             if ($route["method"] === $request->getMethod() && $route["path"] === $request->getUri()){
 
-                if (is_callable($route["handler"])) {
+                if(is_callable($route["handler"])) {
 
                     call_user_func($route["handler"], $request);
 
@@ -57,6 +57,19 @@ class Router{
         }
 
         return (new Response(404, ""))->sendResponse();
+
+    }
+
+    /**
+     * Método responsável por rederecionar a url
+     */ 
+    public function redirect($route)
+    {
+
+        $url = URL.$route;
+
+        header("location: ".$url);
+        exit;
 
     }
 

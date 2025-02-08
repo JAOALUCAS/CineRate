@@ -2,17 +2,33 @@
 
 namespace App\controllers;
 
+use App\Utils\View;
+
 class Alert{
 
-    public static function getError()
+    /**
+     * Método responsável por a mensagem de erro
+     * @param string $message
+     * @return string
+     */
+    
+     public static function getError($message)
+     {
+ 
+        return View::renderPage("pages/alert", $message);
+ 
+     }
+
+    /**
+     * Método responsável por a mensagem de sucesso
+     * @param string $message
+     * @return string
+     */
+
+    public static function getSucess($message)
     {
 
-    }
-
-    public static function getSucess()
-    {
-
-        
+        return View::renderPage("pages/alert", $message);
 
     }
 

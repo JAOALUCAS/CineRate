@@ -78,10 +78,9 @@ class User{
     public function getUserById()
     {
 
-        return (new Database("usuarios"))->select("id = ".$this->id);
+        return (new Database("usuarios"))->select("id = ?", null, null, "*", [$this->id]);
 
     }
-
     
     /**
      * Método responsável por selecionar o usuário pelo email
@@ -89,10 +88,9 @@ class User{
     public function getUserByEmail()
     {
 
-        return (new Database("usuarios"))->select("id = ".$this->email);
+        return (new Database("usuarios"))->select("email = ?", null, null, "*", [$this->email]);
 
     }
-
 
     /**
      * Método responsável por retornar todos os usuários

@@ -2,30 +2,37 @@
 
 namespace App\controllers\pages;
 
-use App\controllers\Alert;
+use \App\controllers\Alert;
 use \App\database\Database;
 use \App\Utils\View;
 use \App\models\entity\User;
+use \App\session\Session;
 
 class Auth extends Page{
+
+    public static $request;
 
     /**
      * Método responsável por encaminhar entre o login e o registro, já que o post vem da mesma página
      *
      * @param Request $request
      */
-    public function decideAuth($request)
+    public static function decideAuth()
     {
 
-        $postVars = $request->getPostVars();
+        $postVars = self::$request->getPostVars();
+
+        $instancia = new self();
 
         if(isset($postVars["nome"])){
             
-            return $this->setNewUser($postVars, $request);
+            return $instancia->setNewUser($postVars, self::$request);
+
+        }else{
+
+            return $instancia->setLogin($postVars, self::$request);
 
         }
-
-        return $this->setLogin($postVars, $request);
 
     }
 
@@ -38,24 +45,16 @@ class Auth extends Page{
     private function validateInputsLogin($postVars)
     {
 
-        $errors = [];
-
         $email = trim(filter_var($postVars["email"], FILTER_SANITIZE_EMAIL)); 
 
         $senha = trim($postVars["senha"]);
         
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
 
-            $erros["email"] = "Digite um email válido";
+            return self::$request->getRouter()->redirect("/Account?login=email-invalido");
 
         }
         
-        if(count($errors) !== 0){
-
-            return Alert::getError($errors);
-
-        }
-
         $paramsValidated = [
             "email" => $email, 
             "senha" => $senha
@@ -73,8 +72,8 @@ class Auth extends Page{
      */
     private function setLogin($postVars, $request)
     {
-        
-        $paramsValidated = $this->validateInputsLogin($postVars);
+
+        $paramsValidated = $this->validateInputsLogin($postVars, $request);
            
         $email = $paramsValidated["email"] ?? "";
 
@@ -82,19 +81,23 @@ class Auth extends Page{
            
         $obUser = new User;
 
+        $obUser->email = $email;
+
         $userVerify = $obUser->getUserByEmail();
 
-        if(!password_verify($senha, $userVerify["senha"])){
+        if(!password_verify($senha, $userVerify[0]["senha"])){
 
-            return Alert::getError([
-                "senha" => "Senha incorreta"
-            ]);
+            return self::$request->getRouter()->redirect("/Account?login=senha-errada");
 
         }
 
-        Session::setVars($userVerify);
+        Session::setVars([
+            "id" => $userVerify[0]["id"],
+            "nome" => $userVerify[0]["nome"],
+            "email" => $userVerify[0]["email"]
+        ]);
 
-        return $request->getRouter()->redirect("/login?status=success");
+        return self::$request->getRouter()->redirect("/Account?login=success");
 
     }
 
@@ -104,10 +107,8 @@ class Auth extends Page{
      * @param array $postVars
      * @return array
      */
-    private function validateInputsRegister($postVars)
+    private function validateInputsRegister($postVars, $request)
     {
-
-        $errors = [];
 
         $email = trim(filter_var($postVars["email"], FILTER_SANITIZE_EMAIL)); 
 
@@ -117,25 +118,25 @@ class Auth extends Page{
 
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
 
-            $erros["email"] = "Digite um email válido";
+            return self::$request->getRouter()->redirect("/Account?register=email-invalido");
 
         }
 
         if(strlen($nome) < 3){
 
-            $errors["nome"] = "O nome precisa ter no minimo 3 caracters";
+            return self::$request->getRouter()->redirect("/Account?register=nome-pequeno");
 
         }
 
         if(strlen($senha) < 8){
 
-            $erros["senha"] = "A senha precisa ter no minimo 8 caracteres";
+            return self::$request->getRouter()->redirect("/Account?register=senha-pequena");
 
         }
 
-        if(count($errors) !== 0){
+        if($postVars["confirmarSenha"] == $senha){
 
-            return Alert::getError($errors);
+            return self::$request->etRouter()->redirect("/Account?register=confirmarSenha");
 
         }
 
@@ -158,8 +159,8 @@ class Auth extends Page{
     private function setNewUser($postVars, $request)
     {
 
-        $paramsValidated = $this->validateInputsRegister($postVars);
-            
+        $paramsValidated = $this->validateInputsRegister($postVars, $request);
+
         $email = $paramsValidated["email"] ?? "";
 
         $nome = $paramsValidated["nome"] ?? "";
@@ -168,13 +169,13 @@ class Auth extends Page{
         
         $obUser = new User;
 
- -      $verifyDuplicateEmail = $obUser->getUserByEmail($email);
+        $obUser->email = $email;
 
-        if($verifyDuplicateEmail instanceof User){
+        $verifyDuplicateEmail = $obUser->getUserByEmail();
 
-            return Alert::getError([
-                "email" => "Email já cadastrado"
-            ]);
+        if(!empty($verifyDuplicateEmail)){
+
+            return self::$request->getRouter()->redirect("/Account?register=email-duplicado");
 
         }
 
@@ -186,14 +187,50 @@ class Auth extends Page{
 
         $obUser->cadastrar();
 
+        return self::$request->getRouter()->redirect("/Account?register=success");
+
+    }
+
+    public static function verifyUrl()
+    {
+    
+        $getParams = self::$request->getQueryParams();
+
+        if($getParams){
+
+            $vars = [
+                "tipo" => "",
+                "action" => "",
+                "msg" => ""
+            ];    
+                            
+            foreach($getParams as $key=>$value){
+
+                $tipo = $value == "success" ? "success" : "danger";
+
+                $vars = [
+                    "tipo" => $tipo,
+                    "action" => $key,
+                    "msg" => $value
+                ];
+
+            }
+    
+            return Alert::getError($vars);
+
+        }
+    
+    
     }
 
     public static function authGetPage($view)
     {
 
+        self::verifyUrl();
+
         $viewName = "pages/" . $view;
 
-        $pageContent = View::getContentView($viewName);
+        $pageContent = View::renderPage($viewName);
 
         return parent::callRenderPage("template", "Cinerate - registrar", $pageContent, $view);
 

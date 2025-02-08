@@ -28,8 +28,6 @@ Api::setConfig(
     getenv("API_TMDB_TOKEN")
 );
 
-Api::getDetails();
-
 ob_start();
 
 // Rotas de home

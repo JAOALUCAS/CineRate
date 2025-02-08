@@ -46,7 +46,7 @@ class Page{
             "cssSpecific" => $css,
             "header" => self::getHeader(),
             "pageContent" => $pageContent,
-            "footer" => self::getFooter(),
+            "footer" => self::getFooter()
         ]);
 
     }

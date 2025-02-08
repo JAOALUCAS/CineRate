@@ -17,9 +17,9 @@ class Database{
 
     private static $dbPass;
 
-    private static $table;
+    private $table;
 
-    private static $connection;
+    private $connection;
 
     public function __construct($table)
     {
@@ -45,19 +45,19 @@ class Database{
 
     }
     
-    private static function setConnection()
+    private function setConnection()
     {
 
         try{
 
-            $dsn = "mysql:host=".self::$dbHost.",dbname=".self::$dbName.",port=".self::$dbPort;
+            $dsn = "mysql:host=".self::$dbHost.";dbname=".self::$dbName.";port=".self::$dbPort.";";
 
-            self::$connection = new PDO($dsn, self::$dbUser, self::$dbPass);
+            $this->connection = new PDO($dsn, self::$dbUser, self::$dbPass);
 
-            self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         }catch(PDOException $e){
-            
+        
             die("ERROR: " . $e->getMessage());
 
         }
@@ -69,11 +69,11 @@ class Database{
 
         try{
                 
-            $statement = self::$connection->prepare($sql);
+            $statement = $this->connection->prepare($sql);
 
             $statement->execute($params);
 
-            return $statement;
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
 
         }catch(PDOException $e){
             
@@ -90,24 +90,24 @@ class Database{
 
         $binds = array_pad([], count($fields), "?");
 
-        $sql = "INSERT INTO ".$this->table."(".implode(",",$fields).") VALUES (".implode(",",$fields).")";
+        $sql = "INSERT INTO ".$this->table."(".implode(",",$fields).") VALUES (".implode(",",$binds).")";
 
-        $this->execute($sql, array_values($values));
+        return $this->execute($sql, array_values($values));
 
     }
 
-    public function select($where = null, $order = null, $limit = null, $fields = "*")
+    public function select($where = null, $order = null, $limit = null, $fields = "*", $params = [])
     {
 
-        $where = strlen($where) ? "WHERE " : "";
+        $where = !empty($where) ? "WHERE ".$where : "";
 
-        $order = strlen($order) ? "ORDER" : ""; 
+        $order = !empty($order) ? "ORDER BY ".$order : ""; 
 
-        $limit = strlen($limit) ? "LIMIT" : "";
+        $limit = !empty($limit) ? "LIMIT ".$limit : "";
 
         $sql = "SELECT ".$fields." FROM ".$this->table." ".$where." ".$order." ".$limit." ";
 
-        $this->execute($sql);
+        return $this->execute($sql, $params);
 
     }
 
@@ -116,9 +116,9 @@ class Database{
         
         $fields = array_keys($values);
 
-        $sql = "UPDATE ".$this->table."SET (".implode("=?",$fields)."=? WHERE ".$where;
+        $sql = "UPDATE ".$this->table." SET (".implode("=?",$fields)."=? WHERE ".$where;
 
-        $this->execute($sql, array_values($values));
+        return $this->execute($sql, array_values($values));
 
     }
 
@@ -127,7 +127,7 @@ class Database{
 
         $sql = "DELETE FROM ".$this->table." WHERE ".$values;
 
-        $this->execute($sql);
+        return $this->execute($sql);
 
     }
 
