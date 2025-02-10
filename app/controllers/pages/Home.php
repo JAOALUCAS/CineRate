@@ -13,7 +13,7 @@ class Home extends Page{
 
         $pageContent = View::getContentView($viewName);
 
-        return parent::callRenderPage("template", "Cinerate - home", $pageContent, $view);
+        return parent::callRenderPage("template", "Cinerate - home", $pageContent);
 
     }
 

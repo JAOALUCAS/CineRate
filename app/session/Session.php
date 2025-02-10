@@ -4,7 +4,10 @@ namespace App\session;
 
 class Session{
 
-    private static function init()
+    /**
+     * Método responsável por iniciar a sessão
+     */
+    public static function init()
     {
 
         if(session_status() != PHP_SESSION_ACTIVE){
@@ -15,18 +18,37 @@ class Session{
 
     }
 
-    public static function setVars($paramas)
+    /**
+     * Método responsável por definir as váriaveis de sessão
+     */
+    public static function setVars($obuser)
     {
         
         self::init();
 
-        $_SESSION["id"] = $paramas["id"];
+        $_SESSION["id"] = $obuser["id"];
 
-        $_SESSION["nome"] = $paramas["nome"];
+        $_SESSION["nome"] = $obuser["nome"];
 
-        $_SESSION["email"] = $paramas["email"];
+        $_SESSION["email"] = $obuser["email"];
+        
+        return $_SESSION;
 
     }
 
+    
+    /**
+     * Método responsável por destruir a sessão
+     */
+    public static function logout()
+    {
+        
+        if(session_status() != PHP_SESSION_ACTIVE){
+
+            session_destroy();
+
+        }
+
+    }
 
 }

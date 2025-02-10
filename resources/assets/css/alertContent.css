@@ -1,8 +1,8 @@
 .alert {
-    width: 200px;
+    width: 60%;
     padding: 15px;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 14px;
     font-family: Arial, sans-serif;
     margin-bottom: 10px;
     position: absolute;
@@ -11,6 +11,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    transition: 0.2s ease-in-out;
 }
 
 #spanTitle{

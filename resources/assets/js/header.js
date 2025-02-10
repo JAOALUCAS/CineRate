@@ -6,6 +6,9 @@ const navOl = document.querySelectorAll(".ulNav li ol");
 const lineContainer = document.querySelectorAll(".line-container");
 const menuMobileDiv = document.querySelector(".mobile-menu ul");
 const mobileLi = document.querySelectorAll(".mobile-menu ul li");
+const user = document.querySelector(".user");
+const perfil = document.getElementById("userName");
+const settings = document.querySelector(".settings");
 
 headerScrolling();
 
@@ -102,7 +105,28 @@ function mobileMenu(){
 
 }
 
+function showSetting(){
+
+    user.addEventListener("mouseover", ()=>{
+
+        perfil.classList.add("active");
+
+        settings.style.display = "flex";
+
+    });
+    
+    user.addEventListener("mouseout", ()=>{
+
+        perfil.classList.remove("active");
+
+        settings.style.display = "none";
+
+    });
+
+}
+
 activeLink();
 mobileMenu();
+showSetting();
 saveImg.addEventListener("mouseover", saveImgChange);
 saveImg.addEventListener("mouseout", saveImgChange);

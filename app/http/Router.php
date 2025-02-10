@@ -48,7 +48,17 @@ class Router{
 
                     call_user_func($route["handler"], $request);
 
-                } 
+                }
+
+                if(is_array($route["handler"])){
+
+                    $instance =  new $route["handler"][0];
+
+                    $function = $route["handler"][1];
+                    
+                    $route["handler"] = call_user_func([$instance, $function], $request);
+
+                }
 
                 return (new Response(200, $route["handler"]))->sendResponse();
 

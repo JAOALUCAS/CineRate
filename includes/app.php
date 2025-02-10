@@ -7,6 +7,9 @@ use \App\common\Enviroment;
 use \App\utils\View;
 use \App\database\Database;
 use \App\controllers\api\Api;
+use App\session\Session;
+
+Session::init();
 
 Enviroment::load(__DIR__ . "/../");
 

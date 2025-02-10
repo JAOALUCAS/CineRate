@@ -168,6 +168,42 @@ header p{
     margin-left: 10px;
 }
 
+.user .settings{
+    position: absolute;
+    margin-top: 8.5px;
+    right: 3.8%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 180px;
+    width: 150px;
+    border-radius: 10px;
+    flex-direction: column;
+    background: rgba(20, 24, 32, 0.95); 
+}
+
+.settings li a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.settings li a p{
+    color: white;
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+
+.settings li a img{
+    height: 17px;
+    margin-right: 10px;
+    margin-bottom: -7px;
+}
+
+#userName{
+    font-size: 12px;
+}
+
 .scrollingHeader{
     background: transparent;
     background-color: #141820;
@@ -199,7 +235,7 @@ li ol.dropdown li {
     list-style: none;
 }
 
-li ol.dropdown li a {
+li ol.dropdown li a , .settings li{
     display: block;
     padding: 12px 20px;
     color: white;
@@ -210,11 +246,25 @@ li ol.dropdown li a {
     transition: background 0.3s ease, transform 0.2s ease;
 }
 
-li ol.dropdown li a:hover {
+li ol.dropdown li a:hover, .settings li:hover {
     background: #fd5624;
     color: white;
     transform: scale(1.05);
     box-shadow: 0 2px 6px rgba(253, 86, 36, 0.5);
+}
+
+.settings.disabled{
+    display: none;
+}
+
+.settig.disabled:hover{
+    display: flex;
+}
+
+.settings li{
+    list-style: none;
+    width: 100%;
+    padding: 0 25px  !important;
 }
 
 .active{

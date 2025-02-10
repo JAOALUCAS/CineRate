@@ -51,7 +51,8 @@ class Auth extends Page{
         
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
 
-            return self::$request->getRouter()->redirect("/Account?login=email-invalido");
+            return self::authGetPage("authContent", "
+                 O e-mail informado não é válido. Por favor, verifique o endereço digitado e tente novamente.");
 
         }
         
@@ -87,7 +88,8 @@ class Auth extends Page{
 
         if(!password_verify($senha, $userVerify[0]["senha"])){
 
-            return self::$request->getRouter()->redirect("/Account?login=senha-errada");
+            return self::authGetPage("authContent", "
+                A senha informada está incorreta. Verifique suas credenciais e tente novamente.");
 
         }
 
@@ -97,7 +99,7 @@ class Auth extends Page{
             "email" => $userVerify[0]["email"]
         ]);
 
-        return self::$request->getRouter()->redirect("/Account?login=success");
+        return self::$request->getRouter()->redirect("");
 
     }
 
@@ -118,25 +120,29 @@ class Auth extends Page{
 
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
 
-            return self::$request->getRouter()->redirect("/Account?register=email-invalido");
+            return self::authGetPage("authContent", "
+                O e-mail informado não é válido. Por favor, verifique o endereço digitado e tente novamente.");
 
         }
 
         if(strlen($nome) < 3){
 
-            return self::$request->getRouter()->redirect("/Account?register=nome-pequeno");
+            return self::authGetPage("authContent", "                               
+                O nome deve conter pelo menos 3 caracteres. Por favor, insira um nome válido.");
 
         }
 
         if(strlen($senha) < 8){
 
-            return self::$request->getRouter()->redirect("/Account?register=senha-pequena");
+            return self::authGetPage("authContent", "
+                A senha deve conter no mínimo 8 caracteres para garantir maior segurança.");
 
         }
 
         if($postVars["confirmarSenha"] == $senha){
 
-            return self::$request->etRouter()->redirect("/Account?register=confirmarSenha");
+            return self::authGetPage("authContent", "
+                As senhas digitadas não coincidem. Certifique-se de que ambas estão corretas e tente novamente.");
 
         }
 
@@ -175,7 +181,8 @@ class Auth extends Page{
 
         if(!empty($verifyDuplicateEmail)){
 
-            return self::$request->getRouter()->redirect("/Account?register=email-duplicado");
+            return self::authGetPage("authContent", "
+                O e-mail informado já está cadastrado em nosso sistema. Utilize outro e-mail ou recupere sua conta.");
 
         }
 
@@ -185,54 +192,31 @@ class Auth extends Page{
 
         $obUser->senha = password_hash($senha, PASSWORD_DEFAULT);
 
-        $obUser->cadastrar();
+        $userVerify = $obUser->cadastrar();
+        
+        Session::setVars([
+            "id" => $userVerify[0]["id"],
+            "nome" => $userVerify[0]["nome"],
+            "email" => $userVerify[0]["email"]
+        ]);
 
-        return self::$request->getRouter()->redirect("/Account?register=success");
+        return self::$request->getRouter()->redirect("");
 
     }
 
-    public static function verifyUrl()
-    {
-    
-        $getParams = self::$request->getQueryParams();
 
-        if($getParams){
-
-            $vars = [
-                "tipo" => "",
-                "action" => "",
-                "msg" => ""
-            ];    
-                            
-            foreach($getParams as $key=>$value){
-
-                $tipo = $value == "success" ? "success" : "danger";
-
-                $vars = [
-                    "tipo" => $tipo,
-                    "action" => $key,
-                    "msg" => $value
-                ];
-
-            }
-    
-            return Alert::getError($vars);
-
-        }
-    
-    
-    }
-
-    public static function authGetPage($view)
+    public static function authGetPage($view, $errorMessage = null)
     {
 
-        self::verifyUrl();
+        $status = !is_null($errorMessage) ? Alert::getError($errorMessage) : "";
 
         $viewName = "pages/" . $view;
 
-        $pageContent = View::renderPage($viewName);
+        $pageContent = View::renderPage($viewName, [
+            "status" => $status
+        ]);
 
-        return parent::callRenderPage("template", "Cinerate - registrar", $pageContent, $view);
+        return parent::callRenderPage("template", "Cinerate - registrar", $pageContent);
 
     }
 

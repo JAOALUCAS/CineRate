@@ -209,33 +209,9 @@ body{
     cursor: pointer;
 }
 
-.error{
-    font-size: 10px;
-    color: #EA2027;
-}
-
-input.haveError{
-    border: 1px #EA2027 solid;
-    box-shadow: 0;
-}
-
-input.haveError:focus{
-    box-shadow: 0 0 6px #ea2027ab;
-}
-
-.senhaReveal {
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-}
-
-label.error {
-    margin: 0;
-    padding: 0;
-    display: block;
-}
-
 .senhaReveal{
+    margin: 0;
+    display: inline-block;
     position: absolute;
     right: 38%;
     filter: opacity(0.6);
@@ -245,7 +221,6 @@ label.error {
 .sign-up-form .senhaReveal{
     right: 6%;
 }
-
 
 @media (max-width: 1024px){
     .container{

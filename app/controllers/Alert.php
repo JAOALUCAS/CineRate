@@ -10,12 +10,14 @@ class Alert{
      * Método responsável por a mensagem de erro
      * @param string $message
      * @return string
-     */
-    
+     */   
      public static function getError($message)
      {
  
-        return View::renderPage("pages/alert", $message);
+        return View::renderPage("pages/alert", [
+            "tipo" => "danger",
+            "mensagem" => $message
+        ]);
  
      }
 
@@ -24,11 +26,13 @@ class Alert{
      * @param string $message
      * @return string
      */
-
     public static function getSucess($message)
     {
 
-        return View::renderPage("pages/alert", $message);
+        return View::renderPage("pages/alert", [
+            "tipo" => "success",
+            "mensagem" => $message
+        ]);
 
     }
 
