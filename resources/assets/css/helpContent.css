@@ -1,5 +1,6 @@
 section {
     background: linear-gradient(#d0d0d1, white);
+    padding: 100px 0;
 }
 
 .helpCategoria {
@@ -39,6 +40,7 @@ section {
     width: 700px;
     cursor: pointer;
     transition: 0.3s;
+    list-style: none;
 }
 
 ol h2{
@@ -113,13 +115,12 @@ h2 .imgCategoria{
 
 #topicos{
     font-size: 17px;
-    margin-bottom: 100px;
     color: #222;
 }
 
 #help-icon{
     position: absolute;
-    top: 41.2%;
+    top: 42.2%;
     left: 24.8%;
     height: 20px;
 }
@@ -128,7 +129,7 @@ h2 .imgCategoria{
     display: none;
     background-color: #f8f8f8;
     position: absolute;
-    top: 46.7%;
+    top: 47.7%;
     width: 700px;
     height: 85px;
     justify-content: center;
@@ -161,29 +162,31 @@ h2 .imgCategoria{
     align-items: center;
 }
 
-.search-container .img{
+.email-form{
     width: 100%;
-    position: relative;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 100px;
 }
 
-.search-container .background{
-    position: absolute;
-    height: 400px;
-    width: 100%;
-    background: linear-gradient(rgba(255, 255, 255, 0.336) 70%,white);
-}
-
-.search-container .img img{
-    height: 400px;
-    width: 100%;   
-}
-
-.sb{
-    width: 100%;
-    height: 100%;
+.email-form a{
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    position: absolute;
+    color: #222;
+    text-decoration: none;
+    margin: 0 50px;
+}
+
+.email-form img{
+    margin-top: 5px;
+    padding: 10px;
+    border: 1px #222 solid;
+}
+
+.email-form a:hover{
+    transform: scale(1.1);
 }
