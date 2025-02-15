@@ -23,10 +23,23 @@ class Router{
      */
     public function add($method, $path, $handler) {
 
+        $patternVariable = "/{(.*?)}/";
+
+        $vars = [];
+
+        if(preg_match_all($patternVariable, $path, $matches)){
+
+            $path = preg_replace($patternVariable, "(.*?)", $path);
+
+            $vars["variables"] = $matches[1];
+
+        }
+
         $this->routes[] = [
             "method" => strtoupper($method), 
             "path" => $path,                 
-            "handler" => $handler            
+            "handler" => $handler,
+            "vars" => $vars
         ];
 
     }
@@ -40,13 +53,43 @@ class Router{
     public function run($request)
     {
 
-        foreach($this->routes as $route){
+        $uri  =  $request->getUri();
 
-            if ($route["method"] === $request->getMethod() && $route["path"] === $request->getUri()){
+        $params = explode("/", $uri);
+
+        $pr1 = "";
+
+        $cleanUri = substr($uri, 1);
+
+        unset($params[0]);
+
+        unset($params[1]);
+
+        $args = [];
+
+        foreach($this->routes as $route){
+            
+            if(isset($route["vars"]["variables"])){
+                    
+                $pr1 = $route["vars"]["variables"][0];
+
+            }
+            
+            $patternRouteDinamic = "/^" . ucfirst($pr1) . "s\/([^\/]+)\/?(.*)$/";
+
+            if ($route["method"] === $request->getMethod() && $route["path"] === $request->getUri() || preg_match($patternRouteDinamic, $cleanUri)){
+
+                if(isset($route["vars"]["variables"])){
+
+                    $key = array_values($route["vars"]["variables"]);
+
+                    $args = array_combine($key, $params);
+
+                }
 
                 if(is_callable($route["handler"])) {
 
-                    call_user_func($route["handler"], $request);
+                    call_user_func($route["handler"], $request, $args);
 
                 }
 
@@ -56,10 +99,10 @@ class Router{
 
                     $function = $route["handler"][1];
                     
-                    $route["handler"] = call_user_func([$instance, $function], $request);
+                    $route["handler"] = call_user_func([$instance, $function], $request, $args);
 
                 }
-
+                
                 return (new Response(200, $route["handler"]))->sendResponse();
 
             }

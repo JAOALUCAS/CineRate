@@ -248,7 +248,7 @@ li ol.dropdown li a , .settings li{
 
 li ol.dropdown li a:hover, .settings li:hover {
     background: #fd5624;
-    color: white;
+    color: #ffffff;
     transform: scale(1.05);
     box-shadow: 0 2px 6px rgba(253, 86, 36, 0.5);
 }

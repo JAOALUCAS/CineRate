@@ -12,5 +12,7 @@ Auth::$request = $request;
 
 $router->add("GET", "/Account", Auth::authGetPage("authContent"));
 $router->add("POST", "/Account", [Auth::class, 'decideAuth']);
+$router->add("GET", "/Account/Code", Auth::authGetPage("email/codeVerifyContent"));
+$router->add("POST", "/Account/Code", [Auth::class, 'codeVerify']);
 
 $router->run($request);

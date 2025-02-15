@@ -4,10 +4,11 @@
 require __DIR__  . "/../vendor/autoload.php";
 
 use \App\common\Enviroment;
+use \App\communication\Email;
 use \App\utils\View;
 use \App\database\Database;
 use \App\controllers\api\Api;
-use App\session\Session;
+use \App\session\Session;
 
 Session::init();
 
@@ -29,6 +30,15 @@ Database::setConfig(
 
 Api::setConfig(
     getenv("API_TMDB_TOKEN")
+);
+
+Email::init(
+    getenv("EMAIL_HOST"),
+    getenv("EMAIL_USER"),
+    getenv("EMAIL_PASS"),
+    getenv("EMAIL_PORT"),
+    getenv("EMAIL_SECURE"),
+    getenv("EMAIL_CHARSET")
 );
 
 ob_start();
