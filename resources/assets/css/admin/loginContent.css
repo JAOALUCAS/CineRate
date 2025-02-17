@@ -1,0 +1,73 @@
+.form-container{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 40px;
+}
+
+.form-container #logoPanel{
+    height: 50px;
+    margin-bottom: 30px;
+}
+
+form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 80px;
+    border-bottom: 1px gray solid;
+}
+
+form h2{
+    overflow: hidden;
+    color: gray;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.input-field{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.input-field input{
+    color: white;
+    height: 50px;
+    width: 380px;
+    background-color: #141820;
+    outline: none;
+    border: none;
+    padding-left: 30px;
+    margin-bottom: 40px;
+}
+
+.btn{
+    height: 50px;
+    width: 380px;
+    background-color: #fd5624;
+    color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.btn:hover{
+    background-color: #B53D1A;
+    filter: brightness(1.3);
+}
+
+.senhaReveal{
+    cursor: pointer;
+    position: absolute;
+    margin-right: -305px;
+    margin-top: -40px;
+}
+
+header{
+    display: none;
+}

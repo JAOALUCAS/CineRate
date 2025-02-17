@@ -18,8 +18,6 @@ class Auth extends Page{
 
     /**
      * Método responsável por encaminhar entre o login e o registro, já que o post vem da mesma página
-     *
-     * @param Request $request
      */
     public static function decideAuth()
     {
@@ -30,11 +28,11 @@ class Auth extends Page{
 
         if(isset($postVars["nome"])){
             
-            return $instancia->setNewUser($postVars, self::$request);
+            return $instancia->setNewUser($postVars);
 
         }else{
 
-            return $instancia->setLogin($postVars, self::$request);
+            return $instancia->setLogin($postVars);
 
         }
 
@@ -73,12 +71,11 @@ class Auth extends Page{
      * Método responsável por fazer login
      *
      * @param array $postVars
-     * @param Request $request
      */
-    private function setLogin($postVars, $request)
+    private function setLogin($postVars)
     {
 
-        $paramsValidated = $this->validateInputsLogin($postVars, $request);
+        $paramsValidated = $this->validateInputsLogin($postVars);
            
         $email = $paramsValidated["email"] ?? "";
 
@@ -113,7 +110,7 @@ class Auth extends Page{
      * @param array $postVars
      * @return array
      */
-    private function validateInputsRegister($postVars, $request)
+    private function validateInputsRegister($postVars)
     {
 
         $email = trim(filter_var($postVars["email"], FILTER_SANITIZE_EMAIL)); 
@@ -164,12 +161,11 @@ class Auth extends Page{
      * Método responsável por fazer o registro
      *
      * @param array $postVars
-     * @param Request $request
      */
-    private function setNewUser($postVars, $request)
+    private function setNewUser($postVars)
     {
 
-        $paramsValidated = $this->validateInputsRegister($postVars, $request);
+        $paramsValidated = $this->validateInputsRegister($postVars);
 
         $email = $paramsValidated["email"] ?? "";
 
@@ -264,10 +260,8 @@ class Auth extends Page{
 
     /**
      * Método responsável por cadastrar novo usuário se o código digitado estiver correto
-     *
-     * @param Request $request
      */
-    public static function codeVerify($request)
+    public static function codeVerify()
     {
         
         $postVars = self::$request->getPostVars();
@@ -332,10 +326,10 @@ class Auth extends Page{
 
         $url = self::$request->getUri();
 
-        if(str_contains($url, "Code")){
+        if(str_contains($url, "code")){
 
             if(count(self::$userInfos) == 0){
-                
+
                 return self::$request->getRouter()->redirect("");
 
             }

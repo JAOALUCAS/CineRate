@@ -75,10 +75,18 @@ class User{
     /**
      * Método responsável por selecionar o usuário pelo id
      */
-    public function getUserById()
+    public function getUserById($admin = false)
     {
 
-        return (new Database("usuarios"))->select("id = ?", null, null, "*", [$this->id]);
+        $where = "id = ?";
+
+        if($admin){
+            
+            $where = "usuario_id = ?"; 
+
+        }
+
+        return (new Database("usuarios"))->select($where, null, null, "*", [$this->id]);
 
     }
     

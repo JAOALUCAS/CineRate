@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="../../../resources/assets/css/admin/loginContent.css">
+
+<section>
+
+    {{status}}
+
+    <div class="form-container">
+
+        <img src="../../../resources/assets/favicon/cinerate-panel.png" id="logoPanel" alt="logo cinerate panel">
+
+        <form action="" method="post">
+
+            <h2>Admin: <small>{{email}}</small></h2>
+
+            <div class="input-field">
+
+                <input type="password" name="adminSenha" class="validateSenha" id="senha"  placeholder="Digite sua senha..." autocomplete="new-password" required>
+
+                <img src="../../resources/assets/icons/icons8-visivel-24.png" class="senhaReveal" alt="mostrar-ocultar senha">
+
+            </div>
+
+            <button type="submit" class="btn">Logar</button>
+
+        </form>
+
+    </div>
+
+</section>
+
+<script src="../../../resources/assets/js/auth.js"></script>

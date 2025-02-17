@@ -3,6 +3,8 @@
 namespace App\controllers\pages;
 
 use \App\utils\View;
+use \App\database\Database;
+use \App\database\Pagination;
 
 class Category extends Page{
     

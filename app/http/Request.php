@@ -54,7 +54,7 @@ class Request{
     public function getUri()
     {
 
-        return $this->uri;
+        return strtolower($this->uri);
 
     }
 

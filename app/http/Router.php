@@ -23,6 +23,8 @@ class Router{
      */
     public function add($method, $path, $handler) {
 
+        $path = strtolower($path);
+
         $patternVariable = "/{(.*?)}/";
 
         $vars = [];
@@ -68,7 +70,7 @@ class Router{
         $args = [];
 
         foreach($this->routes as $route){
-            
+
             if(isset($route["vars"]["variables"])){
                     
                 $pr1 = $route["vars"]["variables"][0];

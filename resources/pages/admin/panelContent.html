@@ -1,0 +1,103 @@
+<link rel="stylesheet" href="../../../resources/assets/css/admin/panelContent.css">
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css" rel="stylesheet">
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+
+<section>
+
+    <div class="dashboard">
+
+        <div class="estatistics">
+
+            <div class="visits">
+
+                <img src="../../../resources/assets/icons/icons8-gráfico-de-barras-50.png">
+
+                <div class="text">
+
+                    <h3>Visitas no mês</h3>
+
+                    <p>{{visits}}</p>
+
+                </div>
+
+            </div>
+
+            <div class="unique-visits">
+
+                <img src="../../../resources/assets/icons/menor-que-e-linha-unica-diferente-do-sinal-matematico.png">
+
+                <div class="text">
+
+                    <h3>Visitas únicas no mês</h3>
+
+                    <p>{{uniqueVisits}}</p>
+
+                </div>  
+
+            </div>
+
+            <div class="new-users">
+
+                <img src="../../../resources/assets/icons/icons8-novo-60.png">
+
+                <div class="text">
+
+                    <h3>Novos usuários</h3>
+
+                    <p>{{newUsers}}</p>
+
+                </div>
+
+            </div>
+
+        </div>   
+
+        <div class="calendar-container">
+
+            <div class="top-calendar-container">
+                
+                <h2>Eventos cadastrados:</h2>
+
+                <button class="btn-cadastro">Cadastrar evento</button>
+
+            </div>
+
+            <div class="" id="calendar"></div>
+
+        </div>
+
+    </div>
+
+    <div class="users"></div>
+
+    <div class="insert"></div>
+
+    <div class="complaint"></div>
+
+    <div class="help-form"></div>
+
+</section>
+
+<script src="../../../resources/assets/js/panel.js"></script>
+<script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const calendarEl = document.getElementById("calendar");
+        
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: "pt-br",
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            dayHeaderFormat: { weekday: 'long' }, 
+            eventTimeFormat: { hour: '2-digit', minute: '2-digit', hour12: false }
+        });
+
+        calendar.render();
+
+    });
+</script>

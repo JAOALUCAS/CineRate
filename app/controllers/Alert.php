@@ -13,7 +13,7 @@ class Alert{
      */   
      public static function getError($message)
      {
- 
+
         return View::renderPage("pages/alert", [
             "tipo" => "danger",
             "mensagem" => $message

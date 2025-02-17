@@ -43,7 +43,7 @@ class Session{
     public static function logout()
     {
         
-        if(session_status() != PHP_SESSION_ACTIVE){
+        if(session_status() == PHP_SESSION_ACTIVE){
 
             session_destroy();
 

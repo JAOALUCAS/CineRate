@@ -9,6 +9,7 @@ use \App\utils\View;
 use \App\database\Database;
 use \App\controllers\api\Api;
 use \App\session\Session;
+use \App\models\entity\Visits;
 
 Session::init();
 
@@ -41,6 +42,10 @@ Email::init(
     getenv("EMAIL_CHARSET")
 );
 
+$visit = new Visits();
+
+Visits::addVisit();
+
 ob_start();
 
 // Rotas de home
@@ -48,3 +53,6 @@ include __DIR__ . "/../routes/home.php";
 
 // Rotas de account
 include __DIR__ . "/../routes/auth.php";
+
+// Rotas de admin
+include __DIR__ . "/../routes/admin/admin.php";
