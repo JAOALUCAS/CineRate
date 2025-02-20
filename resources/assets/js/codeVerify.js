@@ -18,26 +18,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
     
-    button.addEventListener('click', () => {
-
-        let codigo = '';
-
-        inputs.forEach(input => {
-
-            codigo += input.value;
-
-        });
-        
-        if (codigo.length === 6) {
-
-            alert('Código verificado com sucesso!');
-
-        } else {
-
-            alert('Por favor, insira um código válido de 6 dígitos.');
-
-        }
-
-    });
-    
 });

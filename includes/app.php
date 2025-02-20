@@ -33,15 +33,6 @@ Api::setConfig(
     getenv("API_TMDB_TOKEN")
 );
 
-Email::init(
-    getenv("EMAIL_HOST"),
-    getenv("EMAIL_USER"),
-    getenv("EMAIL_PASS"),
-    getenv("EMAIL_PORT"),
-    getenv("EMAIL_SECURE"),
-    getenv("EMAIL_CHARSET")
-);
-
 $visit = new Visits();
 
 Visits::addVisit();

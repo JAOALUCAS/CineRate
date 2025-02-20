@@ -9,6 +9,7 @@ header{
     padding: 0 40px;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px #fd5624 solid;
 }
 
 header img{
@@ -31,7 +32,7 @@ section{
 }
 
 .lines-container{
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -56,14 +57,15 @@ section{
     align-items: center;
     flex-direction: column;
     height: 92vh;
-    width: 300px;
+    width: 70px;
     position: absolute;
     z-index: 2 !important;
-    left: -30%;
+    left: 0%;
     top: 100%;
     background-color: #141820;
     color: white;
     transition: 0.2s ease-in;
+    border-right: 1px gray solid;
 }
 
 .menu.active{
@@ -78,13 +80,12 @@ section{
     height: 50px;
     background-color: #0f131b;
     border-radius: 30px;
-    padding: 5px;
+    padding: 3px;
     margin-right: 10px;
     filter: brightness(1.5);
 }
 
 .menu ul li{
-    padding: 5px 40px;
     display: flex;
     align-items: center;
     list-style: none;
@@ -130,6 +131,7 @@ li.selected{
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-left: 50px;
 }
 
 .dashboard .estatistics{
@@ -272,3 +274,53 @@ li.selected{
     box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.5);
 }
   
+.middlewares{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    margin: 50px 0px;
+    padding: 50px;
+    border-bottom: 1px #fd5624 solid;
+}
+
+.btn-danger {
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    cursor: pointer;
+}
+
+.btn-danger:hover {
+    color: #fff;
+    background-color: #bb2d3b;
+    border-color: #b02a37;
+}
+
+.btn-danger:focus, 
+.btn-danger.focus {
+    color: #fff;
+    background-color: #bb2d3b;
+    border-color: #b02a37;
+    box-shadow: 0 0 0 0.25rem rgba(225, 83, 97, 0.5);
+}
+
+.btn-danger:active, 
+.btn-danger.active {
+    color: #fff;
+    background-color: #b02a37;
+    border-color: #a52834;
+}
+
+.btn-danger:disabled, 
+.btn-danger.disabled {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    opacity: 0.65;
+}

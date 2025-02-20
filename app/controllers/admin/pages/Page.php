@@ -13,7 +13,7 @@ class Page{
     {
 
         return View::renderPage("pages/admin/header", [
-            "nome" => $_SESSION["nome"],
+            "nome" => isset($_SESSION["nome"]) ? $_SESSION["nome"] : "",
             "URL" => URL
         ]);
 

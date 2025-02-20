@@ -4,6 +4,8 @@ const container = document.querySelector(".container");
 const linkFakesignin = document.getElementById("link-fake-signin");
 const linkFakesignup = document.getElementById("link-fake-signup");
 const senhaReveal = document.querySelectorAll(".senhaReveal");
+const forms = document.querySelectorAll(".form-sign");
+const carregando = document.querySelector(".carregando");
 
 function signUpMode() {
 
@@ -95,8 +97,31 @@ function passwordReveal() {
 
 }
 
+function loadingForm(){
+
+    if(forms){
+
+        forms.forEach((form)=>{
+
+            form.addEventListener("submit", ()=>{
+
+                if(carregando){
+
+                    carregando.style.display = "block";
+
+                }
+
+            });          
+
+        });
+
+    }
+
+}
+
 signUpMode();
 passwordReveal();
+loadingForm();
 
 if (typeof postSend === "function") {
 

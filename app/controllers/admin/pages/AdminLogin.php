@@ -3,11 +3,11 @@
 namespace App\controllers\admin\pages;
 
 use \App\Utils\View;
-use \App\session\Session;
 use \App\database\Database;
 use \App\controllers\Alert;
-use App\models\entity\User;
+use \App\models\entity\User;
 use \App\models\entity\Visits;
+use \App\models\entity\Admin;
 
 class AdminLogin extends Page{
 
@@ -36,16 +36,19 @@ class AdminLogin extends Page{
 
         $_SESSION["admin_id"] = self::$userInfos["id"];
 
-        return self::loginGetPage();
+        header("Location: /admin");
+        exit();
 
     }
 
     private static function verifyAdmin()
     {
 
-        if(!isset($_SESSION["id"])){
+        $uri = str_contains(self::$request->getUri(), "/admin") ? true : false;
 
-            return;
+        if(!isset($_SESSION["id"]) && $uri){
+
+            die();
 
         }   
 
@@ -53,15 +56,19 @@ class AdminLogin extends Page{
 
         $userVerify = $obUser->select();
 
-        if(!isset($userVerify[0]["id"])){
+        foreach($userVerify as $user){
+                
+            if(!isset($user["id"]) && $uri){
+                
+                die();    
 
-            return;
+            }
 
         }
 
         self::$userInfos = $userVerify[0];
 
-        if(!isset($_SESSION["admin_id"])){
+        if(isset($_SESSION["admin_id"])){
 
             return "panelContent";
 
@@ -83,7 +90,6 @@ class AdminLogin extends Page{
 
     }
 
-    
     /**
      * Método responsável por definir visitas unicas
      */
@@ -140,7 +146,7 @@ class AdminLogin extends Page{
         }elseif($view == "loginContent"){
                 
             $pageContent = View::renderPage($viewName, [
-                "email" => $_SESSION["email"],
+                "email" => isset($_SESSION["email"]) ? $_SESSION["email"] : "",
                 "status" => $status
             ]);
 

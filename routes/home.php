@@ -1,5 +1,6 @@
 <?php
 
+use \App\controllers\Erro;
 use \App\controllers\pages\Home;
 use \App\http\Request;
 use \App\http\Router;

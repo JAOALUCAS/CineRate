@@ -186,7 +186,9 @@ class Auth extends Page{
 
         }
 
-        self::$verifyEmailCode = rand(100000, 999999);
+        self::$verifyEmailCode = isset($_SESSION["emailCode"]) ? $_SESSION["emailCode"] : rand(100000, 999999);
+
+        $_SESSION["emailCode"] = self::$verifyEmailCode;
 
         self::$userInfos = [
             "obUser" => $obUser,
@@ -229,7 +231,8 @@ class Auth extends Page{
     
         $body = View::renderPage("pages/email/emailContent", [
             "nome" => $nome, 
-            "mensagem" => $subject
+            "mensagem" => $subject,
+            "codigo" => $verifyEmailCode
         ]);
         
         // Enviar o email
@@ -240,12 +243,6 @@ class Auth extends Page{
         $obMail->FROM_NAME = $nome;
 
         $sucess = $obMail->sendEmail($address, "Cinerate", $body);
-
-        echo "<pre>";
-        print_r($obMail);
-        print_r($sucess);
-        echo "</pre>";
-        die();
 
         if($sucess){
 
@@ -263,12 +260,18 @@ class Auth extends Page{
      */
     public static function codeVerify()
     {
+
+        echo "oiii";
         
         $postVars = self::$request->getPostVars();
         
-        $code = "";        
+        $code = "";     
+
+        print_r($postVars);
 
         if(isset($postVars)){
+
+            echo "postvars";
 
             foreach($postVars as $key=>$value){
 
@@ -280,7 +283,15 @@ class Auth extends Page{
 
             }
 
-            if(strlen($code) == 6  && $code == self::$verifyEmailCode){
+            print_r($code);
+
+            print_r(self::$verifyEmailCode);
+
+            if(strlen($code) == 6  && (string)$code == (string)self::$verifyEmailCode){
+
+                echo "entrou";
+                
+                var_dump(self::$userInfos);
 
                 $nome = self::$userInfos["nome"];
 
@@ -310,8 +321,12 @@ class Auth extends Page{
 
         }
         
+        unset($_SESSION["emailCode"]);
+        
         return self::authGetPage("authContent", "
                 Não foi possivel obter o código digitado. Por favor, tente novamente.");
+
+        
 
     }
 
@@ -324,13 +339,15 @@ class Auth extends Page{
     public static function authGetPage($view, $errorMessage = null)
     {
 
+        self::$verifyEmailCode = isset($_SESSION["emailCode"]) ? $_SESSION["emailCode"] : null;
+
         $url = self::$request->getUri();
 
         if(str_contains($url, "code")){
 
-            if(count(self::$userInfos) == 0){
+            if(self::$verifyEmailCode == null){
 
-                return self::$request->getRouter()->redirect("");
+                die();    
 
             }
 
