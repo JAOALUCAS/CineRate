@@ -54,6 +54,8 @@
 
         <div class="calendar-container">
 
+            <h1>Dashboard</h1>
+
             <div class="middlewares">
 
                 <h2>Definir status de manutenção nas páginas?</h2>
@@ -78,13 +80,282 @@
 
     <div class="users">
 
-        
+        <h1>Usuários do painel de controle</h1>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>id</th>
+
+                        <th>nome</th>
+    
+                        <th>email</th>
+    
+                        <th>ações</th>    
+
+                    </tr>
+                
+                </thead>
+
+                <tbody>
+
+                    {{admins}}
+                    
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="form-admin">
+
+            <h2>Cadastrar um novo usuário ao painel de controle</h2>
+
+            <p><strong>Antes de adicionar um novo membro, lembre-se que o mesmo terá acesso: manipulação e inserção
+                de usuários admins, mudar o status de manutenção do site, lidar com denuncias e formulário de ajuda, 
+                adicionar filmes e atores ao catálogo.</strong>
+            </p>
+
+            <form method="post">
+                
+                <input type="text" name="" id="" placeholder="Digite o nome do novo usuário">
+
+                <input type="email" name="" id="" placeholder="Digite o email do novo usuário">
+
+                <input type="password" name="" id="" placeholder="Digite a senha do novo usuário">
+
+                <button class="btn-cadastro">Cadastrar</button>
+
+            </form>
+
+        </div>
 
     </div>
 
-    <div class="insert"></div>
+    <div class="insert">
+
+        <h1>Inserir Filmes e atores</h1>
+
+        <div class="tabs">
+
+            <div class="choose-insert-type">
+
+                <h2>O que deseja inserir?</h2>
+
+                <div class="type">
+                        
+                    <button class="btn-insert active" id="film" data-type="movie">Filme</button>
+
+                    <button class="btn-insert" id="actor" data-type="actor">Ator</button>
+
+                </div>
+
+            </div>
+
+            <div class="choose-insert-mode">
+
+                <h2>Usar api?</h2>
+
+                <div class="toggle"></div>
+
+            </div>
+
+            <div class="film-manual-form">
+
+                <form method="post">
+
+                    <input type="text" name="titulo" id="titulo" required placeholder="Digite o titulo do filme">
+
+                    <textarea name="descricao" rows="5" cols="5" required placeholder="Digite a descrição do filme"></textarea>
+
+                    <input type="text" name="tagline" id="tagline" placeholder="Digite uma tagline do filme">
+
+                    <input type="date" name="datalancamento" required id="datalancamento">
+
+                    <input type="number" name="duracao" required id="duracao" placeholder="Duração">
+
+                    <div class="geners">
+
+                        <h2>Lista de Gêneros</h2>
+
+                        <div class="opcoes">
+
+                            <input type="checkbox" id="genero-acao" name="genero" value="acao">
+                            <label for="genero-acao">Ação 🔥</label>
+                            
+                            <input type="checkbox" id="genero-aventura" name="genero" value="aventura">
+                            <label for="genero-aventura">Aventura 🗺️</label>
+                            
+                            <input type="checkbox" id="genero-animacao" name="genero" value="animacao">
+                            <label for="genero-animacao">Animação 🏜️</label>
+                            
+                            <input type="checkbox" id="genero-comedia" name="genero" value="comedia">
+                            <label for="genero-comedia">Comédia 🤣</label>
+                            
+                            <input type="checkbox" id="genero-crime" name="genero" value="crime">
+                            <label for="genero-crime">Crime 🕵️</label>
+                            
+                            <input type="checkbox" id="genero-documentario" name="genero" value="documentario">
+                            <label for="genero-documentario">Documentário 📃</label>
+                            
+                            <input type="checkbox" id="genero-drama" name="genero" value="drama">
+                            <label for="genero-drama">Drama 💧</label>
+                            
+                            <input type="checkbox" id="genero-familia" name="genero" value="familia">
+                            <label for="genero-familia">Família 👨‍👩‍👧‍👦</label>
+                            
+                            <input type="checkbox" id="genero-fantasia" name="genero" value="fantasia">
+                            <label for="genero-fantasia">Fantasia 🪄</label>
+                            
+                            <input type="checkbox" id="genero-ficcao" name="genero" value="ficcao-cientifica">
+                            <label for="genero-ficcao">Ficção Científica 🧪</label>
+                            
+                            <input type="checkbox" id="genero-guerra" name="genero" value="guerra">
+                            <label for="genero-guerra">Guerra 🪖</label>
+                            
+                            <input type="checkbox" id="genero-historico" name="genero" value="historico">
+                            <label for="genero-historico">Histórico 🥻</label>
+                            
+                            <input type="checkbox" id="genero-misterio" name="genero" value="misterio">
+                            <label for="genero-misterio">Mistério 🔎</label>
+                            
+                            <input type="checkbox" id="genero-musical" name="genero" value="musical">
+                            <label for="genero-musical">Musical 🎸</label>
+                            
+                            <input type="checkbox" id="genero-romance" name="genero" value="romance">
+                            <label for="genero-romance">Romance 😍</label>
+                            
+                            <input type="checkbox" id="genero-suspense" name="genero" value="suspense">
+                            <label for="genero-suspense">Suspense 🐦‍⬛</label>
+                            
+                            <input type="checkbox" id="genero-terror" name="genero" value="terror">
+                            <label for="genero-terror">Terror 🎃</label>
+
+                        </div>                        
+
+                    </div>
+
+                    <input type="text" name="elenco" placeholder="Digite o elenco com virgulas em cada nome">
+
+                    <div class="diretores">
+
+                        <h2>Lista de Diretores</h2>
+
+                        <div class="opcoes">
+
+                            <label><img src="../../../resources/assets/imgs-gifs/spielberg.jpg"> Steven Spielberg</label>
+
+                            <label><img src="../../../resources/assets/imgs-gifs/nolan.jpg"> Christopher Nolan</label>
+
+                            <label><img src="../../../resources/assets/imgs-gifs/tarantino.jpg"> Quentin Tarantino</label>
+
+                            <label><img src="../../../resources/assets/imgs-gifs/scorsese.jpg"> Martin Scorsese</label>
+
+                            <label><img src="../../../resources/assets/imgs-gifs/cameron.webp"> James Cameron</label>
+
+                            <label><img src="../../../resources/assets/imgs-gifs/hitchcock.jpg"> Alfred Hitchcock</label>
+
+                            <label><img src="../../../resources/assets/imgs-gifs/kubrick.jpg"> Stanley Kubrick</label>
+
+                            <label><img src="../../../resources/assets/imgs-gifs/scott.jpg"> Ridley Scott</label>
+
+                            <label><img src="../../../resources/assets/imgs-gifs/jackson.jpg"> Peter Jackson</label>
+
+                            <label><img src="../../../resources/assets/imgs-gifs/miyazaki.jpg"> Hayao Miyazaki</label>
+
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="empresas">
+                        <label><img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Warner_Bros_Logo_2023.png" alt="Warner Bros" width="50"> Warner Bros</label>
+                        <label><img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/20th_Century_Fox_logo.svg" alt="20th Century Studios" width="50"> 20th Century Studios</label>
+                        <label><img src="https://upload.wikimedia.org/wikipedia/commons/7/7f/Universal_Pictures_logo.svg" alt="Universal Pictures" width="50"> Universal Pictures</label>
+                        <label><img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Paramount_Pictures_2022_logo.svg" alt="Paramount Pictures" width="50"> Paramount Pictures</label>
+                        <label><img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Netflix_2015_logo.svg" alt="Netflix" width="50"> Netflix</label>
+                        <label><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/The_Walt_Disney_Company_Logo.svg" alt="Walt Disney Pictures" width="50"> Walt Disney Pictures</label>
+                        <label><img src="https://upload.wikimedia.org/wikipedia/commons/f/fc/Columbia_Pictures_logo.svg" alt="Columbia Pictures" width="50"> Columbia Pictures</label>
+                        <label><img src="https://upload.wikimedia.org/wikipedia/commons/b/bf/Lionsgate_logo.svg" alt="Lionsgate" width="50"> Lionsgate</label>
+                        <label><img src="https://upload.wikimedia.org/wikipedia/commons/4/41/MGM_Logo_2021.svg" alt="Metro-Goldwyn-Mayer (MGM)" width="50"> MGM</label>
+                        <label><img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Studio_Ghibli_logo.svg" alt="Studio Ghibli" width="50"> Studio Ghibli</label>
+                    </div>
+                    
+                    <div class="paises">
+
+                        <label><input type="radio" name="pais">🇺🇸 Estados Unidos</label>
+
+                        <label><input type="radio" name="pais" value="EUA"> 🇺🇸 Estados Unidos</label>
+
+                        <label><input type="radio" name="pais" value="UK"> 🇬🇧 Reino Unido</label>
+
+                        <label><input type="radio" name="pais" value="Franca"> 🇫🇷 França</label>
+
+                        <label><input type="radio" name="pais" value="Japao"> 🇯🇵 Japão</label>
+
+                        <label><input type="radio" name="pais" value="India"> 🇮🇳 Índia</label>
+
+                        <label><input type="radio" name="pais" value="Italia"> 🇮🇹 Itália</label>
+
+                        <label><input type="radio" name="pais" value="Alemanha"> 🇩🇪 Alemanha</label>
+
+                        <label><input type="radio" name="pais" value="Espanha"> 🇪🇸 Espanha</label>
+
+                        <label><input type="radio" name="pais" value="Coreia"> 🇰🇷 Coreia do Sul</label>
+
+                        <label><input type="radio" name="pais" value="China"> 🇨🇳 China</label>
+
+                        <label><input type="radio" name="pais" value="Brasil"> 🇧🇷 Brasil</label>
+
+                        <label><input type="radio" name="pais" value="Canada"> 🇨🇦 Canadá</label>
+
+                        <label><input type="radio" name="pais" value="Russia"> 🇷🇺 Rússia</label>
+
+                        <label><input type="radio" name="pais" value="Argentina"> 🇦🇷 Argentina</label>
+                        
+                        <label><input type="radio" name="pais" value="Australia"> 🇦🇺 Austrália</label>
+                        
+                    </div>
+
+                    <input type="number" name="orcamento" placeholder="Digite o orçamento">
+
+                    <input type="number" name="bilheteria" placeholder="Digite a bilheteria">
+
+                    <input type="text" name="poster" placeholder="Digite a url do poster">
+
+                    <input type="text" name="trailer" placeholder="Digite a url do trailer">
+                    
+                    <div class="streamings"></div>
+
+                </form>
+
+            </div>
+
+            <div class="film-api-form"></div>
+
+            <div class="actor-manual-form"></div>
+
+            <div class="actor-api-form"></div>
+
+        </div>
+
+        <div class="filmes-atores">
+
+            <form action="" class="filmes"></form>
+
+            <form action="" class="atores"></form>
+
+        </div>
+
+    </div>
 
     <div class="complaint"></div>
+
+    <div class="content"></div>
 
     <div class="help-form"></div>
 
