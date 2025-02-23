@@ -29,10 +29,6 @@ Database::setConfig(
     getenv("DB_PASS")
 );
 
-Api::setConfig(
-    getenv("API_TMDB_TOKEN")
-);
-
 $visit = new Visits();
 
 Visits::addVisit();

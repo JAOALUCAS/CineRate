@@ -335,7 +335,7 @@ li.selected{
     display: none;
 }
 
-.users, .film-manual-form {
+.users, .film-manual-form, .film-api-form, .actor-manual-form , .actor-api-form{
     background: #141820;
     padding: 20px;
     border-radius: 12px;
@@ -403,7 +403,7 @@ tbody td {
     margin-bottom: 10px;
 }
 
-.form-admin p {
+.form-admin p, .insert p {
     font-size: 14px;
     color: #a8b3cf;
     margin-bottom: 15px;
@@ -415,7 +415,7 @@ tbody td {
     gap: 10px;
 }
 
-.form-admin input, .film-manual-form input, .film-manual-form textarea, .geners .opcoes label {
+.form-admin input, .film-manual-form input, .film-manual-form textarea, .geners .opcoes label, .film-api-form input , .actor-manual-form input{
     padding: 10px;
     border: 1px solid #2a2f38;
     border-radius: 6px;
@@ -447,18 +447,30 @@ tbody td {
     background-color: #141820;
     height: 70%;
     color: white;
+    padding: 30px;
 }
 
 .insert h1{
     margin-top: 30px;
-    margin-bottom: 60px;
+    margin-bottom: 20px;
 }
 
 .tabs{
     width: 85%;
 }
 
+.chooses{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 40px;
+    margin: 30px 0;
+    border: 1px white solid;
+}
+
 .choose-insert-type{
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -503,6 +515,7 @@ tbody td {
     position: relative;
     border-radius: 25px;
     padding: 5px;
+    cursor: pointer;
 }
 
 .toggle::before{
@@ -515,7 +528,6 @@ tbody td {
     right: 0%;
     margin: 0 5px;
     transition: 0.3s ease-in-out;
-    cursor: pointer;
 }
 
 .toggle.active{
@@ -523,30 +535,71 @@ tbody td {
 }
 
 .toggle.active::before{
-    transform: translateX(-15px);
+    transform: translateX(-17px);
 }
 
 .film-manual-form{
+    display: none;
+}
+
+.film-manual-form, .film-api-form, .actor-manual-form, .actor-api-form{
     width: 100%;
     padding: 30px;
+    padding-left: 220px;
     height: 600px;
     overflow-y: scroll;
 }
 
-.film-manual-form form{
+.actor-api-form{
+    background-color: #586fb321;
+    border-left: 5px #fd5624 solid;
+}
+
+.film-api-form{
+    background-color: #586fb321 ;
+    border-left: 5px #0066e6 solid;
+}
+
+.film-manual-form{
+    background-color: #42526354;
+    border-left: 5px #007bff solid;
+}
+
+.actor-manual-form{
+    background-color: #ff5e5628;
+    border-left: 5px #fd5624 solid;
+}
+
+.film-manual-form h2, .film-api-form h2, .actor-manual-form h2, .actor-api-form h2{
+    margin-bottom: 30px;
+}
+
+.film-manual-form form, .film-api-form form, .actor-manual-form form, .actor-api-form form{
     display: flex;
+    width: 90%;
     justify-content: center;
-    align-items: center;
     flex-direction: column;
 }
 
-.film-manual-form input, .film-manual-form textarea{
+.film-manual-form form button, .film-api-form form button, .actor-manual-form form button, .actor-api-form form button{
+    margin-top: 30px;
     width: 80%;
-    margin: 15px 0;
+    margin-left: -1px;
 }
 
-.geners, .diretores{
-    margin-top: 40px;
+.film-manual-form p{
+    margin-top: 20px;
+}
+
+.film-manual-form input, .film-manual-form textarea, .film-api-form input, .actor-manual-form input, .actor-api-form input{
+    width: 80%;
+    margin: 15px 0;
+    border: 1px gray solid;
+    background: transparent;
+}
+
+.geners, .diretores, .empresas, .paises, .streamings{
+    margin-top: 10px;
     width: 82%;
     display: flex;
     justify-content: center;
@@ -554,37 +607,205 @@ tbody td {
     flex-direction: column;
 }
 
-.geners h2, .diretores h2{
+.geners p, .diretores p, .empresas p, .paises p, .streamings p{
     cursor: pointer;
+    width: 97%;
     padding: 15px;
     border: 1px white solid;
 }
 
 .opcoes {
+    height: 300px;
+    overflow-y: scroll;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     border: 1px rgb(107, 107, 107) solid;
     padding: 20px;
-}
-
-.geners .opcoes input{
+    transition: 0.3s ease-in-out;
     display: none;
 }
 
-.geners .opcoes label{
-    width: 220px;
+.opcoes.actived{
+    display: flex;
+}
+
+.geners .opcoes input, .diretores .opcoes input, .empresas .opcoes input, .paises .opcoes input, .streamings .opcoes input{
+    display: none;
+}
+
+.geners .opcoes label, .diretores .opcoes label, .empresas .opcoes label, .paises .opcoes label, .streamings .opcoes label{
+    width: 350px;
     border-radius: 10px;
-    margin: 15px;
+    margin: 15px 30px;
     padding: 20px;
     box-shadow: 1px 1px 1px black;
     cursor: pointer;
     text-align: center;
 }
 
-.diretores .opcoes img{
-    height: 100px;
-    width: 100px;
-    border-radius: 30px;
+.diretores .opcoes img, .empresas .opcoes img, .streamings .opcoes img{
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.diretores .opcoes label, .empresas .opcoes label, .streamings .opcoes label{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin: 20px;
+}
+
+#br-label { background: linear-gradient(90deg, green 40%, yellow 40%, yellow 60%, blue 60%); }
+
+#eua-label { background: linear-gradient(90deg, #b22234 33%, white 33%, white 66%, #3c3b6e 66%); color: red;}
+
+#uk-label { background: linear-gradient(90deg, #00247d 33%, white 33%, white 66%, #cf142b 66%); color: yellow;}
+
+#franca-label { background: linear-gradient(90deg, blue 33%, white 33%, white 66%, red 66%); color: red; }
+
+#japao-label { background: white; color: red; border: 2px solid red;}
+
+#india-label { background: linear-gradient(90deg, orange 33%, white 33%, white 66%, green 66%); color: #198754;}
+
+#italia-label { background: linear-gradient(90deg, green 33%, white 33%, white 66%, red 66%); color: #13653f;}
+
+#alemanha-label { background: linear-gradient(90deg, black 33%, red 33%, red 66%, yellow 66%); }
+
+#espanha-label { background: linear-gradient(90deg, red 40%, yellow 40%, yellow 60%, red 60%);}
+
+#coreia-label { background: white; color: black; border: 2px solid black; }
+
+#china-label { background: red; color: yellow; }
+
+#canada-label { background: linear-gradient(90deg, red 33%, white 33%, white 66%, red 66%); color: red;}
+
+#russia-label { background: linear-gradient(90deg, white 33%, blue 33%, blue 66%, red 66%); }
+
+#argentina-label { background: linear-gradient(90deg, lightblue 33%, white 33%, white 66%, lightblue 66%); color: yellow; }
+
+#australia-label { background: darkblue; color: white;}
+
+.json-viewer-container {
+    margin: 50px 0;
+    margin-left: -40px;
+    background: #282c34;
+    padding: 15px;
+    border-radius: 10px;
+    font-family: "Courier New", monospace;
+    color: #abb2bf;
+    position: relative;
+    width: 85%;
+    overflow-x: auto;
+    display: none;
+}
+
+.json-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+    padding: 5px 10px;
+    background: #1e2228;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.json-header-left{
+    display: flex;
+    align-items: center;
+}
+
+.json-header-right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.json-header-right button{
+    margin: 0px 5px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.json-header .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.json-header .red, .btn-reset{ background: #ff5f56; }
+.json-header .yellow, .btn-stop { background: #ffbd2e; }
+.json-header .green { background: #27c93f; }
+
+.json-content {
+    padding: 10px;
+    background: #282c34;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.json-key { 
+    color: #e06c75; 
+    margin-left: 25px;
+}  
+
+.json-string { color: #98c379; }  
+.json-number { color: #d19a66; }  
+.json-boolean { color: #56b6c2; } 
+.json-null { color: #c678dd; }  
+
+.btn-api{
+    color: #fff;
+    background-color: #7f6992;
+    border-color: #7f6992;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.btn-api:hover{
+    background-color: #6f5b80;
+    border-color: #6f5b80;
+}
+
+.choose-randoom-films{
+    margin-bottom: 60px;
+}
+
+.choose-randoom-films form, .choose-unique-film form{
+    margin-top: -15px;
+}
+
+.insert .tittle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: -200px;
+    box-shadow: 1px 1px 1px black;
+    margin-bottom: 20px;
+}
+
+.insert .tittle img{
+    height: 20px;
+    margin-top: -30px;
+    margin-left: 15px;
+    filter: grayscale(0.4);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator  {
+    filter: invert(100%) ;
 }

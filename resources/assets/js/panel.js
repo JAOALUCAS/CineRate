@@ -9,8 +9,16 @@ const complaint = document.querySelector(".complaint");
 const helpForm =  document.querySelector(".help-form");
 const apiConfirm = document.querySelector(".toggle");
 const typeInsert = document.querySelectorAll(".type button");
+const opcoes = document.querySelectorAll(".opcoes");
+const btnInsert = document.querySelectorAll("btn-insert");
+const filmManual = document.querySelector(".film-manual-form");
+const actorManual = document.querySelector(".actor-manual-form");
+const filmApi =  document.querySelector(".film-api-form");
+const actorApi = document.querySelector(".actor-api-form");
 
 let liSelected = document.querySelector(".menu ul li.selected");
+
+let toggleActived = false;
 
 function addSelected() {
 
@@ -121,6 +129,8 @@ function apiUse(){
 
             apiConfirm.classList.toggle("active");
 
+            toggleActived = !toggleActived;
+
         });
 
     }
@@ -157,6 +167,30 @@ function selectType(){
 
                 }
 
+            });            
+
+        });
+
+    }
+
+}
+
+function showOpcoes(){
+
+    if(opcoes){
+
+        opcoes.forEach((opcoe)=>{
+
+            const pai = opcoe.parentElement;
+
+            pai.addEventListener("click", (event)=>{
+
+                if(!opcoe.contains(event.target)){
+
+                    opcoe.classList.toggle("actived");
+
+                }
+
             });
 
         });
@@ -165,7 +199,75 @@ function selectType(){
 
 }
 
+function showForm(){
+
+    document.addEventListener("click", ()=>{
+
+        let typeSelect;
+
+        typeInsert.forEach((type)=>{
+
+            if(type.classList.contains("active")){
+
+                typeSelect = type;
+
+            }
+
+            if(typeSelect){
+
+                if(typeSelect.dataset.type == "actor"){
+
+                    if (toggleActived) {
+                        
+                        actorManual.style.display = "none";
+
+                        actorApi.style.display = "block";
+
+                    } else {
+                        
+                        actorManual.style.display = "block";
+
+                        actorApi.style.display = "none";
+                        
+                    }
+                    
+                    filmManual.style.display = "none";
+
+                    filmApi.style.display = "none";
+
+                }else if(typeSelect.dataset.type == "movie"){
+
+                    if (toggleActived) {
+
+                        filmManual.style.display = "none";
+
+                        filmApi.style.display = "block";
+
+                    } else {
+                        
+                        filmManual.style.display = "block";
+
+                        filmApi.style.display = "none";
+
+                    }
+                    
+                    actorManual.style.display = "none";
+
+                    actorApi.style.display = "none";
+
+                }
+
+            }
+
+        });
+
+    });
+
+}
+
+showForm();
 showMenu();
 addSelected();
 apiUse();
 selectType();
+showOpcoes();
