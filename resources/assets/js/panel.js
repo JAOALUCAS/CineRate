@@ -15,6 +15,11 @@ const filmManual = document.querySelector(".film-manual-form");
 const actorManual = document.querySelector(".actor-manual-form");
 const filmApi =  document.querySelector(".film-api-form");
 const actorApi = document.querySelector(".actor-api-form");
+const customOption = document.querySelectorAll(".custom-option");
+const confirmCustomOption = document.querySelectorAll(".confirm-custom-option");
+
+let labels = [];
+let inputs = [];
 
 let liSelected = document.querySelector(".menu ul li.selected");
 
@@ -265,9 +270,273 @@ function showForm(){
 
 }
 
+function customModal(){
+
+    if(customOption){
+
+        document.addEventListener("click", (event)=>{
+
+            let p;
+
+            let modal;
+
+            customOption.forEach((customOption)=>{
+                    
+                p = customOption.getElementsByTagName("p");
+
+                modal = customOption.querySelector(".modal");
+
+            });
+
+            if(p && modal){
+
+                if(p[0].contains(event.target) || modal.contains(event.target)){
+
+                    modal.style.display = "flex";
+
+                }else{
+
+                    modal.style.display = "none";
+
+                }
+
+            }
+        
+        });
+
+    }
+
+    if(confirmCustomOption){
+
+        confirmCustomOption.forEach((confirm)=>{
+
+            confirm.addEventListener("click", ()=>{
+
+                const parentForm = confirm.parentElement.getElementsByTagName("input");
+            
+                const modal = document.querySelectorAll(".modal");
+
+                modal.forEach((modal)=>{
+
+                    modal.style.display = "none";
+
+                });
+
+                if(parentForm){
+
+                    if(parentForm[0].length !== 0 || parentForm[0].value !== null){
+
+                        let valorInput = parentForm[0].value.trim().replace(/\s+/g, '-');
+
+                        let verificarInput = true;
+
+                        let i = 1;
+
+                        while(verificarInput){
+
+                            if(document.getElementById(valorInput) !== null){
+
+                                let trocaNum = false;
+
+                                let caracteres = valorInput.split("");
+                        
+                                for (let j = 0; j < caracteres.length; j++) {
+
+                                    if (!isNaN(parseInt(caracteres[j]))) {
+
+                                        caracteres[j] = i.toString(); 
+
+                                        valorInput = caracteres.join(""); 
+
+                                        trocaNum = true;
+                                        
+                                        break; 
+
+                                    }
+
+                                }
+
+                                if(!trocaNum){
+                                    
+                                    valorInput = valorInput + i.toString();
+
+                                }
+
+                                i++;
+
+                            }else{
+
+                                verificarInput = !verificarInput;
+
+                            }
+
+                        }
+
+                        let newInput = document.createElement("input");
+
+                        newInput.type = "radio";
+
+                        newInput.value = valorInput;
+
+                        newInput.name = valorInput;
+
+                        newInput.id = valorInput;
+
+                        let newLabel = document.createElement("label");
+
+                        newLabel.htmlFor = valorInput;
+
+                        newLabel.textContent = valorInput;
+
+                        if(opcoes){
+
+                            opcoes.forEach((opcoe)=>{
+
+                                if(opcoe.contains(confirm)){
+
+                                    opcoe.appendChild(newInput);
+
+                                    opcoe.appendChild(newLabel);
+
+                                }
+
+                            });
+
+                        }
+
+                        let localInputs = JSON.parse(localStorage.getItem("inputs")) || [];
+
+                        let localLabels = JSON.parse(localStorage.getItem("labels")) || [];
+
+                        let parentDiv;
+
+                        customOption.forEach((parent)=>{
+
+                            if(parent.contains(confirm)){
+
+                                parentDiv = parent;
+
+                            }
+
+                        });
+
+                        if(localInputs !== null && localLabels !== null){
+
+                            localLabels.push({
+                                "parent-id": parentDiv.id,
+                                "element":   newLabel.outerHTML
+                            });
+                            
+                            localInputs.push({
+                                "parent-id": parentDiv.id,
+                                "element":   newInput.outerHTML
+                            });
+                            
+                            localStorage.setItem("labels", JSON.stringify(localLabels));
+
+                            localStorage.setItem("inputs",JSON.stringify(localInputs));
+
+                        }else{
+
+                            labels.push({
+                                "parent-id": parentDiv.id,
+                                "element": newLabel.outerHTML
+                            });
+
+                            localStorage.setItem("labels", JSON.stringify(labels));
+
+                            inputs.push({
+                                "parent-id": parentDiv.id,
+                                "element": newInput.outerHTML
+                            });
+
+                            localStorage.setItem("inputs",JSON.stringify(inputs));
+
+                        }
+
+                    }
+
+                }
+
+            });
+
+        });
+
+    }
+
+}
+
+function getLocalCustomOption(){
+
+    let localLabel =  JSON.parse(localStorage.getItem("labels"));
+
+    let localInputs = JSON.parse(localStorage.getItem("inputs"));
+
+    if(localLabel && localInputs){
+        
+        if(opcoes){
+
+            let parent = [];
+            let htmlInput = [];
+            let htmlLabel = [];
+
+            localLabel.forEach((label)=>{
+
+                htmlLabel.push(label["element"]);
+
+                customOption.forEach((customOption)=>{
+
+                    if(customOption.id == label["parent-id"]){
+
+                        parent.push(customOption);
+
+                    }
+
+                });
+
+            });
+
+            localInputs.forEach((input)=>{
+
+                htmlInput.push(input["element"]);
+
+            });
+
+            opcoes.forEach((opcoe)=>{
+
+                parent.forEach((parent, index)=>{
+
+                    if(opcoe.contains(parent)){
+                        
+                        let newInput = document.createElement("div");
+
+                        newInput.innerHTML = htmlInput[index];
+
+                        let newLabel = document.createElement("div");
+
+                        newLabel.innerHTML = htmlLabel[index];
+
+                        opcoe.appendChild(newInput);
+
+                        opcoe.appendChild(newLabel);
+
+                    }
+
+                });
+
+            });
+            
+        }
+
+    }
+
+}
+
 showForm();
 showMenu();
 addSelected();
 apiUse();
 selectType();
 showOpcoes();
+customModal();
+getLocalCustomOption();

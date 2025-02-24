@@ -1,30 +1,113 @@
-const filmForms = document.querySelectorAll(".apiForm");
-const jsonContainer = document.querySelector(".json-viewer-container");
-const jsonContentExample = document.querySelector(".json-example");
+const apiForms = document.querySelectorAll(".apiForm");
+let jsonContainer;
+let jsonContentExample;
+const castCheck = document.querySelector(".custom-checkbox");
+const upcreasePage = document.getElementById("upcreasePage");
+const decreasePage = document.getElementById("decreasePage");
 
+const filmApiForm = document.querySelector(".film-api-form .api-cadastro");
+
+let apiPage = 1;
+
+const options = {
+    method: 'GET',
+    headers: {
+    accept: 'application/json',
+    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMGRlMzU1MDhiYzZkYjQ1ZDAwYjA5NTNmN2YwZWRkNyIsIm5iZiI6MTczODgwMTE3NS4wNjgsInN1YiI6IjY3YTQwMDE3YmYzNjA0MGM1ZDg1YTZjYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.-Qv4ixwFDsjiwa45lkmGi4x_zwCiXh89oGaKt9Ys6V4'
+    }
+};
+
+let a = " https://api.themoviedb.org/3/person/popular?&page=1";
+let getCast = false;
+let callFilms = true;
 let films;
 
 function getResponseApi(){
 
-    if(filmForms){
+    if(apiForms){
 
-        filmForms.forEach((form)=>{
+       apiForms.forEach((form)=>{
 
             form.addEventListener("submit", (event)=>{
 
                 event.preventDefault();
 
-                let jsons = getDetails();
+                const parent = form.parentElement;
 
-                if(typeof(jsons) == "object"){
-                 
-                    jsons.then(json =>{
+                if(parent){
 
-                        films = json.results;
-                        
-                        showResponseJson();
+                    const parentClassList = parent.classList;
+
+                    parentClassList.forEach((classe)=>{
+
+                        if(classe.includes("actor")){
+
+                            callFilms = false;
+
+                            jsonContainer = document.querySelector(".actor-api-form").querySelector(".json-viewer-container");                           
+
+                            jsonContentExample = document.querySelector(".actor-api-form").querySelector(".json-example");
+                            
+
+                        }else{
+                            
+                            jsonContainer = document.querySelector(".film-api-form").querySelector(".json-viewer-container");                           
+
+                            jsonContentExample = document.querySelector(".film-api-form").querySelector(".json-example");
+
+                        }
 
                     });
+
+                }
+                
+                let params;
+
+                let jsons;
+
+                if(callFilms){
+                    
+                    let nomeFuncao = "getDetails";
+                        
+                    if(parent.classList.contains("choose-unique-film")){
+
+                        nomeFuncao = "getUniqueFilm";
+
+                        let movieName = form.getElementsByTagName("input")[0].value;
+
+                        params =  String(movieName);
+
+                    }
+
+                    jsons = window[nomeFuncao](params); 
+                        
+                    if(typeof(jsons) == "object"){
+
+                        jsons.then(json =>{
+
+                            films = json.results;
+                            
+                            showResponseJson();
+
+                        });
+
+                    }
+
+                }else{
+
+                    jsons = getPopularsActor();
+                        
+                    if(typeof(jsons) == "object"){
+
+                        jsons.then(json =>{
+
+                            films = json.results;
+                            
+                            showResponseJson();
+
+                        });
+
+                    }
 
                 }
        
@@ -35,20 +118,13 @@ function getResponseApi(){
     }
 
 }
+ 
 
-async function  getDetails() {
+async function getDetails() {
 
     try{
-      
-        const options = {
-            method: 'GET',
-            headers: {
-            accept: 'application/json',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMGRlMzU1MDhiYzZkYjQ1ZDAwYjA5NTNmN2YwZWRkNyIsIm5iZiI6MTczODgwMTE3NS4wNjgsInN1YiI6IjY3YTQwMDE3YmYzNjA0MGM1ZDg1YTZjYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.-Qv4ixwFDsjiwa45lkmGi4x_zwCiXh89oGaKt9Ys6V4'
-            }
-        };
 
-        const response = fetch('https://api.themoviedb.org/3/discover/movie?include_adult=true&language=pt-BR&page=1&sort_by=popularity.desc', options);
+        const response = fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=true&language=pt-BR&page=${apiPage}&sort_by=popularity.desc`, options);
 
         const data = (await response).json();
 
@@ -62,14 +138,54 @@ async function  getDetails() {
 
 }
 
-function showResponseJson(){
+async function showResponseJson(){
+
+    let cleanJson = jsonContainer.querySelectorAll(".json-example");
+
+    cleanJson.forEach((jsonExample, index)=>{
+
+        if(index !== (cleanJson.length -1) && index !== 0){
+
+            jsonContainer.removeChild(jsonExample);
+
+        }
+
+    });
 
     if(films){
     
-        films.forEach((film)=>{
+        films.forEach(async (film)=>{
+
+            if(film["id"] && getCast){
+                
+                const searchById = await getFilmsProduction(film["id"]);
+
+                if(typeof(searchById) !== null){
+
+                    film = searchById;                      
+
+                }
+
+                const elenco = await getFilmsCast(film["id"]);
+                
+                if(typeof(elenco) !== null){
+
+                    film.cast = (elenco.cast || [])
+                        .slice(0, 5)
+                        .map(ator => ator.name)
+                        .join(', ');
+                    
+                    film.crew = (elenco.crew || [])
+                        .filter(pessoa => pessoa.job === 'Director')
+                        .map(diretor => diretor.name)
+                        .join(', ');
+
+                }
+
+            }
 
             let cloneTemplate =  jsonContentExample.cloneNode(true);
-
+    
             let chaves = Object.keys(film);
 
             let values = Object.values(film);
@@ -78,15 +194,19 @@ function showResponseJson(){
 
             let stringRows = [];
 
-            for(let i = 0; i < range; i++){                
+            for(let i = 0; i < range; i++){            
 
-                let stringRow = `<span class="json-key">"${chaves[i]}"</span>: <span class="json-string">"${values[i]}"</span> <br>`;
+                if(typeof(values[i]) == "object"){
+
+                    values[i] = JSON.stringify(values[i]);
+
+                }
+    
+                let stringRow = `<span class="json-key">"${chaves[i]}"</span>: <span class="json-${(typeof values[i]).toLowerCase()}">"${values[i]}"</span> <br>`;
 
                 stringRows.push(stringRow);
 
             }
-
-            console.log(stringRows)
 
             cloneTemplate.innerHTML += `{
 ${stringRows.join("")}}`;
@@ -105,4 +225,150 @@ ${stringRows.join("")}}`;
 
 }
 
+function verifyCast(){
+
+    if(castCheck){
+
+        castCheck.addEventListener("click", ()=>{
+
+            getCast = !getCast;
+
+        });
+
+    }
+
+}
+
+async function getFilmsCast(movieId){
+
+    try{
+        
+        const response =  await fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?language=pt-BR`, options);
+ 
+        const data = (await response).json();
+
+        return data;
+
+    }catch(error){
+
+        return null;
+
+    }
+
+}
+
+async function  getFilmsProduction(movieId) {
+    
+    try{
+
+        const response =  await fetch(`https://api.themoviedb.org/3/movie/${movieId}?language=pt-BR`, options);
+ 
+        const data = (await response).json();
+
+        return data;
+
+    }catch(error){
+
+        return null;
+
+    }
+
+}
+
+async function getUniqueFilm(movieName){
+
+    try{
+
+        const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(movieName)}&include_adult=true&language=pt-BR&page=1`, options);
+ 
+        const data = (await response).json();
+
+        return data;
+
+    }catch(error){ 
+
+        return null;
+
+    }
+
+}
+
+async function getPopularsActor() {
+    
+    try{
+        
+        const response = await fetch(`https://api.themoviedb.org/3/person/popular?page=${apiPage}`, options);
+ 
+        const data = (await response).json();
+
+        return data;
+
+    }catch(error){
+
+        return null;
+
+    }
+
+}
+
+function pageApiUpdate(){
+
+    if(upcreasePage && decreasePage){
+
+        upcreasePage.addEventListener("click", ()=>{
+
+            apiPage++;
+
+            console.log(apiPage)
+
+        });
+
+        decreasePage.addEventListener("click", ()=>{
+
+            if(apiPage !== 1){
+
+                apiPage--;
+
+            }
+
+        });
+
+    }
+
+}
+
+function formApiDb(){
+
+    const carregando = document.querySelector(".carregando");
+
+    if(filmApiForm){
+
+        filmApiForm.addEventListener("submit", (event)=>{
+
+            event.preventDefault();
+            
+            carregando.style.display = "block";
+
+            const pres = document.querySelectorAll(".film-api-form pre");
+
+            if(pres){
+
+                pres.forEach((pre)=>{
+
+                    console.log(pre);
+
+                });
+                
+            }
+
+        });
+
+    }
+
+}
+
+
 getResponseApi();
+verifyCast();
+pageApiUpdate();
+formApiDb();

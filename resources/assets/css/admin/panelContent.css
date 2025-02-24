@@ -415,8 +415,9 @@ tbody td {
     gap: 10px;
 }
 
-.form-admin input, .film-manual-form input, .film-manual-form textarea, .geners .opcoes label, .film-api-form input , .actor-manual-form input{
+.form-admin input, .film-manual-form input, .film-manual-form textarea, .geners .opcoes label, .film-api-form input , .actor-manual-form input, .modal input{
     padding: 10px;
+    min-height: 60px;
     border: 1px solid #2a2f38;
     border-radius: 6px;
     font-size: 14px;
@@ -591,7 +592,7 @@ tbody td {
     margin-top: 20px;
 }
 
-.film-manual-form input, .film-manual-form textarea, .film-api-form input, .actor-manual-form input, .actor-api-form input{
+.film-manual-form input, .film-manual-form textarea, .film-api-form input, .actor-manual-form input, .actor-api-form input, .modal input{
     width: 80%;
     margin: 15px 0;
     border: 1px gray solid;
@@ -605,9 +606,10 @@ tbody td {
     justify-content: center;
     align-content: center;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
-.geners p, .diretores p, .empresas p, .paises p, .streamings p{
+.geners p, .diretores p, .empresas p, .paises p, .streamings p, .custom-option p{
     cursor: pointer;
     width: 97%;
     padding: 15px;
@@ -616,6 +618,7 @@ tbody td {
 
 .opcoes {
     height: 300px;
+    width: 97%;
     overflow-y: scroll;
     display: flex;
     justify-content: center;
@@ -735,14 +738,29 @@ tbody td {
     padding: 2px;
 }
 
+.json-header-right .pages{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.json-header-right img{
+    height: 16px;
+    cursor: pointer;
+}
+
+#upcreasePage{
+    transform: rotateZ(180deg);
+}
+
 .json-header .dot {
     width: 12px;
     height: 12px;
     border-radius: 50%;
 }
 
-.json-header .red, .btn-reset{ background: #ff5f56; }
-.json-header .yellow, .btn-stop { background: #ffbd2e; }
+.json-header .red{ background: #ff5f56; }
+.json-header .yellow { background: #ffbd2e; }
 .json-header .green { background: #27c93f; }
 
 .json-content {
@@ -761,6 +779,7 @@ tbody td {
 .json-number { color: #d19a66; }  
 .json-boolean { color: #56b6c2; } 
 .json-null { color: #c678dd; }  
+.json-object { color: #61afef; }  
 
 .btn-api{
     color: #fff;
@@ -809,3 +828,88 @@ tbody td {
 input[type="date"]::-webkit-calendar-picker-indicator  {
     filter: invert(100%) ;
 }
+
+.custom-option{
+    width: 90%;
+}
+
+.modal{
+    height: 300px;
+    width: 97%;
+    overflow-y: auto;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #1a1f27;
+    margin: 0;
+}
+
+.modal p {
+    margin: 0;
+}
+
+.modal input{
+    display: block !important;
+}
+
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    margin: 10px 0;
+}
+
+.custom-checkbox input {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    margin-right: 8px;
+    display: inline-block;
+    position: relative;
+    transition: 0.3s;
+}
+
+.custom-checkbox input:checked + .checkmark {
+    background-color: white;
+}
+
+.custom-checkbox input:checked + .checkmark::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid #141820;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.carregando{
+    position: absolute;
+    background-color: transparent;
+    border: 8px #fd5624 solid;
+    border-right: 8px transparent solid;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    animation: loading 1s ease-in-out infinite;
+    display: none;
+}
+
+@keyframes loading{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
