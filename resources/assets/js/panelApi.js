@@ -1,11 +1,11 @@
 const apiForms = document.querySelectorAll(".apiForm");
 let jsonContainer;
 let jsonContentExample;
-const castCheck = document.querySelector(".custom-checkbox");
+const castCheck = document.querySelector(".custom-checkbox input");
 const upcreasePage = document.getElementById("upcreasePage");
 const decreasePage = document.getElementById("decreasePage");
 
-const filmApiForm = document.querySelector(".film-api-form .api-cadastro");
+const apiFormCadastro = document.querySelectorAll(".api-form .api-cadastro");
 
 let apiPage = 1;
 
@@ -157,7 +157,7 @@ async function showResponseJson(){
         films.forEach(async (film)=>{
 
             if(film["id"] && getCast){
-                
+
                 const searchById = await getFilmsProduction(film["id"]);
 
                 if(typeof(searchById) !== null){
@@ -311,6 +311,24 @@ async function getPopularsActor() {
 
 }
 
+function showApiPage(){
+    
+    let pageNum = document.getElementById("pageNum");
+
+    if(pageNum){
+        
+        pageNum.innerHTML = "Page "+apiPage;
+
+        setTimeout(()=>{
+            pageNum.classList.add("roll");
+        },100);
+
+        pageNum.classList.remove("roll");
+
+    }
+
+}
+
 function pageApiUpdate(){
 
     if(upcreasePage && decreasePage){
@@ -318,8 +336,8 @@ function pageApiUpdate(){
         upcreasePage.addEventListener("click", ()=>{
 
             apiPage++;
-
-            console.log(apiPage)
+            
+            showApiPage();
 
         });
 
@@ -330,6 +348,8 @@ function pageApiUpdate(){
                 apiPage--;
 
             }
+            
+            showApiPage();
 
         });
 
@@ -341,25 +361,55 @@ function formApiDb(){
 
     const carregando = document.querySelector(".carregando");
 
-    if(filmApiForm){
+    if(apiFormCadastro){
 
-        filmApiForm.addEventListener("submit", (event)=>{
-
-            event.preventDefault();
-            
-            carregando.style.display = "block";
-
-            const pres = document.querySelectorAll(".film-api-form pre");
-
-            if(pres){
-
-                pres.forEach((pre)=>{
-
-                    console.log(pre);
-
-                });
+        apiFormCadastro.forEach((apiForm)=>{
                 
-            }
+            apiForm.addEventListener("submit", (event)=>{
+
+                event.preventDefault();
+                
+                carregando.style.display = "block";
+
+                const parent = apiForm.parentElement;  
+                
+                if(parent){
+                
+                    const inputJsonInsert = document.createElement("input");
+
+                    inputJsonInsert.type = "hidden";
+
+                    if(parent.classList){
+
+                        parent.classList.forEach((classe)=>{
+
+                            if(classe.includes("film")){
+
+                                inputJsonInsert.name = "jsonFilm";
+
+                            }else if(classe.includes("actor")){
+
+                                inputJsonInsert.name = "jsonActor";
+
+                            }
+
+                            inputJsonInsert.value = JSON.stringify(films);
+
+                        });
+
+                    }
+
+                    if(inputJsonInsert){
+                        
+                        apiForm.append(inputJsonInsert);
+
+                        apiForm.submit();
+
+                    }
+
+                }
+
+            });
 
         });
 
@@ -367,8 +417,8 @@ function formApiDb(){
 
 }
 
-
 getResponseApi();
 verifyCast();
 pageApiUpdate();
 formApiDb();
+showApiPage();

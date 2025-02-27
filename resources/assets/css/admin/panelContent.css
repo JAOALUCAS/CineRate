@@ -740,9 +740,38 @@ tbody td {
 
 .json-header-right .pages{
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 }
+
+.json-header-right p{
+    margin-bottom: -2px;
+    animation: none;
+}
+
+.json-header-right p.roll{
+    animation: rollDown ease-in-out 0.05s;
+}
+
+@keyframes rollDown {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+    51% {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
 
 .json-header-right img{
     height: 16px;
