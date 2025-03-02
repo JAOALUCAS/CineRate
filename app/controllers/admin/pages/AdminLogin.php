@@ -5,6 +5,7 @@ namespace App\controllers\admin\pages;
 use \App\Utils\View;
 use \App\database\Database;
 use \App\controllers\Alert;
+use \App\models\entity\Actors;
 use \App\models\entity\User;
 use \App\models\entity\Visits;
 use \App\models\entity\Admin;
@@ -16,7 +17,30 @@ class AdminLogin extends Page{
 
     private static $userInfos = [];
 
-    public static function setLogin()
+    /**
+     * Método responsáve por direcionar o post para o método correto
+     */
+    public static function directPost()
+    {
+
+        $postVars = self::$request->getPostVars();
+
+        if(isset($postVars["adminSenha"])){
+
+            return self::setLogin();
+
+        }elseif(isset($postVars["postFilm"]) || isset($postVars["postActor"])){
+
+            return self::insertDbMan();
+
+        }
+
+    }
+
+    /**
+     * Método responsável por lidar com o login de admin
+     */
+    private static function setLogin()
     {
 
         $postVars = self::$request->getPostVars();
@@ -28,8 +52,7 @@ class AdminLogin extends Page{
             return self::loginGetPage("A senha deve conter no mínimo 8 caracteres para garantir maior segurança.");
 
         }
-
-        if(!password_verify($adminSenha, self::$userInfos["senha"])){
+        if (!isset(self::$userInfos["senha"]) || !password_verify($adminSenha, self::$userInfos["senha"])) {
 
             return self::loginGetPage("Senha incorreta.");
 
@@ -42,6 +65,9 @@ class AdminLogin extends Page{
 
     }
 
+    /**
+     * Método responsável por direcionar o usuário admin
+     */
     private static function verifyAdmin()
     {
 
@@ -77,11 +103,11 @@ class AdminLogin extends Page{
 
     }
 
-
+    /**
+     * Verifica se a lista de filmes já está no banco de dados
+     */
     private static function verifyFilmDuplicated($jsonsFilm)
     {
-
-        print_r($jsonsFilm);
 
         $valores = [];
 
@@ -96,7 +122,7 @@ class AdminLogin extends Page{
         }
 
         $titlesFormatedArray = array_map(fn($valor)=>
-            $valor = "'". $valor ."'"
+            $valor = "'". str_replace(['"', "'"], '', $valor) ."'"
         , $valores);
 
         $titlesFormatedString = implode(", ", $titlesFormatedArray);
@@ -127,6 +153,9 @@ class AdminLogin extends Page{
 
     }
 
+    /**
+     * Método responsável por inserir os filmes no banco de dados
+     */
     private static function insertMovie($jsonsFilm)
     {
 
@@ -141,12 +170,12 @@ class AdminLogin extends Page{
                 if($json){
                     
                     $dados = [
-                        "titulo" => $json->title,
+                        "titulo" => str_replace(['"', "'"], '', $json->title),
                         "adulto" => isset($json->adult) ? (int) filter_var($json->adult, FILTER_VALIDATE_BOOLEAN) : null,
                         "ano_lancamento" => isset($json->release_date) ? date("Y", strtotime($json->release_date)) : null,
                         "data_lancamento" => isset($json->release_date) ? $json->release_date : null,
-                        "descricao" => isset($json->overview) ? $json->overview : null,
-                        "tagline" => isset($json->tagline) ? $json->tagline : null,
+                        "descricao" => isset($json->overview) ? str_replace(['"', "'"], '', $json->overview) : null,
+                        "tagline" => isset($json->tagline) ? str_replace(['"', "'"], '', $json->tagline) : null,
                         "duracao" => isset($json->runtime) ? $json->runtime : null,
                         "nota_generica" => isset($json->vote_average) ? $json->vote_average : null,
                         "votos_generico" => isset($json->vote_count) ? $json->vote_count : null,
@@ -180,19 +209,112 @@ class AdminLogin extends Page{
 
     }
 
+    /**
+     * Verifica se a lista de atores já está no banco de dados
+     */
+    private static function verifyActorDuplicated($jsonsActor)
+    {
+
+        $valores = [];
+
+        foreach($jsonsActor as $actor){
+
+            array_push($valores, $actor->name);
+
+        }
+        
+        $namesFormatedArray = array_map(fn($valor)=>
+            $valor = "'". $valor ."'"
+        , $valores);
+
+        $namesFormatedString = implode(", ", $namesFormatedArray);
+
+        $verifyDuplicated = Actors::verificarNomesDuplicados($namesFormatedString);
+     
+        if(count($verifyDuplicated) > 0){
+
+            foreach($jsonsActor as $actor){
+
+                foreach($verifyDuplicated as $index=>$duplicated){
+
+                    if($actor->name == $duplicated["nome"]){
+                        
+                        $jsonsActor = array_splice($jsonsActor, $index, $index);
+
+                    }
+
+                }
+
+            }
+
+            return $jsonsActor;
+
+        }
+
+        return $jsonsActor;
+
+    }
     
+    /**
+     * Método responsável por inserir os atores no banco de dados
+     */
     private static function insertActor($jsonsActor)
     {
         
+        if($jsonsActor){
+
+            $dados = [];
+
+            $actors = self::verifyActorDuplicated($jsonsActor);
+
+            foreach($actors as $json){
+
+                if($json){
+                    
+                    $dados = [
+                        "nome" => $json->name,
+                        "popularidade" => isset($json->popularity) ? $json->popularity : null,
+                        "genero" => isset($json->gender) ? ($json->gender == 1 ? "feminino" : "masculino") : null,
+                        "foto_path" => isset($json->profile_path) ? $json->profile_path : null,
+                    ];
+
+                    if(count($dados) > 0){
+                        
+                        Actors::cadastrar($dados);
+
+                    }
+
+                }
+
+            }
+            
+            return false;
+
+        }
+
+        return true;
+
     }
 
-    public static function insertDb()
+    /**
+     * Método responsável por direcionar os dados json para o método correto
+     */
+    private static function insertDbApi()
     {
 
-        if(isset($_GET["jsonFilm"]) || isset($_GET["jsonActor"])){
+        $getParams = self::$request->getQueryParams();
+
+        if(!isset($_SESSION["admin_id"])){
+
+            die();
+
+        }
+
+        if(isset($getParams["jsonFilm"]) || isset($getParams["jsonActor"])){
         
-            $jsonsFilm = isset($_GET["jsonFilm"]) ?  json_decode($_GET["jsonFilm"]) : null;
-            $jsonsActor = isset($_GET["jsonActor"]) ? json_decode($_GET["jsonActor"]) :  null;
+            $jsonsFilm = isset($getParams["jsonFilm"]) ?  json_decode($getParams["jsonFilm"]) : null;
+
+            $jsonsActor = isset($getParams["jsonActor"]) ? json_decode($getParams["jsonActor"]) :  null;
 
             $erroInsert = false;
 
@@ -220,6 +342,97 @@ class AdminLogin extends Page{
             exit;
 
         }
+
+    }
+
+    private static function verifyActorDuplicatedMan($postActor)
+    {
+
+        $nomeFormatedString = "'".$postActor->nome."'";
+        
+        $verifyDuplicated = Actors::verificarNomesDuplicados($nomeFormatedString);
+     
+        if(count($verifyDuplicated) > 0){
+
+            $postActor = null;
+
+        }
+
+        return $postActor;
+
+    }
+
+    private static function insertActorMan($postActor)
+    {
+
+        if($postActor){
+
+            $dados = [];
+
+            $verifyDuplicated = self::verifyActorDuplicatedMan($postActor);
+
+            if($verifyDuplicated){
+
+                $dados = [
+                    "nome" => $postActor->nome,
+                    "data_nascimento" => $postActor->datanascimento,
+                    "nacionalidade" => $postActor->pais,
+                    "genero" => $postActor->genero,
+                    "foto_path" => $postActor->foto_path,
+                    "popularidade" => $postActor->popularidade
+                ];
+                
+                if(count($dados) > 0){
+                        
+                    Actors::cadastrar($dados);
+
+                }
+
+            }
+
+            return false;
+
+        }
+
+        return true;
+
+    }
+
+    private static function insertMovieMan($postFilm)
+    {
+
+    }
+
+    private static function insertDbMan()
+    {
+     
+        $postFilm = isset($_POST["postFilm"]) ?  json_decode($_POST["postFilm"]) : null;
+        $postActor = isset($_POST["postActor"]) ? json_decode($_POST["postActor"]) :  null;
+
+        $erroInsert = false;
+
+        if($postFilm){
+
+            $erroInsert = self::insertMovieMan($postFilm);
+
+        }else if($postActor){
+
+            $erroInsert = self::insertActorMan($postActor);
+
+        }
+
+        if ($erroInsert) {
+
+            $_SESSION["api_error"] = "Erro ao inserir dados.";
+
+        }else{
+            
+            $_SESSION["api_sucess"] = "Sucesso ao inserir dados";
+
+        }      
+        
+        header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+        exit;
 
     }
 
@@ -275,6 +488,7 @@ class AdminLogin extends Page{
         $sucessMessageApi = $_SESSION["api_sucess"] ?? null;
 
         unset($_SESSION["api_error"]);
+
         unset($_SESSION["api_sucess"]);
 
         if(str_contains("/admin", self::$request->getUri())){
@@ -287,8 +501,9 @@ class AdminLogin extends Page{
 
         $status = !is_null($errorMessage) ? Alert::getError($errorMessage) : "";
 
+        $statusApi = !is_null($errorMessageApi) ? Alert::getError($errorMessageApi) : (!is_null($sucessMessageApi) ? Alert::getSucess($sucessMessageApi) : "");
 
-        $statusApi = $status = !is_null($errorMessageApi) ? Alert::getError($errorMessageApi) : (!is_null($sucessMessageApi) ? Alert::getSucess($sucessMessageApi) : "");
+        print_r($statusApi);
 
         $pageContent = "";
 
@@ -310,7 +525,7 @@ class AdminLogin extends Page{
 
         }
 
-        self::insertDb();
+        self::insertDbApi();
 
         return parent::callRenderPage("template", "Cinerate - Panel Login", $pageContent);
 

@@ -25,12 +25,14 @@ let liSelected = document.querySelector(".menu ul li.selected");
 
 let toggleActived = false;
 
+let lastRadio;
+
 function addSelected() {
 
     li.forEach((li) => {
 
         li.addEventListener("click", () => {
-            
+
             if (liSelected) {
 
                 liSelected.classList.remove("selected");
@@ -181,6 +183,8 @@ function selectType(){
 }
 
 function showOpcoes(){
+    
+    const radioInputs = document.querySelectorAll('input[type="radio"]');
 
     if(opcoes){
 
@@ -193,6 +197,99 @@ function showOpcoes(){
                 if(!opcoe.contains(event.target)){
 
                     opcoe.classList.toggle("actived");
+
+                }
+
+            });
+
+        });
+
+    }
+
+    if(radioInputs){
+
+        radioInputs.forEach((radio) => {
+            
+            radio.addEventListener("change", (event)=>{
+
+                const label = document.querySelector(`label[for="${event.target.id}"]`);
+
+                if(label){
+                    
+                    const labelBros = (label.parentElement).getElementsByTagName("label");
+
+                    if(labelBros){
+
+                        console.log(lastRadio)
+
+                        Array.from(labelBros).forEach((labelBro)=>{
+
+                            if(labelBro.classList.contains("actived") && labelBro !== label){
+
+                                label.classList.remove("actived");
+
+                            }
+
+                            if(labelBro.contains(lastRadio)){
+
+                                labelBro.classList.remove("actived");
+
+                            }
+
+                        });
+
+                    }
+                    
+                    label.classList.toggle("actived");
+
+                    opcoes.forEach((opcoe)=>{
+
+                        if(opcoe.contains(label)){
+
+                            opcoe.classList.remove("actived");
+                                
+                            const parent = opcoe.parentElement;
+
+                            let p = parent?.getElementsByTagName("p")[0];
+
+                            if(p){
+                                
+                                p.innerHTML = `> ${label.textContent}`;
+
+                            }
+
+
+                        }
+
+                    });
+
+                    lastRadio = radio;
+
+                }
+
+            });
+
+        });
+
+    }
+
+}
+
+function checkAtived(){
+
+    const checkBox = document.querySelectorAll('.geners input[type="checkbox"]');
+
+    if(checkBox){
+
+        checkBox.forEach((check)=>{
+
+            check.addEventListener("change", (event)=>{
+
+                const label = document.querySelector(`label[for="${event.target.id}"]`);
+
+                if(label){
+
+                    label.classList.toggle("actived");
 
                 }
 
@@ -532,11 +629,51 @@ function getLocalCustomOption(){
 
 }
 
+function getCategoryBeforeReload(){
+
+    window.addEventListener("beforeunload", ()=>{
+        
+        let imgLiSelected = liSelected?.getElementsByTagName("img")[0]?.id;
+
+        localStorage.setItem("categoriaAtivada", imgLiSelected);
+
+    });
+
+    window.addEventListener("load", ()=>{
+            
+        let localCategoria = localStorage.getItem("categoriaAtivada") ?? null;
+
+        if(localCategoria){
+
+            li.forEach((li)=>{
+
+                let imgLiSelected = li?.getElementsByTagName("img")[0]?.id;
+
+                if(imgLiSelected){
+                        
+                    if(imgLiSelected == localCategoria){
+
+                        return li.click();
+
+                    }
+
+                }
+
+            });
+
+        }
+
+    });
+
+}
+
 showForm();
 showMenu();
 addSelected();
 apiUse();
 selectType();
 showOpcoes();
+checkAtived();
 customModal();
 getLocalCustomOption();
+getCategoryBeforeReload();

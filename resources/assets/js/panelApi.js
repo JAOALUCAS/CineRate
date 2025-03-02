@@ -2,12 +2,13 @@ const apiForms = document.querySelectorAll(".apiForm");
 let jsonContainer;
 let jsonContentExample;
 const castCheck = document.querySelector(".custom-checkbox input");
-const upcreasePage = document.getElementById("upcreasePage");
-const decreasePage = document.getElementById("decreasePage");
+const upcreasePage = document.querySelectorAll(".upcreasePage");
+const decreasePage = document.querySelectorAll(".decreasePage");
 
 const apiFormCadastro = document.querySelectorAll(".api-form .api-cadastro");
 
-let apiPage = 1;
+let apiPageActor = 1;
+let apiPageFilm = 1;
 
 const options = {
     method: 'GET',
@@ -124,7 +125,7 @@ async function getDetails() {
 
     try{
 
-        const response = fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=true&language=pt-BR&page=${apiPage}&sort_by=popularity.desc`, options);
+        const response = fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=true&language=pt-BR&page=${apiPageFilm}&sort_by=popularity.desc`, options);
 
         const data = (await response).json();
 
@@ -199,6 +200,10 @@ async function showResponseJson(){
                 if(typeof(values[i]) == "object"){
 
                     values[i] = JSON.stringify(values[i]);
+
+                }else if(typeof(values[i]) == "string"){
+
+                    values[i] = values[i].replace(/["']/g, '');
 
                 }
     
@@ -297,7 +302,7 @@ async function getPopularsActor() {
     
     try{
         
-        const response = await fetch(`https://api.themoviedb.org/3/person/popular?page=${apiPage}`, options);
+        const response = await fetch(`https://api.themoviedb.org/3/person/popular?page=${apiPageActor}`, options);
  
         const data = (await response).json();
 
@@ -311,19 +316,27 @@ async function getPopularsActor() {
 
 }
 
-function showApiPage(){
+function showApiPage(container = null){
     
-    let pageNum = document.getElementById("pageNum");
+    let pageNum = document.querySelectorAll(".pageNum");
 
     if(pageNum){
-        
-        pageNum.innerHTML = "Page "+apiPage;
 
-        setTimeout(()=>{
-            pageNum.classList.add("roll");
-        },100);
+        pageNum.forEach((pageNum)=>{
 
-        pageNum.classList.remove("roll");
+            if(container?.contains(pageNum)){
+                    
+                pageNum.innerHTML = "Page " + (container.classList.contains("actor-api-form") ? apiPageActor : apiPageFilm);
+
+                setTimeout(()=>{
+                    pageNum.classList.add("roll");
+                },100);
+
+                pageNum.classList.remove("roll");
+
+            }
+
+        });
 
     }
 
@@ -333,23 +346,68 @@ function pageApiUpdate(){
 
     if(upcreasePage && decreasePage){
 
-        upcreasePage.addEventListener("click", ()=>{
+        upcreasePage.forEach((upcreasePage)=>{
+                
+            upcreasePage.addEventListener("click", ()=>{
+                
+                let upContainer = upcreasePage.closest(".actor-api-form") || upcreasePage.closest(".film-api-form");
+                
+                let classes = upContainer.classList;
 
-            apiPage++;
-            
-            showApiPage();
+                classes.forEach((classe)=>{
+
+                    if(classe.includes("actor")){
+                            
+                        apiPageActor++;
+
+                    }else if(classe.includes("film")){
+                            
+                        apiPageFilm++;
+
+                    }
+
+                });
+
+                showApiPage(upContainer);
+
+            });
 
         });
 
-        decreasePage.addEventListener("click", ()=>{
+        decreasePage.forEach((decreasePage)=>{
+                
+            decreasePage.addEventListener("click", ()=>{
+                                
+                let deContainer = decreasePage.closest(".actor-api-form") || decreasePage.closest(".film-api-form");
 
-            if(apiPage !== 1){
+                let classes = deContainer.classList;
 
-                apiPage--;
+                classes.forEach((classe)=>{
 
-            }
-            
-            showApiPage();
+                    if(classe.includes("actor")){
+                            
+                        if(apiPageActor !== 1){
+
+                            apiPageActor--;
+
+                        }
+
+                    }else if(classe.includes("film")){
+                            
+                        if(apiPageFilm !== 1){
+
+                            apiPageFilm--;
+
+                        }
+
+                    }
+
+                });
+
+                showApiPage(deContainer);
+
+            });
+
 
         });
 

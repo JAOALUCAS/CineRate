@@ -3,6 +3,7 @@
 use \App\controllers\pages\Auth;
 use \App\http\Request;
 use \App\http\Router;
+use \App\session\Session;
 
 $request = new Request();
 
@@ -21,5 +22,7 @@ $router->add("GET", "/Account/Code", Auth::authGetPage("email/codeVerifyContent"
 
 // Rota codigo de verificação post
 $router->add("POST", "/Account/Code", [Auth::class, 'codeVerify']);
+
+$router->add("GET", "/Account/Logout", [Session::class, "logout"]);
 
 $router->run($request);

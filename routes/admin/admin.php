@@ -15,6 +15,6 @@ AdminLogin::$request = $request;
 $router->add("GET", "/Admin", AdminLogin::loginGetPage());
 
 // Rota login panel post
-$router->add("POST", "/Admin", [AdminLogin::class, "setLogin"]);
+$router->add("POST", "/Admin", [AdminLogin::class, "directPost"]);
 
 $router->run($request);

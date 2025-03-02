@@ -620,13 +620,14 @@ tbody td {
     height: 300px;
     width: 97%;
     overflow-y: scroll;
+    overflow-x: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     border: 1px rgb(107, 107, 107) solid;
     padding: 20px;
-    transition: 0.3s ease-in-out;
+    transition: 0.4s ease-in-out;
     display: none;
 }
 
@@ -661,6 +662,33 @@ tbody td {
     align-items: center;
     padding: 10px;
     margin: 20px;
+}
+
+.gener-sx{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.gener-sx input{
+    display: none;
+}
+
+.gener-sx label{
+    width: 50%;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.048);
+    box-shadow: 1px 1px 1px rgba(128, 128, 128, 0.212);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.gener-sx label img{
+    height: 20px;
 }
 
 #br-label { background: linear-gradient(90deg, green 40%, yellow 40%, yellow 60%, blue 60%); }
@@ -778,7 +806,7 @@ tbody td {
     cursor: pointer;
 }
 
-#upcreasePage{
+.upcreasePage{
     transform: rotateZ(180deg);
 }
 
@@ -942,3 +970,11 @@ input[type="date"]::-webkit-calendar-picker-indicator  {
     }
 }
 
+label.actived{
+    background-color: #42526354 !important;
+}
+
+.alert{
+    z-index: 999;
+    left: 20%;
+}

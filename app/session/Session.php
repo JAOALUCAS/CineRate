@@ -2,6 +2,8 @@
 
 namespace App\session;
 
+use App\http\Request;
+
 class Session{
 
     /**
@@ -46,6 +48,8 @@ class Session{
         if(session_status() == PHP_SESSION_ACTIVE){
 
             session_destroy();
+
+            return (new Request)->getRouter()->redirect("");
 
         }
 
