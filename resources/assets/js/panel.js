@@ -19,7 +19,6 @@ const customOption = document.querySelectorAll(".custom-option");
 const confirmCustomOption = document.querySelectorAll(".confirm-custom-option");
 
 let labels = [];
-let inputs = [];
 
 let liSelected = document.querySelector(".menu ul li.selected");
 
@@ -184,7 +183,9 @@ function selectType(){
 
 function showOpcoes(){
     
-    const radioInputs = document.querySelectorAll('input[type="radio"]');
+    let radioInputs = document.querySelectorAll('input[type="radio"]');
+
+    console.log(radioInputs)
 
     if(opcoes){
 
@@ -219,8 +220,6 @@ function showOpcoes(){
                     const labelBros = (label.parentElement).getElementsByTagName("label");
 
                     if(labelBros){
-
-                        console.log(lastRadio)
 
                         Array.from(labelBros).forEach((labelBro)=>{
 
@@ -377,17 +376,25 @@ function customModal(){
 
             let modal;
 
-            customOption.forEach((customOption)=>{
-                    
-                p = customOption.getElementsByTagName("p");
+            let confirm;
 
-                modal = customOption.querySelector(".modal");
+            customOption.forEach((customOption)=>{
+
+                if(customOption.contains(event.target)){   
+                            
+                    p = customOption.getElementsByTagName("p");
+
+                    modal = customOption.querySelector(".modal");
+
+                    confirm = customOption.querySelector(".confirm-custom-option");
+
+                }
 
             });
 
-            if(p && modal){
+            if(p && modal && confirm){
 
-                if(p[0].contains(event.target) || modal.contains(event.target)){
+                if(p[0].contains(event.target) || modal.contains(event.target) && !confirm.contains(event.target)){
 
                     modal.style.display = "flex";
 
@@ -415,7 +422,11 @@ function customModal(){
 
                 modal.forEach((modal)=>{
 
-                    modal.style.display = "none";
+                    if(modal.contains(confirm)){
+
+                        modal.style.display = "none !important";
+
+                    }
 
                 });
 
@@ -485,13 +496,15 @@ function customModal(){
 
                         newLabel.textContent = valorInput;
 
+                        newLabel.innerHTML += newInput.outerHTML;
+
                         if(opcoes){
 
                             opcoes.forEach((opcoe)=>{
 
                                 if(opcoe.contains(confirm)){
 
-                                    opcoe.appendChild(newInput);
+                                    document.appendChild(newLabel);
 
                                     opcoe.appendChild(newLabel);
 
@@ -500,8 +513,6 @@ function customModal(){
                             });
 
                         }
-
-                        let localInputs = JSON.parse(localStorage.getItem("inputs")) || [];
 
                         let localLabels = JSON.parse(localStorage.getItem("labels")) || [];
 
@@ -517,21 +528,14 @@ function customModal(){
 
                         });
 
-                        if(localInputs !== null && localLabels !== null){
+                        if(localLabels !== null){
 
                             localLabels.push({
                                 "parent-id": parentDiv.id,
                                 "element":   newLabel.outerHTML
                             });
                             
-                            localInputs.push({
-                                "parent-id": parentDiv.id,
-                                "element":   newInput.outerHTML
-                            });
-                            
                             localStorage.setItem("labels", JSON.stringify(localLabels));
-
-                            localStorage.setItem("inputs",JSON.stringify(localInputs));
 
                         }else{
 
@@ -541,13 +545,6 @@ function customModal(){
                             });
 
                             localStorage.setItem("labels", JSON.stringify(labels));
-
-                            inputs.push({
-                                "parent-id": parentDiv.id,
-                                "element": newInput.outerHTML
-                            });
-
-                            localStorage.setItem("inputs",JSON.stringify(inputs));
 
                         }
 
@@ -567,14 +564,11 @@ function getLocalCustomOption(){
 
     let localLabel =  JSON.parse(localStorage.getItem("labels"));
 
-    let localInputs = JSON.parse(localStorage.getItem("inputs"));
-
-    if(localLabel && localInputs){
+    if(localLabel){
         
         if(opcoes){
 
             let parent = [];
-            let htmlInput = [];
             let htmlLabel = [];
 
             localLabel.forEach((label)=>{
@@ -593,29 +587,19 @@ function getLocalCustomOption(){
 
             });
 
-            localInputs.forEach((input)=>{
-
-                htmlInput.push(input["element"]);
-
-            });
-
             opcoes.forEach((opcoe)=>{
 
                 parent.forEach((parent, index)=>{
 
                     if(opcoe.contains(parent)){
                         
-                        let newInput = document.createElement("div");
+                        let template = document.createElement("div");
 
-                        newInput.innerHTML = htmlInput[index];
+                        template.innerHTML = htmlLabel[index];
+                        
+                        document.body.append(template);
 
-                        let newLabel = document.createElement("div");
-
-                        newLabel.innerHTML = htmlLabel[index];
-
-                        opcoe.appendChild(newInput);
-
-                        opcoe.appendChild(newLabel);
+                        opcoe.appendChild(template);
 
                     }
 
@@ -631,6 +615,8 @@ function getLocalCustomOption(){
 
 function getCategoryBeforeReload(){
 
+    const carregando = document.querySelector(".carregando");
+
     window.addEventListener("beforeunload", ()=>{
         
         let imgLiSelected = liSelected?.getElementsByTagName("img")[0]?.id;
@@ -644,6 +630,14 @@ function getCategoryBeforeReload(){
         let localCategoria = localStorage.getItem("categoriaAtivada") ?? null;
 
         if(localCategoria){
+
+            carregando.style.display = "block";
+            
+            setTimeout(()=>{
+
+                carregando.style.display = "none";
+
+            }, 500);
 
             li.forEach((li)=>{
 
@@ -672,8 +666,8 @@ showMenu();
 addSelected();
 apiUse();
 selectType();
-showOpcoes();
 checkAtived();
 customModal();
 getLocalCustomOption();
 getCategoryBeforeReload();
+showOpcoes();

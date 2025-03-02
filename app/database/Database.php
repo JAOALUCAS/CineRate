@@ -72,6 +72,8 @@ class Database{
             $statement = $this->connection->prepare($sql);
 
             $statement->execute($params);
+            
+            $_SESSION["last_id"] = $this->connection->lastInsertId();
 
             return $statement->fetchAll(PDO::FETCH_ASSOC);
 

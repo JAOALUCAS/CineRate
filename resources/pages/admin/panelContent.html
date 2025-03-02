@@ -69,6 +69,36 @@
 
             </div>
 
+            <div class="panels-config">
+
+                <div class="option-config">
+                        
+                    <h2>Apagar váriaveis de customizadas? </h2>
+
+                    <button class="btn-warning" id="delete-custom">Apagar customização</button>
+
+                </div>
+
+                
+                <div class="option-config">
+                        
+                    <h2>Apagar eventos do calendário? </h2>
+
+                    <button class="btn-warning" id="delete-all-calendar-events">Apagar todos eventos</button>
+
+                </div>
+
+                
+                <div class="option-config" id="option-diminuir">
+                        
+                    <h2>Diminuir tempo até a inserção no banco de dados? </h2>
+
+                    <button class="btn-warning" id="diminui-tempo-db">Diminuir o tempo inser</button>
+
+                </div>
+
+            </div>
+
             <div class="top-calendar-container">
                 
                 <h2>Eventos cadastrados:</h2>
@@ -194,13 +224,13 @@
                 <form method="post" class="man-form">
 
                     <p>Título do filme: </p>
-                    <input type="text" name="titulo" id="titulo" required placeholder="Ex: O Poderoso Chefão">
+                    <input type="text" name="titulo" id="titulo" required placeholder="Ex: O Poderoso Chefão" maxlength="200">
                     
                     <p>Descrição do filme: </p>
                     <textarea name="descricao" rows="5" cols="5" required placeholder="Ex: A saga da família Corleone no mundo da máfia."></textarea>
                     
                     <p>Tagline do filme: </p>
-                    <input type="text" name="tagline" id="tagline" placeholder="Ex: Mantenha seus amigos por perto e seus inimigos mais perto.">
+                    <input type="text" name="tagline" id="tagline" placeholder="Ex: Mantenha seus amigos por perto e seus inimigos mais perto." maxlength="255">
                     
                     <p>Data de lançamento do filme: </p>
                     <input type="date" name="datalancamento" required id="datalancamento">
@@ -218,10 +248,10 @@
                     <input type="number" name="bilheteria" placeholder="Ex: 5.000.000">
                     
                     <p>Poster url:</p>
-                    <input type="text" name="poster" placeholder="Ex: https://exemplo.com/poster.jpg">
+                    <input type="text" name="poster" placeholder="Ex: https://exemplo.com/poster.jpg" maxlength="500">
                     
                     <p>Trailer url:</p>
-                    <input type="text" name="trailer" placeholder="Ex: https://youtu.be/código-do-trailer">
+                    <input type="text" name="trailer" placeholder="Ex: https://youtu.be/código-do-trailer" maxlength="500">
                     
                     <div class="streamings">
 
@@ -260,7 +290,7 @@
 
                             </label>
                         
-                            <label for="disney-stream>
+                            <label for="disney-stream">
 
                                 <input type="radio" name="streaming" value="disney" id="disney-stream">
 

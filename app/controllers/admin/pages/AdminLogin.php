@@ -194,6 +194,8 @@ class AdminLogin extends Page{
                     if(count($dados) > 0){
                         
                         Films::cadastrar($dados);
+                        
+                        Admin::cadastrarInsercao();
 
                     }
 
@@ -281,6 +283,8 @@ class AdminLogin extends Page{
                     if(count($dados) > 0){
                         
                         Actors::cadastrar($dados);
+                        
+                        Admin::cadastrarInsercao();
 
                     }
 
@@ -304,9 +308,17 @@ class AdminLogin extends Page{
 
         $getParams = self::$request->getQueryParams();
 
-        if(!isset($_SESSION["admin_id"])){
+        foreach($getParams as $get){
 
-            die();
+            if(trim($get) !== "" && strlen($get) > 0){
+                        
+                if(!isset($_SESSION["admin_id"])){
+
+                    die();
+
+                }
+
+            }
 
         }
 
@@ -345,6 +357,9 @@ class AdminLogin extends Page{
 
     }
 
+    /**
+     * Método responsável por verificar se a inserção de post do ator já existe
+     */
     private static function verifyActorDuplicatedMan($postActor)
     {
 
@@ -362,6 +377,9 @@ class AdminLogin extends Page{
 
     }
 
+    /**
+     * Método responsável por inserir o ator via post
+     */
     private static function insertActorMan($postActor)
     {
 
@@ -386,6 +404,8 @@ class AdminLogin extends Page{
                         
                     Actors::cadastrar($dados);
 
+                    Admin::cadastrarInsercao();
+
                 }
 
             }
@@ -398,11 +418,79 @@ class AdminLogin extends Page{
 
     }
 
+    /**
+     * Método responsável por verificar se o post de film já existe no banco de dados
+     */
+    private static function verifyFilmDuplicatedMan($postFilm)
+    {
+
+        $nomeFormatedString = "'".$postFilm->titulo."'";
+        
+        $verifyDuplicated = Films::verificarFilmesDuplicados($nomeFormatedString);
+     
+        if(count($verifyDuplicated) > 0){
+
+            $postFilm = null;
+
+        }
+
+        return $postFilm;
+
+    }
+    
+    /**
+     * Método responsável por inserir o filme via post
+     */
     private static function insertMovieMan($postFilm)
     {
 
+        if($postFilm){
+
+            $dados = [];
+
+            $verifyDuplicated = self::verifyFilmDuplicatedMan($postFilm);
+            
+            if($verifyDuplicated){
+
+                $dados = [
+                    "titulo" => $postFilm->titulo,
+                    "tagline" => $postFilm->tagline,
+                    "descricao" => $postFilm->descricao,
+                    "data_lancamento" => $postFilm->datalancamento,
+                    "ano_lancamento" => preg_split("/-/", $postFilm->datalancamento)[0],
+                    "duracao" => $postFilm->duracao,
+                    "elenco" => $postFilm->elenco,
+                    "orcamento" => $postFilm->orcamento,
+                    "poster" => $postFilm->poster,
+                    "trailer" => $postFilm->trailer,
+                    "streaming" => $postFilm->streaming,
+                    "generos" => $postFilm->generos,
+                    "diretor" => $postFilm->diretor,
+                    "empresa" => $postFilm->empresa,
+                    "pais" => $postFilm->pais
+                ];
+                
+                if(count($dados) > 0){
+                        
+                    Films::cadastrar($dados);
+                    
+                    Admin::cadastrarInsercao();
+
+                }
+
+            }
+
+            return false;
+
+        }
+
+        return true;
+
     }
 
+    /**
+     * Método responsável por gerenciar os posts de filme e atores
+     */
     private static function insertDbMan()
     {
      

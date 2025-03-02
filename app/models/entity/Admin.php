@@ -49,6 +49,19 @@ class Admin{
     }
 
     /**
+     * Método responsável por registrar a inserção de um novo item no banco de dados
+     */
+    public static function cadastrarInsercao()
+    {
+
+        return (new Database("log_insercoes"))->insert([
+            "dado_id" => $_SESSION["last_id"],
+            "quem_inseriu_id" => $_SESSION["admin_id"]
+        ]);
+
+    }
+
+    /**
      * Método responsável por excluir registros
      */
     public function excluir()

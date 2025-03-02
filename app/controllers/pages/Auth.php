@@ -31,10 +31,11 @@ class Auth extends Page{
             return $instancia->setNewUser($postVars);
 
         }else{
-
+            
             return $instancia->setLogin($postVars);
 
         }
+        
 
     }
 

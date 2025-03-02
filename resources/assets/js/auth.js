@@ -103,7 +103,7 @@ function loadingForm(){
 
         forms.forEach((form)=>{
 
-            form.addEventListener("submit", ()=>{
+            form.addEventListener("submit", (event)=>{
 
                 if(carregando){
 
@@ -113,7 +113,7 @@ function loadingForm(){
 
             });          
 
-        });
+        }); 
 
     }
 
@@ -122,9 +122,3 @@ function loadingForm(){
 signUpMode();
 passwordReveal();
 loadingForm();
-
-if (typeof postSend === "function") {
-
-    postSend();
-
-}

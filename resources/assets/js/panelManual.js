@@ -1,10 +1,14 @@
 const manForm = document.querySelectorAll(".man-form");
 
 function formManDb(){
+    
+    const carregando = document.querySelector(".carregando");
 
     manForm.forEach((manForm)=>{
 
         manForm.addEventListener("submit", (event)=>{
+            
+            carregando.style.display = "block";
            
             let dados = {};
 
@@ -36,10 +40,33 @@ function formManDb(){
 
                 Array.from(inputs).forEach((input)=>{
 
-                    if(input.type !== "radio"){
+                    if(input.type !== "radio" && input.type !== "checkbox"){
                         
                         dados[input.name] = input.value;
 
+                    }else if(input.type == "checkbox"){
+
+                        const inputParent = input.parentElement;
+
+                        const labels = inputParent?.getElementsByTagName("label");
+
+                        let generos = [];
+
+                        Array.from(labels).forEach((label)=>{
+
+                            if(label.classList.contains("actived")){
+
+                                generos.push(label.textContent.split(" ")[0]);
+
+                            }
+
+                        });
+
+                        if(generos.length > 0){
+
+                            dados["generos"] = generos;
+
+                        }
 
                     }else{
                         

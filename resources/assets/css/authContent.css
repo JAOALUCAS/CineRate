@@ -234,6 +234,23 @@ body{
     display: none;
 }
 
+.danger-cookie {
+    position: absolute;
+    top: -50%;
+    left: 4.5%;
+    width: 50vw;
+    display: inline-block;
+    background-color: #da4747; 
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    visibility: hidden; 
+    text-align: center;
+    cursor: pointer;
+}
+
+
 @keyframes loading{
     0%{
         transform: rotate(0deg);
@@ -287,5 +304,10 @@ body{
 
     .senhaReveal{
         right: 33%;
+    }
+
+    .danger-cookie{
+        width: 30vw;
+        top: -35%;
     }
 }
