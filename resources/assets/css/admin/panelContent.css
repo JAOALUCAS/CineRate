@@ -424,7 +424,6 @@ li.selected{
     margin-bottom: 15px;
     text-align: center;
 }
-
 .table-container {
     width: 80%;
     overflow-x: auto;
@@ -447,6 +446,12 @@ thead {
 thead th {
     padding: 12px;
     text-transform: uppercase;
+    text-align: center;
+    border-right: 2px #cc4116 solid;
+}
+
+thead th:last-child{
+    border-right: none;
 }
 
 tbody tr {
@@ -459,9 +464,45 @@ tbody tr:hover {
 }
 
 tbody td {
-    padding: 10px;
+    padding: 12px;
     text-align: center;
     color: #d1d5db;
+    overflow: hidden;
+    border-right: 2px #201e1e solid;
+}
+
+tbody td:last-child{
+    border-right: none;
+}
+
+tbody td.acoes {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.acoes button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    width: 40%;
+}
+
+.acoes .btn-editar {
+    background: #2196F3;
+    color: white;
+}
+
+.acoes .btn-excluir {
+    background: #E53935;
+    color: white;
+}
+
+.acoes button:hover {
+    opacity: 0.8;
 }
 
 .form-admin {

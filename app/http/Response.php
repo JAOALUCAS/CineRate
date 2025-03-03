@@ -2,6 +2,8 @@
 
 namespace App\http;
 
+use function PHPSTORM_META\type;
+
 class Response{
 
     /**

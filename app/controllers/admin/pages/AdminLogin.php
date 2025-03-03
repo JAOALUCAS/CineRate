@@ -562,6 +562,50 @@ class AdminLogin extends Page{
     }
 
     /**
+     * Método responsável por retornar todos os admins do banco de dados
+     */
+    private static function getAdmins()
+    {
+
+        $admins = Admin::getAdmins();
+
+        $users = "";
+
+        foreach($admins as $admin){
+
+            $obUser = new User;
+
+            $obUser->id = $admin["usuario_id"];
+
+            $infos = $obUser->getUserById();
+
+            $users .= "<tr>
+                            <td>{$infos[0]["id"]}</td>
+                            <td>{$infos[0]["nome"]}</td>
+                            <td>{$infos[0]["email"]}</td>
+                            <td class='acoes'>
+                                <button class='btn-editar'>Editar</button>
+                                <button class='btn-excluir'>Excluir</button>
+                            </td>
+                        </tr>";
+
+        }
+
+        return $users;
+
+    }
+
+    /**
+     * Método responsável por retornar todas as inserções no banco de dados relacionados a conteúdo
+     *
+     * @return void
+     */
+    private static function getInsercoes()
+    {
+
+    }
+
+    /**
      * Método responsável por retornar as páginas de admin
      */
     public static function loginGetPage($errorMessage = null)
@@ -601,7 +645,8 @@ class AdminLogin extends Page{
                 "visits" => self::getVisits(),
                 "uniqueVisits" => self::getUniqueVisits(),
                 "newUsers"=> self::getNewUsers(),
-                "status" => $statusApi
+                "status" => $statusApi,
+                "admins" => self::getAdmins()
             ]);
 
         }elseif($view == "loginContent"){

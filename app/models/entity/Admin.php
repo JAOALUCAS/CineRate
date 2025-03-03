@@ -56,6 +56,7 @@ class Admin{
 
         return (new Database("log_insercoes"))->insert([
             "dado_id" => $_SESSION["last_id"],
+            "nome_tabela" => $_SESSION["last_table"],
             "quem_inseriu_id" => $_SESSION["admin_id"]
         ]);
 

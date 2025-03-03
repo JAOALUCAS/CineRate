@@ -192,11 +192,12 @@ class Auth extends Page{
         $_SESSION["emailCode"] = self::$verifyEmailCode;
 
         self::$userInfos = [
-            "obUser" => $obUser,
             "nome" => $nome,
             "email" => $email,
             "senha" => $senha
         ];
+
+        $_SESSION["userInfos"] = self::$userInfos;
 
         return $this->sendEmailVerify($email, "register", self::$verifyEmailCode);
 
@@ -261,22 +262,16 @@ class Auth extends Page{
      */
     public static function codeVerify()
     {
-
-        echo "oiii";
         
         $postVars = self::$request->getPostVars();
         
         $code = "";     
 
-        print_r($postVars);
-
         if(isset($postVars)){
-
-            echo "postvars";
 
             foreach($postVars as $key=>$value){
 
-                if(str_contains("digit",$key)){
+                if(str_contains($key, "digit")){
 
                     $code.=$value;
 
@@ -284,15 +279,9 @@ class Auth extends Page{
 
             }
 
-            print_r($code);
-
-            print_r(self::$verifyEmailCode);
-
             if(strlen($code) == 6  && (string)$code == (string)self::$verifyEmailCode){
 
-                echo "entrou";
-                
-                var_dump(self::$userInfos);
+                self::$userInfos = $_SESSION["userInfos"];
 
                 $nome = self::$userInfos["nome"];
 
@@ -300,7 +289,7 @@ class Auth extends Page{
 
                 $senha = self::$userInfos["senha"];
 
-                $obUser = self::$userInfos["obUser"];
+                $obUser = new User;
                         
                 $obUser->nome = $nome;
 
@@ -311,9 +300,9 @@ class Auth extends Page{
                 $userVerify = $obUser->cadastrar();
                 
                 Session::setVars([
-                    "id" => $userVerify[0]["id"],
-                    "nome" => $userVerify[0]["nome"],
-                    "email" => $userVerify[0]["email"]
+                    "id" => $_SESSION["last_id"],
+                    "nome" => self::$userInfos["nome"],
+                    "email" => self::$userInfos["email"]
                 ]);
 
                 return self::$request->getRouter()->redirect("");
@@ -326,8 +315,6 @@ class Auth extends Page{
         
         return self::authGetPage("authContent", "
                 Não foi possivel obter o código digitado. Por favor, tente novamente.");
-
-        
 
     }
 
@@ -362,7 +349,7 @@ class Auth extends Page{
             "status" => $status
         ]);
 
-        return parent::callRenderPage("template", "Cinerate - registrar", $pageContent);
+        return parent::callRenderPage("template", "Cinerate - registrar", $pageContent, false, false);
 
     }
 

@@ -100,16 +100,16 @@ class Page{
      * @param string $view
      * @return string
      */
-    public static function callRenderPage($view, $title, $pageContent)
+    public static function callRenderPage($view, $title, $pageContent, $getHeader = true, $getFooter = true)
     {
 
         $viewName = "pages/" . $view;
 
         return View::renderPage($viewName, [
             "title" => $title,
-            "header" => self::getHeader(),
+            "header" => $getHeader ? self::getHeader() : "",
             "pageContent" => $pageContent,
-            "footer" => self::getFooter()
+            "footer" => $getFooter ? self::getFooter() : ""
         ]);
 
     }
