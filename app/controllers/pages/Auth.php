@@ -101,6 +101,8 @@ class Auth extends Page{
             "email" => $userVerify[0]["email"]
         ]);
 
+        $_SESSION["login_msg"] = true;
+
         return self::$request->getRouter()->redirect("");
 
     }
@@ -304,6 +306,8 @@ class Auth extends Page{
                     "nome" => self::$userInfos["nome"],
                     "email" => self::$userInfos["email"]
                 ]);
+
+                $_SESSION["register_msg"] = true;
 
                 return self::$request->getRouter()->redirect("");
 

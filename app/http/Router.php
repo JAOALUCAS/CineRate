@@ -4,6 +4,8 @@ namespace App\http;
 
 use \App\http\Request;
 use \App\http\Response;
+use \App\controllers\pages\Manutenance;
+use \App\controllers\Erro;
 
 class Router{
 
@@ -69,7 +71,11 @@ class Router{
 
         $args = [];
 
+        $rotinha = null;
+
         foreach($this->routes as $route){
+
+            $rotinha = $route;
 
             if(isset($route["vars"]["variables"])){
                     
@@ -102,6 +108,16 @@ class Router{
                     $function = $route["handler"][1];
                     
                     $route["handler"] = call_user_func([$instance, $function], $request, $args);
+
+                }
+
+                $envValue = getenv("MANUTENANCE");
+                
+                $booleanValue = filter_var($envValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
+                if($booleanValue && !str_contains($uri, "admin")){
+
+                    return (new Response(200, Manutenance::manutenanceGetPage()))->sendResponse();
 
                 }
                 

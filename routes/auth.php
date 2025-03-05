@@ -21,8 +21,9 @@ $router->add("POST", "/Account", [Auth::class, 'decideAuth']);
 $router->add("GET", "/Account/Code", Auth::authGetPage("email/codeVerifyContent"));
 
 // Rota codigo de verificação post
-$router->add("POST", "/Account/Code", [Auth::class, 'codeVerify']);
+$router->add("POST", "/Account/Code", [Auth::class, "codeVerify"]);
 
+// Rota de logout
 $router->add("GET", "/Account/Logout", [Session::class, "logout"]);
 
 $router->run($request);

@@ -1,0 +1,30 @@
+section{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+}
+
+h1{
+    margin-top: 20px;
+}
+
+h1::after{
+    content: "";
+    color: white;
+    animation: typing 5s infinite ease-in-out;
+}
+
+section:first-child{
+    height: 40px;
+}
+
+@keyframes typing{
+    25%{content: "";}
+    50%{content: ".";}
+    75%{content: "..";}
+    100%{content: "...";}
+}

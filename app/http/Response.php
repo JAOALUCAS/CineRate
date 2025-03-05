@@ -2,6 +2,8 @@
 
 namespace App\http;
 
+use App\controllers\Erro;
+
 use function PHPSTORM_META\type;
 
 class Response{
@@ -94,7 +96,7 @@ class Response{
         }
 
     }
-
+    
     /**
      * Método responsável por enviar a resposta
      */

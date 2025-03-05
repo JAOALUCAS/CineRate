@@ -11,39 +11,31 @@ class Admin{
      *
      * @var int
      */
-    public $id;
-
-    /**
-     * Nome do admin
-     *
-     * @var string
-     */
-    public $nome;
-
+    public static $id;
+    
     /**
      * Email do admin
      *
      * @var string
      */
-    public $email;
+    public static $email;
 
     /**
      * Senha do admin
      *
      * @var string
      */
-    public $senha;
+    public static $senha;
 
     /**
      * Método responsável por cadastrar novo admin
      */
-    public function cadastrar()
+    public static function cadastrar()
     {
 
         return (new Database("admins"))->insert([
-            "nome" => $this->nome,
-            "email" => $this->email,
-            "senha" => $this->senha
+            "usuario_id" => self::$id,
+            "senha" => self::$senha
         ]);
 
     }
@@ -65,44 +57,30 @@ class Admin{
     /**
      * Método responsável por excluir registros
      */
-    public function excluir()
+    public static function excluir()
     {
      
-        return (new Database("admins"))->delete("id = ". $this->id);
-
-    }
-
-    /**
-     * Método responsável por atualizar os registros 
-     */
-    public function atualizar()
-    {
-
-        return (new Database("admins"))->update("id = " . $this->id, [
-            "nome" => $this->nome,
-            "email" => $this->email,
-            "senha" => $this->senha
-        ]);
+        return (new Database("admins"))->delete("id = ". self::$id);
 
     }
     
     /**
      * Método responsável por selecionar o admin pelo id
      */
-    public function getAdminById()
+    public static function getAdminById()
     {
 
-        return (new Database("usuarios"))->select("usuario_id = ?", null, null, "*", [$this->id]);
+        return (new Database("admins"))->select("usuario_id = ?", null, null, "*", [self::$id]);
 
     }
     
     /**
      * Método responsável por selecionar o admin pelo email
      */
-    public function getAdminByEmail()
+    public static function getAdminByEmail()
     {
 
-        return (new Database("admin"))->select("email = ?", null, null, "*", [$this->email]);
+        return (new Database("admins"))->select("email = ?", null, null, "*", [self::$email]);
 
     }
 

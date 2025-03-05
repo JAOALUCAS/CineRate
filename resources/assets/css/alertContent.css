@@ -14,6 +14,10 @@
     transition: 0.2s ease-in-out;
 }
 
+.alert img{
+    height: 30px;
+}
+
 #spanTitle{
     text-transform: uppercase;
     font-size: 1.2rem;

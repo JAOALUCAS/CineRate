@@ -20,5 +20,20 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.alert{
+    height: 12vh;
+    width: 100vw !important;
+    position: fixed !important;
+    z-index: 999;
+    font-size: 1.2rem !important;
+    animation: desapear 1.4s;
+}
 
-
+@keyframes desapear{
+    0%{
+        transform: 0;
+    }
+    100%{
+        transform: translateY(-100px);
+    }
+}

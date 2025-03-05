@@ -125,7 +125,7 @@ li.selected{
     filter: none;
 }
 
-.dashboard, .users, .insert{
+.dashboard, .users, .insert, .content{
     width: 90vw;
     display: flex;
     justify-content: center;
@@ -405,11 +405,11 @@ li.selected{
     opacity: 0.65;
 }
 
-.users, .insert{
+.users, .insert, .content{
     display: none;
 }
 
-.users, .film-manual-form, .film-api-form, .actor-manual-form , .actor-api-form{
+.users, .film-manual-form, .film-api-form, .actor-manual-form , .actor-api-form, .content{
     background: #141820;
     padding: 20px;
     border-radius: 12px;
@@ -417,17 +417,54 @@ li.selected{
     margin-top: 20px;
 }
 
-.users h1 {
+.users h1 , .content h1{
     font-size: 24px;
     font-weight: bold;
     color: #ffffff;
     margin-bottom: 15px;
     text-align: center;
 }
+
 .table-container {
     width: 80%;
     overflow-x: auto;
     margin-bottom: 20px;
+}
+
+.pagination-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    color: white;
+}
+
+#pageIndicator{
+    margin-top: 10px;
+}
+
+.pagination-button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.pagination-button:hover {
+    background-color: #0056b3;
+}
+
+.pagination-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.active-page {
+    background-color: #0056b3;
+    font-weight: bold;
 }
 
 table {
@@ -463,6 +500,10 @@ tbody tr:hover {
     background: #1a1f27;
 }
 
+tbody tr:nth-child(odd) {
+    background: #2a2f38; 
+}
+
 tbody td {
     padding: 12px;
     text-align: center;
@@ -478,7 +519,6 @@ tbody td:last-child{
 tbody td.acoes {
     display: flex;
     justify-content: center;
-    gap: 10px;
 }
 
 .acoes button {
@@ -488,12 +528,6 @@ tbody td.acoes {
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
-    width: 40%;
-}
-
-.acoes .btn-editar {
-    background: #2196F3;
-    color: white;
 }
 
 .acoes .btn-excluir {
@@ -505,7 +539,7 @@ tbody td.acoes {
     opacity: 0.8;
 }
 
-.form-admin {
+.form-admin, .last-insert {
     background: #1c2128;
     padding: 20px;
     border-radius: 8px;
@@ -518,7 +552,7 @@ tbody td.acoes {
     margin-bottom: 10px;
 }
 
-.form-admin p, .insert p {
+.form-admin p, .insert p, .content p {
     font-size: 14px;
     color: #a8b3cf;
     margin-bottom: 15px;
@@ -1096,4 +1130,82 @@ label.actived{
     position: fixed !important;
     z-index: 999;
     left: 20%;
+}
+
+.last-insert{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    color: white;
+}
+
+.time-insert{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid white;
+}
+
+.time-insert select{
+    margin-bottom: 20px;
+}
+
+.time-insert select {
+    background-color: #1e1e1e; 
+    color: #ffffff; 
+    border: 1px solid #444; 
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.time-insert select:hover {
+    border-color: #666;
+}
+
+.time-insert select:focus {
+    border-color: #fd5624;
+    box-shadow: 0 0 5px #fd5624;
+}
+
+.time-insert option {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+.time-insert, .relatorios{
+    width: 100%;
+}
+
+.time-insert p{
+    width: 100%;
+    font-size: 18px;
+}
+
+.relatorios{
+    height: 200px;
+    overflow-y: auto;
+}
+
+.selects-insert{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.selects-insert img{
+    height: 18px;
+    margin: 0 5px -5px 15px;
+}
+
+.selects-insert .btn-cadastro{
+    height: 30px;
+    font-size: 13px;
+    padding: 0 10px;
+    margin-left: 20px;
 }

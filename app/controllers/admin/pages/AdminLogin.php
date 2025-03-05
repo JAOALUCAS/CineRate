@@ -5,6 +5,7 @@ namespace App\controllers\admin\pages;
 use \App\Utils\View;
 use \App\database\Database;
 use \App\controllers\Alert;
+use \App\controllers\Manutenance;
 use \App\models\entity\Actors;
 use \App\models\entity\User;
 use \App\models\entity\Visits;
@@ -24,16 +25,23 @@ class AdminLogin extends Page{
     {
 
         $postVars = self::$request->getPostVars();
+        switch (true) {
+            case isset($postVars["adminSenha"]):
+                return self::setLogin();
+        
+            case isset($postVars["postFilm"]) || isset($postVars["postActor"]):
+                return self::insertDbMan();
+        
+            case isset($postVars["newAdmin"]):
+                return self::setNewAdmin();
+        
+            case isset($postVars["deleteAdmin"]):
+                return self::deleteAdmin();
 
-        if(isset($postVars["adminSenha"])){
-
-            return self::setLogin();
-
-        }elseif(isset($postVars["postFilm"]) || isset($postVars["postActor"])){
-
-            return self::insertDbMan();
-
+            case isset($postVars["manutenance"]):
+                return self::defineManutenance();
         }
+        
 
     }
 
@@ -580,12 +588,14 @@ class AdminLogin extends Page{
             $infos = $obUser->getUserById();
 
             $users .= "<tr>
-                            <td>{$infos[0]["id"]}</td>
+                            <td>{$admin["id"]}</td>
                             <td>{$infos[0]["nome"]}</td>
                             <td>{$infos[0]["email"]}</td>
                             <td class='acoes'>
-                                <button class='btn-editar'>Editar</button>
-                                <button class='btn-excluir'>Excluir</button>
+                                <form method='post' class='delete-admin'>
+                                    <input type='hidden' name='idDelete' value='{$admin["id"]}'>
+                                    <button class='btn-excluir'>Excluir</button>
+                                </form>
                             </td>
                         </tr>";
 
@@ -596,12 +606,232 @@ class AdminLogin extends Page{
     }
 
     /**
-     * Método responsável por retornar todas as inserções no banco de dados relacionados a conteúdo
-     *
-     * @return void
+     * Método responsável por retornar opções de busca por inserção
      */
+    private static function getSelectsInsercoes()
+    {
+        //Verifica se tem coisa
+
+        $adminsOptions = "<option value='nenhum'>nenhum</option>";
+
+        $admins = Admin::getAdmins();
+
+        $ids = "";
+
+        foreach($admins as $admin){
+
+            $ids .= "'{$admin['usuario_id']}',";
+
+
+        }
+
+        $where = "id IN(" . substr($ids, 0, (strlen($ids) - 1)) . ")";
+
+        if($where){
+
+            $users = User::getUsers($where);
+
+            foreach($users as $user){
+                            
+                    $adminsOptions .= "
+                        <option value='{$user['nome']}'>{$user['nome']}</option>
+                    ";
+
+            }
+
+
+        }
+
+        return "<div class='selects-insert'>
+                             
+                    <form method='post'>
+
+                        <img src='../../../resources/assets/icons/icons8-filtro-50.png'>
+
+                        <select name='opt-time'>
+
+                            <option value='nenhum'>nenhum</option>
+                            <option value='1hr'>última hora</option>
+                            <option value='3hr'>última 3 horas</option>
+                            <option value='1d'>último dia</option>
+                            <option value='3d'>último 3 dias</option>
+                            <option value='1s'>última semana</option>
+                            <option value='1m'>último mês</option>
+                            <option value='3m'>últimos três meses</option>
+
+                        </select>
+
+                        <img src='../../../resources/assets/icons/icons8-filtro-50.png'>
+                        
+                        <select name='opt-admin'>
+
+                            $adminsOptions
+
+                        </select>
+
+                        <button class='btn-cadastro'>Fazer Buscar</button>
+
+                    </form>
+
+                </div>";
+
+    }
+
     private static function getInsercoes()
     {
+
+        $db = (new Database("log_insercoes"))->select();
+
+        print_r($db);
+        die();
+
+    }
+
+    /**
+     * Método responsável por inserir um novo admin no banco
+     */
+    private static function setNewAdmin()
+    {
+
+        $postEmail = isset($_POST["newAdminEmail"]) ? $_POST["newAdminEmail"] : null;
+        
+        unset($_POST["newAdminEmail"]);
+
+        if($postEmail){
+
+            $obUser = new User;
+
+            $obUser->email = $postEmail;
+
+            $verifyExist = $obUser->getUserByEmail();
+
+            if(count($verifyExist) > 0){
+
+                Admin::$id = $verifyExist[0]["id"];
+
+                $verifyAdmin = Admin::getAdminById();
+
+                if(count($verifyAdmin) > 0){
+                            
+                    $_SESSION["api_error"] = "O usuário requisitado já é um administrador do site!";                    
+                        
+                    header("Location: /admin");
+                    exit();
+
+                }
+
+                $_SESSION["api_sucess"] = "Usuário inserido com sucesso!";
+
+                Admin::$senha = $verifyExist[0]["senha"];
+
+                Admin::cadastrar();
+
+                header("Location: /admin");
+                exit();
+
+            }
+
+            $_SESSION["api_error"] = "O usuário requisitado não existe!";
+            
+            header("Location: /admin");
+            exit();
+            
+        }
+
+    }
+
+    /**
+     * Método responsável por deletar um admin do banco de dados
+     */
+    private static function deleteAdmin()
+    {
+
+        $id = isset($_POST["idDelete"]) ? $_POST["idDelete"] : null;
+
+        if($id){
+
+            if($_SESSION["admin_id"] == $id){
+                        
+                $_SESSION["api_error"] = "Não é possivel excluir a si mesmo!";
+
+                header("Location: /admin");
+                exit();
+
+            }
+
+            Admin::$id = $id;
+
+            Admin::excluir();
+
+            $_SESSION["api_sucess"] = "Usuário excluido com sucesso!";
+        
+            header("Location: /admin");
+            exit();
+
+        }
+
+        $_SESSION["api_error"] = "Não apague o id do usuário!";
+
+        header("Location: /admin");
+        exit();
+
+    }
+
+    /**
+     * Método responsável por definir a manutenção das páginas
+     */
+    private static function defineManutenance()
+    {
+
+        $statusServer = isset($_POST["manutenanceForm"]) ? $_POST["manutenanceForm"] : null;
+
+        if(isset($statusServer)){
+            
+            $booleanValue = filter_var($statusServer, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+            
+            Manutenance::defineStatus($booleanValue);
+            
+            $_SESSION["api_sucess"] = "Status de manutenção definido com sucesso!";
+                
+            header("Location: /admin");
+            exit();
+
+        }
+
+        $_SESSION["api_error"] = "Status de manutenção não pode ser definido!";
+    
+        header("Location: /admin");
+        exit();
+
+    }
+
+    private static function getManutenanceBtn()
+    {
+
+        $envValue = getenv("MANUTENANCE");
+                
+        $booleanValue = filter_var($envValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        
+        $msg = "Colocar em Manutenção";
+
+        $value = "true";
+
+        $class = "danger";
+        
+        if($booleanValue){
+            
+            $msg = "Tirar da manutenção";
+
+            $value = "false";
+
+            $class = "cadastro";
+
+        }
+
+        return "<form method='post' class='manutenance-form'>
+                    <input type='hidden' name='manutenanceForm' value='$value'>
+                    <button class='btn-$class' id='btn-manutenance'>$msg</button>
+                </form>";
 
     }
 
@@ -610,6 +840,8 @@ class AdminLogin extends Page{
      */
     public static function loginGetPage($errorMessage = null)
     {
+        
+        unset($_POST["deleteAdmin"]);
 
         $view = "";
 
@@ -635,8 +867,6 @@ class AdminLogin extends Page{
 
         $statusApi = !is_null($errorMessageApi) ? Alert::getError($errorMessageApi) : (!is_null($sucessMessageApi) ? Alert::getSucess($sucessMessageApi) : "");
 
-        print_r($statusApi);
-
         $pageContent = "";
 
         if($view == "panelContent"){
@@ -646,7 +876,9 @@ class AdminLogin extends Page{
                 "uniqueVisits" => self::getUniqueVisits(),
                 "newUsers"=> self::getNewUsers(),
                 "status" => $statusApi,
-                "admins" => self::getAdmins()
+                "admins" => self::getAdmins(),
+                "btn-manutencao" => self::getManutenanceBtn(),
+                "selects" => self::getSelectsInsercoes()
             ]);
 
         }elseif($view == "loginContent"){

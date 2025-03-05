@@ -17,6 +17,7 @@ const filmApi =  document.querySelector(".film-api-form");
 const actorApi = document.querySelector(".actor-api-form");
 const customOption = document.querySelectorAll(".custom-option");
 const confirmCustomOption = document.querySelectorAll(".confirm-custom-option");
+const carregando = document.querySelector(".carregando");
 
 let labels = [];
 
@@ -25,6 +26,8 @@ let liSelected = document.querySelector(".menu ul li.selected");
 let toggleActived = false;
 
 let lastRadio;
+
+let tablePagina = 1;
 
 function addSelected() {
 
@@ -184,8 +187,6 @@ function selectType(){
 function showOpcoes(){
     
     let radioInputs = document.querySelectorAll('input[type="radio"]');
-
-    console.log(radioInputs)
 
     if(opcoes){
 
@@ -615,8 +616,6 @@ function getLocalCustomOption(){
 
 function getCategoryBeforeReload(){
 
-    const carregando = document.querySelector(".carregando");
-
     window.addEventListener("beforeunload", ()=>{
         
         let imgLiSelected = liSelected?.getElementsByTagName("img")[0]?.id;
@@ -661,6 +660,168 @@ function getCategoryBeforeReload(){
 
 }
 
+function adminForm(){
+
+    const newAdminForm = document.querySelector(".new-admin");
+
+    newAdminForm.addEventListener("submit", (event)=>{
+
+        event.preventDefault();
+
+        if(carregando){
+
+            carregando.style.display = "flex";
+
+        }
+
+        const input = document.createElement("input");
+
+        input.type = "hidden";
+
+        input.name = "newAdmin";
+
+        newAdminForm.appendChild(input);
+
+        newAdminForm.submit();
+
+    });
+
+}
+
+function deleteAdmin(){
+
+    const deleteForm = document.querySelectorAll(".delete-admin");
+
+    if(deleteForm){
+
+        deleteForm.forEach((deleteF)=>{
+
+            deleteF.addEventListener("submit", (event)=>{
+
+                event.preventDefault();
+    
+                if(carregando){
+    
+                    carregando.style.display = "flex";
+        
+                }
+        
+                const input = document.createElement("input");
+        
+                input.type = "hidden";
+        
+                input.name = "deleteAdmin";
+        
+                deleteF.appendChild(input);
+                
+                deleteF.submit();
+    
+            });
+
+        });
+
+    }
+
+}
+
+function tablePagination(){
+
+    const table = document.querySelector(".table-container table");
+
+    const limitePagination = 4;
+
+    if(table){
+
+        const tr = table.querySelectorAll("tbody tr");
+        
+        const qtdLinhas = tr.length;
+
+        const qtdPaginas = Math.ceil(qtdLinhas/limitePagination);
+
+        tablePagina = Math.max(1, Math.min(tablePagina, qtdPaginas));
+
+        tr.forEach((linha, index)=>{
+
+            const inicio = (tablePagina - 1) * limitePagination;
+
+            const fim = inicio + limitePagination;
+
+            if (index >= inicio && index < fim) {
+
+                linha.style.display = ""; 
+
+            } else {
+
+                linha.style.display = "none"; 
+
+            }
+
+        });
+        
+        atualizarPaginacao(qtdPaginas);
+
+    }
+
+}
+
+function proximaPagina() {
+    tablePagina++;
+    tablePagination();
+}
+
+function paginaAnterior() {
+    tablePagina--;
+    tablePagination();
+}
+function atualizarPaginacao(qtdPaginas) {
+
+    const pageIndicator = document.getElementById("pageIndicator");
+
+    pageIndicator.textContent = `${tablePagina}`;
+
+    const prevBtn = document.getElementById("prevBtn");
+
+    const nextBtn = document.getElementById("nextBtn");
+
+    
+    prevBtn.removeEventListener("click", paginaAnterior);
+    nextBtn.removeEventListener("click", proximaPagina);
+
+    prevBtn.addEventListener("click", paginaAnterior);
+    nextBtn.addEventListener("click", proximaPagina);
+
+    prevBtn.disabled = tablePagina === 1;
+
+    nextBtn.disabled = tablePagina === qtdPaginas;
+
+}
+
+function defineManutenance(){
+
+    const manutenanceF = document.querySelector(".manutenance-form");
+
+    if(manutenanceF){
+
+        manutenanceF.addEventListener("submit", (event)=>{
+
+            event.preventDefault();
+
+            const newInput = document.createElement("input");
+
+            newInput.type = "hidden";
+
+            newInput.name = "manutenance";
+
+            manutenanceF.appendChild(newInput);
+
+            manutenanceF.submit();
+
+        });
+
+    }
+
+}
+
 showForm();
 showMenu();
 addSelected();
@@ -671,3 +832,7 @@ customModal();
 getLocalCustomOption();
 getCategoryBeforeReload();
 showOpcoes();
+adminForm();
+deleteAdmin();
+tablePagination();
+defineManutenance();

@@ -16,7 +16,8 @@ class Alert{
 
         return View::renderPage("pages/alert", [
             "tipo" => "danger",
-            "mensagem" => $message
+            "mensagem" => $message,
+            "src" => "../../../resources/assets/icons/icons8-reprovado-50.png"
         ]);
  
      }
@@ -31,7 +32,8 @@ class Alert{
 
         return View::renderPage("pages/alert", [
             "tipo" => "success",
-            "mensagem" => $message
+            "mensagem" => $message,
+            "src" => "../../../resources/assets/icons/icons8-aprovado-50.png"
         ]);
 
     }

@@ -65,7 +65,7 @@
 
                 <h2>Definir status de manutenção nas páginas?</h2>
 
-                <button class="btn-danger">Colocar em Manutenção</button>
+                {{btn-manutencao}}
 
             </div>
 
@@ -85,15 +85,6 @@
                     <h2>Apagar eventos do calendário? </h2>
 
                     <button class="btn-warning" id="delete-all-calendar-events">Apagar todos eventos</button>
-
-                </div>
-
-                
-                <div class="option-config" id="option-diminuir">
-                        
-                    <h2>Diminuir tempo até a inserção no banco de dados? </h2>
-
-                    <button class="btn-warning" id="diminui-tempo-db">Diminuir o tempo inser</button>
 
                 </div>
 
@@ -145,6 +136,16 @@
 
             </table>
 
+            <div class="pagination-container">
+
+                <button class="pagination-button" onclick="paginaAnterior()" id="prevBtn">⭠</button>
+
+                <span id="pageIndicator">1</span>
+
+                <button class="pagination-button" onclick="proximaPagina()" id="nextBtn">⭢</button>
+
+            </div>
+
         </div>
 
         <div class="form-admin">
@@ -156,13 +157,9 @@
                 adicionar filmes e atores ao catálogo.</strong>
             </p>
 
-            <form method="post">
-                
-                <input type="text" name="" id="" placeholder="Digite o nome do novo usuário">
+            <form method="post" class="new-admin">
 
-                <input type="email" name="" id="" placeholder="Digite o email do novo usuário">
-
-                <input type="password" name="" id="" placeholder="Digite a senha do novo usuário">
+                <input type="email" name="newAdminEmail" placeholder="Digite o email do novo usuário">
 
                 <button class="btn-cadastro">Cadastrar</button>
 
@@ -941,9 +938,37 @@
 
     </div>
 
-    <div class="complaint"></div>
+    <div class="content">
 
-    <div class="content"></div>
+        <h1>Gerenciador de conteúdos</h1>
+
+        <p>Tenha acesso a todo conteúdo inserido no site</p>
+
+        <div class="last-insert">
+
+            <div class="time-insert">
+
+                <p>Estilos de busca</p>
+
+                {{selects}}
+
+            </div>
+
+            <div class="relatorios">
+
+                {{relatorios}}
+
+            </div>
+
+        </div>
+
+        <div class="search-bd"></div>
+
+
+
+    </div>
+    
+    <div class="complaint"></div>
 
     <div class="help-form"></div>
 
