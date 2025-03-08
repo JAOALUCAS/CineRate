@@ -59,5 +59,68 @@ class Manutenance
         file_put_contents($caminho, implode("\n", $novaEnv) . "\n");
 
     }
+    
+    /**
+     * Método responsável por definir a manutenção das páginas
+     */
+    public static function defineManutenance()
+    {
+
+        $statusServer = isset($_POST["manutenanceForm"]) ? $_POST["manutenanceForm"] : null;
+
+        if(isset($statusServer)){
+            
+            $booleanValue = filter_var($statusServer, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+            
+            Manutenance::defineStatus($booleanValue);
+            
+            $_SESSION["api_sucess"] = "Status de manutenção definido com sucesso!";
+                
+            header("Location: /admin");
+
+            exit();
+
+        }
+
+        $_SESSION["api_error"] = "Status de manutenção não pode ser definido!";
+    
+        header("Location: /admin");
+
+        exit();
+
+    }
+    
+    /**
+     * Método responsável por retornar o botão de manutenção
+     */
+    public static function getManutenanceBtn()
+    {
+
+        $envValue = getenv("MANUTENANCE");
+                
+        $booleanValue = filter_var($envValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        
+        $msg = "Colocar em Manutenção";
+
+        $value = "true";
+
+        $class = "danger";
+        
+        if($booleanValue){
+            
+            $msg = "Tirar da manutenção";
+
+            $value = "false";
+
+            $class = "cadastro";
+
+        }
+
+        return "<form method='post' class='manutenance-form'>
+                    <input type='hidden' name='manutenanceForm' value='$value'>
+                    <button class='btn-$class' id='btn-manutenance'>$msg</button>
+                </form>";
+
+    }
 
 }

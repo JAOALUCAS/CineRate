@@ -1,0 +1,776 @@
+<link rel="stylesheet" href="../../../resources/assets/css/admin/inserts.css">
+
+<div class="insert">
+
+    <h1>Inserir Filmes e atores</h1>
+
+    <div class="tabs">
+
+        <p>Adicione ao catálogo do cinerate conteúdo como filmes, e atores. Utilize o menu abaixo para escolher
+            qual cadastrar e como cadastar, <strong>lembre-se de se certificar das respostas e que antes da
+            inserção total, ficará no gerenciamento de conteúdos do painel. Além disso, suas escolhas de como inserir
+            o conteúdo podem gastar mais ou menos requisições da api, por isso certifique-se do que está fazendo.
+            </strong>
+        </p>
+
+        <div class="chooses">
+
+            <div class="choose-insert-type">
+
+                <h2>O que deseja inserir?</h2>
+
+                <div class="type">
+                        
+                    <button class="btn-insert active" id="film" data-type="movie">Filme</button>
+
+                    <button class="btn-insert" id="actor" data-type="actor">Ator</button>
+
+                </div>
+
+            </div>
+
+            <div class="choose-insert-mode">
+
+                <h2>Usar api?</h2>
+
+                <div class="toggle"></div>
+
+            </div>
+
+        </div>
+
+        <div class="film-manual-form">
+
+            <div class="tittle">
+
+                <h2>Inserir filme de forma manual</h2>
+            
+                <img src="../../../resources/assets/icons/icons8-pressione-o-botão-film-50.png">
+
+            </div>
+
+            <form method="post" class="man-form">
+
+                <p>Título do filme: </p>
+                <input type="text" name="titulo" id="titulo" required placeholder="Ex: O Poderoso Chefão" maxlength="200">
+                
+                <p>Descrição do filme: </p>
+                <textarea name="descricao" rows="5" cols="5" required placeholder="Ex: A saga da família Corleone no mundo da máfia."></textarea>
+                
+                <p>Tagline do filme: </p>
+                <input type="text" name="tagline" id="tagline" placeholder="Ex: Mantenha seus amigos por perto e seus inimigos mais perto." maxlength="255">
+                
+                <p>Data de lançamento do filme: </p>
+                <input type="date" name="datalancamento" required id="datalancamento">
+                
+                <p>Duração do filme: </p>
+                <input type="number" name="duracao" required id="duracao" placeholder="Ex: 175 (em minutos)">
+                
+                <p>Elenco do filme: </p>
+                <input type="text" name="elenco" placeholder="Ex: Marlon Brando, Al Pacino, James Caan">                    
+
+                <p>Orçamento do filme: </p>
+                <input type="number" name="orcamento" placeholder="Ex: 1.000.000">
+
+                <p>Bilheteria do filme:</p>
+                <input type="number" name="bilheteria" placeholder="Ex: 5.000.000">
+                
+                <p>Poster url:</p>
+                <input type="url" name="poster" placeholder="Ex: https://exemplo.com/poster.jpg" maxlength="500">
+                
+                <p>Trailer url:</p>
+                <input type="url" name="trailer" placeholder="Ex: https://youtu.be/código-do-trailer" maxlength="500">
+
+                <p>Nota generica:</p>
+                <input type="number" name="notagenerica" placeholder="Ex: 8.00">
+
+                <p>Votos genericos:</p>
+                <input type="number" name="votosgenerico" placeholder="Ex: 5000">
+                
+                <div class="streamings">
+
+                    <p> > Onde está disponivel</p>
+
+                    <div class="opcoes">
+
+                        <div class="custom-option" id="custom-streaming">
+
+                            <p>+ Adicionar nova opção</p>
+
+                            <div class="modal">
+
+                                <h4>Digite o valor da nova var</h4>
+                                <input type="text" placeholder="Ex: Globo Play">
+
+                                <button class="confirm-custom-option btn-cadastro">Adicionar</button>
+
+                            </div>
+
+                        </div>
+
+                        <label for="netflix-stream">
+
+                            <input type="radio" name="streaming" value="netflix" id="netflix-stream">
+
+                            <img src="../../../resources/assets/imgs-gifs/netflix.png"> Netflix
+
+                        </label>
+                    
+                        <label for="prime">
+
+                            <input type="radio" name="streaming" value="prime" id="prime">
+
+                            <img src="../../../resources/assets/imgs-gifs/prime-video.png"> Prime Video
+
+                        </label>
+                    
+                        <label for="disney-stream">
+
+                            <input type="radio" name="streaming" value="disney" id="disney-stream">
+
+                            <img src="../../../resources/assets/imgs-gifs/disney-plus.jpg"> Disney+
+
+                        </label>
+                    
+                        <label for="hbo">
+
+                            <input type="radio" name="streaming" value="hbo" id="hbo">
+
+                            <img src="../../../resources/assets/imgs-gifs/hbo-max.jpg"> HBO Max
+
+                        </label>
+                    
+                        <label for="youtube">
+
+                            <input type="radio" name="streaming" value="youtube" id="youtube">
+
+                            <img src="../../../resources/assets/imgs-gifs/youtube.webp"> YouTube
+
+                        </label>
+                    
+                        <label for="apple">
+
+                            <input type="radio" name="streaming" value="apple" id="apple">
+
+                            <img src="../../../resources/assets/imgs-gifs/apple-tv.png"> Apple TV+
+
+                        </label>
+                    
+                        <label for="paramount-stream">
+
+                            <input type="radio" name="streaming" value="paramount" id="paramount-stream">
+
+                            <img src="../../../resources/assets/imgs-gifs/paramount-plus.png"> Paramount+
+
+                        </label>
+                    
+                        <label for="star">
+
+                            <input type="radio" name="streaming" value="star" id="star">
+
+                            <img src="../../../resources/assets/imgs-gifs/star-plus.jpg"> Star+
+
+                        </label>
+                    
+                        <label for="google-play">
+
+                            <input type="radio" name="streaming" value="google-play" id="google-play">
+
+                            <img src="../../../resources/assets/imgs-gifs/google-play.png"> Google Play Filmes
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="geners">
+
+                    <p> > Lista de Gêneros</p>
+
+                    <div class="opcoes">
+                        
+                        <div class="custom-option" id="custom-geners">
+
+                            <p>+ Adicionar nova opção</p>
+
+                            <div class="modal">
+
+                                <h4>Digite o valor da nova var</h4>
+                                <input type="text" placeholder="Ex: Cyberpunk">
+
+                                <button class="confirm-custom-option btn-cadastro">Adicionar</button>
+
+                            </div>
+
+                        </div>
+
+                        <input type="checkbox" id="genero-acao" name="genero" value="acao">
+                        <label for="genero-acao">Ação 🔥</label>
+                        
+                        <input type="checkbox" id="genero-aventura" name="genero" value="aventura">
+                        <label for="genero-aventura">Aventura 🗺️</label>
+                        
+                        <input type="checkbox" id="genero-animacao" name="genero" value="animacao">
+                        <label for="genero-animacao">Animação 🏜️</label>
+                        
+                        <input type="checkbox" id="genero-comedia" name="genero" value="comedia">
+                        <label for="genero-comedia">Comédia 🤣</label>
+                        
+                        <input type="checkbox" id="genero-crime" name="genero" value="crime">
+                        <label for="genero-crime">Crime 🕵️</label>
+                        
+                        <input type="checkbox" id="genero-documentario" name="genero" value="documentario">
+                        <label for="genero-documentario">Documentário 📃</label>
+                        
+                        <input type="checkbox" id="genero-drama" name="genero" value="drama">
+                        <label for="genero-drama">Drama 💧</label>
+                        
+                        <input type="checkbox" id="genero-familia" name="genero" value="familia">
+                        <label for="genero-familia">Família 👨‍👩‍👧‍👦</label>
+                        
+                        <input type="checkbox" id="genero-fantasia" name="genero" value="fantasia">
+                        <label for="genero-fantasia">Fantasia 🪄</label>
+                        
+                        <input type="checkbox" id="genero-ficcao" name="genero" value="ficcao-cientifica">
+                        <label for="genero-ficcao">Ficção Científica 🧪</label>
+                        
+                        <input type="checkbox" id="genero-guerra" name="genero" value="guerra">
+                        <label for="genero-guerra">Guerra 🪖</label>
+                        
+                        <input type="checkbox" id="genero-historico" name="genero" value="historico">
+                        <label for="genero-historico">Histórico 🥻</label>
+                        
+                        <input type="checkbox" id="genero-misterio" name="genero" value="misterio">
+                        <label for="genero-misterio">Mistério 🔎</label>
+                        
+                        <input type="checkbox" id="genero-musical" name="genero" value="musical">
+                        <label for="genero-musical">Musical 🎸</label>
+                        
+                        <input type="checkbox" id="genero-romance" name="genero" value="romance">
+                        <label for="genero-romance">Romance 😍</label>
+                        
+                        <input type="checkbox" id="genero-suspense" name="genero" value="suspense">
+                        <label for="genero-suspense">Suspense 🐦‍⬛</label>
+                        
+                        <input type="checkbox" id="genero-terror" name="genero" value="terror">
+                        <label for="genero-terror">Terror 🎃</label>
+
+                    </div>                        
+
+                </div>
+
+                <div class="diretores">
+
+                    <p> > Lista de Diretores</p>
+
+                    <div class="opcoes">
+                        
+                        <div class="custom-option" id="custom-diretores">
+
+                            <p>+ Adicionar nova opção</p>
+
+                            <div class="modal">
+
+                                <h4>Digite o valor da nova var</h4>
+                                <input type="text" placeholder="Ex: Akira Kurosawa">
+
+                                <button class="confirm-custom-option btn-cadastro">Adicionar</button>
+
+                            </div>
+
+                        </div>
+
+                        <label for="spielberg">
+
+                            <input type="radio" name="diretor" value="spielberg" id="spielberg">
+
+                            <img src="../../../resources/assets/imgs-gifs/spielberg.jpg"> Steven Spielberg
+
+                        </label>
+                    
+                        <label for="nolan">
+
+                            <input type="radio" name="diretor" value="nolan" id="nolan">
+
+                            <img src="../../../resources/assets/imgs-gifs/nolan.jpg"> Christopher Nolan
+
+                        </label>
+                    
+                        <label for="tarantino">
+
+                            <input type="radio" name="diretor" value="tarantino" id="tarantino">
+
+                            <img src="../../../resources/assets/imgs-gifs/tarantino.jpg"> Quentin Tarantino
+
+                        </label>
+                    
+                        <label for="scorsese">
+
+                            <input type="radio" name="diretor" value="scorsese" id="scorsese">
+
+                            <img src="../../../resources/assets/imgs-gifs/scorsese.jpg"> Martin Scorsese
+
+                        </label>
+                    
+                        <label for="cameron">
+
+                            <input type="radio" name="diretor" value="cameron" id="cameron">
+
+                            <img src="../../../resources/assets/imgs-gifs/cameron.webp"> James Cameron
+
+                        </label>
+                    
+                        <label for="hitchcock">
+
+                            <input type="radio" name="diretor" value="hitchcock" id="hitchcock">
+
+                            <img src="../../../resources/assets/imgs-gifs/hitchcock.jpg"> Alfred Hitchcock
+
+                        </label>
+                    
+                        <label for="kubrick">
+
+                            <input type="radio" name="diretor" value="kubrick" id="kubrick">
+
+                            <img src="../../../resources/assets/imgs-gifs/kubrick.jpg"> Stanley Kubrick
+
+                        </label>
+                    
+                        <label for="scott">
+
+                            <input type="radio" name="diretor" value="scott" id="scott">
+
+                            <img src="../../../resources/assets/imgs-gifs/scott.jpg"> Ridley Scott
+
+                        </label>
+                    
+                        <label for="jackson">
+
+                            <input type="radio" name="diretor" value="jackson" id="jackson">
+
+                            <img src="../../../resources/assets/imgs-gifs/jackson.jpg"> Peter Jackson
+
+                        </label>
+                    
+                        <label for="miyazaki">
+
+                            <input type="radio" name="diretor" value="miyazaki" id="miyazaki">
+
+                            <img src="../../../resources/assets/imgs-gifs/miyazaki.jpg"> Hayao Miyazaki
+
+                        </label>
+
+                    </div>                   
+                    
+                </div>
+                
+                <div class="empresas">
+
+                    <p> > Lista de Empresas</p>
+
+                    <div class="opcoes">
+                        
+                        <div class="custom-option" id="custom-empresas">
+
+                            <p>+ Adicionar nova opção</p>
+
+                            <div class="modal">
+
+                                <h4>Digite o valor da nova var</h4>
+                                <input type="text" placeholder="Ex: Dream Works">
+
+                                <button class="confirm-custom-option btn-cadastro">Adicionar</button>
+
+                            </div>
+
+                        </div>
+
+                        <input type="radio" name="empresa" value="warner" id="warner">
+                        <label for="warner"><img src="../../../resources/assets/imgs-gifs/warner.jpg"> Warner Bros</label>
+
+                        <input type="radio" name="empresa" value="century" id="century">
+                        <label for="century"><img src="../../../resources/assets/imgs-gifs/century.jpg"> 20th Century Studios</label>
+
+                        <input type="radio" name="empresa" value="universal" id="universal">
+                        <label for="universal"><img src="../../../resources/assets/imgs-gifs/universaljpg.jpg"> Universal Pictures</label>
+
+                        <input type="radio" name="empresa" value="paramount" id="paramount">
+                        <label for="paramount"><img src="../../../resources/assets/imgs-gifs/paramount.jpg"> Paramount Pictures</label>
+
+                        <input type="radio" name="empresa" value="netflix" id="netflix">
+                        <label for="netflix"><img src="../../../resources/assets/imgs-gifs/netflix.png"> Netflix</label>
+
+                        <input type="radio" name="empresa" value="disney" id="disney">
+                        <label for="disney"><img src="../../../resources/assets/imgs-gifs/disneypng.png"> Walt Disney Pictures</label>
+
+                        <input type="radio" name="empresa" value="columbia" id="columbia">
+                        <label for="columbia"><img src="../../../resources/assets/imgs-gifs/columbiajpg.jpg"> Columbia Pictures</label>
+
+                        <input type="radio" name="empresa" value="lionsgate" id="lionsgate">
+                        <label for="lionsgate"><img src="../../../resources/assets/imgs-gifs/lionsgatejpg.jpg"> Lionsgate</label>
+
+                        <input type="radio" name="empresa" value="mgm" id="mgm">
+                        <label for="mgm"><img src="../../../resources/assets/imgs-gifs/mgmjpg.jpg"> MGM</label>
+
+                        <input type="radio" name="empresa" value="ghibli" id="ghibli">
+                        <label for="ghibli"><img src="../../../resources/assets/imgs-gifs/ghibli.jpg"> Studio Ghibli</label>
+
+
+                    </div>
+
+                </div>
+                
+                <div class="paises">
+
+                    <p> > Lista de paises</p>
+
+                    <div class="opcoes">   
+                        
+                        <div class="custom-option" id="custom-paises-film">
+
+                            <p>+ Adicionar nova opção</p>
+
+                            <div class="modal">
+
+                                <h4>Digite o valor da nova var</h4>
+                                <input type="text" placeholder="Ex: Noruega">
+
+                                <button class="confirm-custom-option btn-cadastro">Adicionar</button>
+
+                            </div>
+
+                        </div>
+                          
+                          <input type="radio" name="pais" value="Brasil" id="br">
+                          <label for="br" id="br-label">🇧🇷 Brasil</label>
+                          
+                          <input type="radio" name="pais" value="EUA" id="eua">
+                          <label for="eua" id="eua-label">🇺🇸 Estados Unidos</label>
+                          
+                          <input type="radio" name="pais" value="UK" id="uk">
+                          <label for="uk" id="uk-label">🇬🇧 Reino Unido</label>
+                          
+                          <input type="radio" name="pais" value="Franca" id="franca">
+                          <label for="franca" id="franca-label">🇫🇷 França</label>
+                          
+                          <input type="radio" name="pais" value="Japao" id="japao">
+                          <label for="japao" id="japao-label">🇯🇵 Japão</label>
+                          
+                          <input type="radio" name="pais" value="India" id="india">
+                          <label for="india" id="india-label">🇮🇳 Índia</label>
+                          
+                          <input type="radio" name="pais" value="Italia" id="italia">
+                          <label for="italia" id="italia-label">🇮🇹 Itália</label>
+                          
+                          <input type="radio" name="pais" value="Alemanha" id="alemanha">
+                          <label for="alemanha" id="alemanha-label">🇩🇪 Alemanha</label>
+                          
+                          <input type="radio" name="pais" value="Espanha" id="espanha">
+                          <label for="espanha" id="espanha-label">🇪🇸 Espanha</label>
+                          
+                          <input type="radio" name="pais" value="Coreia" id="coreia">
+                          <label for="coreia" id="coreia-label">🇰🇷 Coreia do Sul</label>
+                          
+                          <input type="radio" name="pais" value="China" id="china">
+                          <label for="china" id="china-label">🇨🇳 China</label>
+                          
+                          <input type="radio" name="pais" value="Canada" id="canada">
+                          <label for="canada" id="canada-label">🇨🇦 Canadá</label>
+                          
+                          <input type="radio" name="pais" value="Russia" id="russia">
+                          <label for="russia" id="russia-label">🇷🇺 Rússia</label>
+                          
+                          <input type="radio" name="pais" value="Argentina" id="argentina">
+                          <label for="argentina" id="argentina-label">🇦🇷 Argentina</label>
+                          
+                          <input type="radio" name="pais" value="Australia" id="australia">
+                          <label for="australia" id="australia-label">🇦🇺 Austrália</label>                              
+
+                    </div>
+                    
+                </div>
+
+                <button class="btn-cadastro">Cadastrar</button>
+
+            </form>
+
+        </div>
+
+        <div class="film-api-form api-form">
+
+            <div class="tittle">
+
+                <h2>Inserir filme via api</h2>
+
+                <img src="../../../resources/assets/icons/icons8-brilhos-50.png">
+
+            </div>
+                            
+            <label class="custom-checkbox">
+
+                <input type="checkbox">
+
+                <span class="checkmark"></span>
+
+                Fazer busca especializada
+
+            </label>
+
+            <div class="choose-randoom-films">
+
+                <p>Buscar filmes de forma randomica</p>
+
+                <form class="apiForm" method="get">
+
+                    <button class="btn-api">Buscar</button>
+
+                </form>
+
+            </div>
+
+            <div class="choose-unique-film">
+
+                <p>Pesquisar filme na api</p>
+
+                <form class="apiForm" method="get">
+
+                    <input type="text" required placeholder="Ex: Vingadores Ultimato">
+
+                    <button class="btn-api">Buscar</button>
+
+                </form>
+
+            </div>
+
+            <div class="json-viewer-container">
+
+                <div class="json-header">
+
+                    <div class="json-header-left">
+                            
+                        <div class="dot red"></div>
+
+                        <div class="dot yellow"></div>
+
+                        <div class="dot green"></div>
+
+                    </div>
+
+                    <div class="json-header-right">
+
+                        <div class="pages">
+
+                            <p class="pageNum">Pages: </p>
+
+                            <img src="../../../resources/assets/icons/icons8-a-esquerda-dentro-de-um-circulo-32.png" class="decreasePage">
+
+                            <img src="../../../resources/assets/icons/icons8-a-esquerda-dentro-de-um-circulo-32.png" class="upcreasePage">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <pre class="json-content json-example"></pre>
+
+            </div>
+            
+            <form class="api-cadastro">
+
+                <button class="btn-cadastro">Cadastrar opções que estão no json</button>
+
+            </form>
+
+        </div>
+
+        <div class="actor-manual-form">
+
+            <div class="tittle">
+
+                <h2>Inserir ator manualmente</h2>
+
+                <img src="../../../resources/assets/icons/icons8-pressione-o-botão-actor-50.png">
+
+            </div>
+
+            <form method="post" class="man-form">
+
+                <p>Nome</p>
+                <input type="text" required name="nome" placeholder="Ex: Robert Pattinson" maxlength="100">
+
+                <p>Gênero</p>
+                <div class="gener-sx">
+
+                    <label for="genero-fem">
+
+                        <input type="radio" name="genero" id="genero-fem" value="feminino">
+                        
+                        <img src="../../../resources/assets/icons/icons8-feminino-50.png">
+
+                    </label>
+
+                    <label for="genero-masc">
+                        
+                        <input type="radio" name="genero" id="genero-masc" value="masculino">
+
+                        <img src="../../../resources/assets/icons/icons8-masculino-32.png">
+
+                    </label>
+                    
+
+                </div>
+
+                <p>Popularidade</p>
+                <input type="number" name="popularidade" placeholder="Ex: 80 de popularidade">
+
+                <p>Foto do famoso</p>
+                <input type="url" name="foto_path" placeholder="Ex: https://exemplo.com/foto.jpg" maxlength="500">
+
+                <p>Data de nascimento</p>
+                <input type="date" required name="datanascimento" placeholder="Ex: 01/01/2001">
+                
+                <div class="paises">
+
+                    <p> > Lista de paises</p>
+
+                    <div class="opcoes">    
+                            
+                            <div class="custom-option" id="custom-paises-actor">
+
+                                <p>+ Adicionar nova opção</p>
+
+                                <div class="modal">
+
+                                    <h4>Digite o valor da nova var</h4>
+                                    <input type="text" placeholder="Ex: Suécia">
+
+                                    <button class="confirm-custom-option btn-cadastro">Adicionar</button>
+
+                                </div>
+
+                            </div>
+                          
+                          <input type="radio" name="pais" value="Brasil" id="br-actor">
+                          <label for="br-actor" id="br-label">🇧🇷 Brasil</label>
+                          
+                          <input type="radio" name="pais" value="EUA" id="eua-actor">
+                          <label for="eua-actor" id="eua-label">🇺🇸 Estados Unidos</label>
+                          
+                          <input type="radio" name="pais" value="UK" id="uk-actor">
+                          <label for="uk-actor" id="uk-label">🇬🇧 Reino Unido</label>
+                          
+                          <input type="radio" name="pais" value="Franca" id="franca-actor">
+                          <label for="franca-actor" id="franca-label">🇫🇷 França</label>
+                          
+                          <input type="radio" name="pais" value="Japao" id="japao-actor">
+                          <label for="japao-actor" id="japao-label">🇯🇵 Japão</label>
+                          
+                          <input type="radio" name="pais" value="India" id="india-actor">
+                          <label for="india-actor" id="india-label">🇮🇳 Índia</label>
+                          
+                          <input type="radio" name="pais" value="Italia" id="italia-actor">
+                          <label for="italia-actor" id="italia-label">🇮🇹 Itália</label>
+                          
+                          <input type="radio" name="pais" value="Alemanha" id="alemanha-actor">
+                          <label for="alemanha-actor" id="alemanha-label">🇩🇪 Alemanha</label>
+                          
+                          <input type="radio" name="pais" value="Espanha" id="espanha-actor">
+                          <label for="espanha-actor" id="espanha-label">🇪🇸 Espanha</label>
+                          
+                          <input type="radio" name="pais" value="Coreia" id="coreia-actor">
+                          <label for="coreia-actor" id="coreia-label">🇰🇷 Coreia do Sul</label>
+                          
+                          <input type="radio" name="pais" value="China" id="china-actor">
+                          <label for="china-actor" id="china-label">🇨🇳 China</label>
+                          
+                          <input type="radio" name="pais" value="Canada" id="canada-actor">
+                          <label for="canada-actor" id="canada-label">🇨🇦 Canadá</label>
+                          
+                          <input type="radio" name="pais" value="Russia" id="russia-actor">
+                          <label for="russia-actor" id="russia-label">🇷🇺 Rússia</label>
+                          
+                          <input type="radio" name="pais" value="Argentina" id="argentina-actor">
+                          <label for="argentina-actor" id="argentina-label">🇦🇷 Argentina</label>
+                          
+                          <input type="radio" name="pais" value="Australia" id="australia-actor">
+                          <label for="australia-actor" id="australia-label">🇦🇺 Austrália</label>                              
+
+                    </div>
+                    
+                </div>
+
+                <button class="btn-cadastro">Cadastrar</button>
+
+            </form>
+
+        </div>
+
+        <div class="actor-api-form api-form">
+
+            <div class="tittle">
+
+                <h2>Inserir ator via api</h2>
+
+                <img src="../../../resources/assets/icons/icons8-brilhos-50.png">
+
+            </div>
+
+            <div class="choose-randoom-actors">
+
+                <p>Buscar atores de forma randomica</p>
+
+                <form class="apiForm" method="get">
+
+                    <button class="btn-api">Buscar</button>
+
+                </form>
+
+            </div>
+            
+            <div class="json-viewer-container">
+
+                <div class="json-header">
+
+                    <div class="json-header-left">
+                            
+                        <div class="dot red"></div>
+
+                        <div class="dot yellow"></div>
+
+                        <div class="dot green"></div>
+
+                    </div>
+
+                    <div class="json-header-right">
+
+                        <div class="pages">
+
+                            <p class="pageNum">Pages: </p>
+
+                            <img src="../../../resources/assets/icons/icons8-a-esquerda-dentro-de-um-circulo-32.png" class="decreasePage">
+
+                            <img src="../../../resources/assets/icons/icons8-a-esquerda-dentro-de-um-circulo-32.png" class="upcreasePage">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <pre class="json-content json-example"></pre>
+
+            </div>
+            
+            <form class="api-cadastro">
+
+                <button class="btn-cadastro">Cadastrar opções que estão no json</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

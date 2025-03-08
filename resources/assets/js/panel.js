@@ -822,6 +822,154 @@ function defineManutenance(){
 
 }
 
+function filterContent(){
+
+    const filterF = document.querySelector(".filter-content");
+
+    
+    if(filterF){
+
+        filterF.addEventListener("submit", (event)=>{
+
+            event.preventDefault();
+
+            const newInput = document.createElement("input");
+
+            newInput.type = "hidden";
+
+            newInput.name = "filterInsert";
+
+            filterF.appendChild(newInput);
+
+            filterF.submit();
+
+        });
+
+    }
+
+}
+
+let valoresIniciais = [];
+
+function showEspecififcRelatorio(){
+
+    const especificBtn = document.querySelectorAll(".especific-btn");
+
+    let btnFechar;
+
+    let btnFecharparent;
+
+    let btnF;
+
+    if(especificBtn){
+
+        especificBtn.forEach((btn)=>{
+
+            btn.addEventListener("click", ()=>{
+
+                const parentEsspecific = (btn.parentElement).parentElement;
+
+                if(parentEsspecific){
+
+                    btnFecharparent = parentEsspecific;
+
+                    const especificsRelatorio = parentEsspecific.querySelector(".most-especific-infos");
+
+                    const inputsE = especificsRelatorio.querySelectorAll("input");
+
+                    inputsE.forEach((input)=>{
+
+                        input.dataset.inicial = input.value;
+
+                        input.addEventListener("input", () => {
+
+                            if (input.value !== input.dataset.inicial) {
+
+                                input.classList.add("modificado");
+
+                            }
+                        });
+
+                    });
+
+                    especificsRelatorio.style.display = "flex";
+
+                    btnFechar = especificsRelatorio.querySelector(".btn-cadastro");
+                        
+                    if(btnFechar){
+
+                        btnFechar.addEventListener("click", ()=>{
+
+                                especificsRelatorio.style.display = "none";
+
+                        });
+
+                    }
+
+                    btnF = especificsRelatorio.querySelector(".btn-danger");
+                    
+                    if(btnF){
+
+                        btnF.addEventListener("click", ()=>{
+
+                            const newForm = document.createElement("form");
+
+                            newForm.method = "post";
+
+                            const newInput = document.createElement("input");
+
+                            newInput.type = "hidden";
+                            
+                            const tabela = (especificsRelatorio.parentElement).querySelector(".infos .tabela-especific");
+
+                            let validate = tabela.textContent == "filmes" ? "Film" : "Actor";
+
+                            newInput.name = "update" + validate;
+
+                            inputsE.forEach((input) => {
+
+                                if (input.value !== input.dataset.inicial) {
+
+                                    let editInput = document.createElement("input");
+
+                                    editInput.type = "hidden";
+
+                                    editInput.name = input.name;
+                                    
+                                    editInput.value = input.value; 
+
+                                    newForm.appendChild(editInput);
+
+                                }
+
+                            });
+                            
+
+                            let value = Number((especificsRelatorio.querySelector(".update-film-id")).textContent.replaceAll(" ",'').split('').filter(elemento => !isNaN(elemento)).join('')); 
+
+                            newInput.value = value;
+
+                            newForm.appendChild(newInput);
+
+                            document.body.appendChild(newForm);
+
+                            newForm.submit();
+
+                        });
+
+                    }
+
+                }
+
+            });
+
+        });
+
+    }
+
+}
+
+
 showForm();
 showMenu();
 addSelected();
@@ -836,3 +984,5 @@ adminForm();
 deleteAdmin();
 tablePagination();
 defineManutenance();
+filterContent();
+showEspecififcRelatorio();

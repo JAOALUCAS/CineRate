@@ -35,6 +35,12 @@
     border: 1px solid #f5c2c7;
 }
 
+.alert-warning{
+    background-color: #fff3cd;
+    background-color: #856404;
+    border: 1px solid #856404; 
+}
+
 .close-btn {
     float: right;
     font-weight: bold;

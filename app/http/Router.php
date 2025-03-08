@@ -71,11 +71,7 @@ class Router{
 
         $args = [];
 
-        $rotinha = null;
-
         foreach($this->routes as $route){
-
-            $rotinha = $route;
 
             if(isset($route["vars"]["variables"])){
                     

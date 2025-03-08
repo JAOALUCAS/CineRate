@@ -7,6 +7,7 @@ use \App\Utils\View;
 use \App\models\entity\User;
 use \App\session\Session;
 use \App\communication\Email;
+use \Exception;
 
 class Auth extends Page{
 
@@ -68,42 +69,47 @@ class Auth extends Page{
 
     }
 
-    /**
+   /**
      * Método responsável por fazer login
      *
      * @param array $postVars
      */
     private function setLogin($postVars)
     {
+        try {
 
-        $paramsValidated = $this->validateInputsLogin($postVars);
-           
-        $email = $paramsValidated["email"] ?? "";
+            $paramsValidated = $this->validateInputsLogin($postVars);
+            
+            $email = $paramsValidated["email"] ?? "";
+            $senha = $paramsValidated["senha"] ?? "";
+            
+            $obUser = new User;
+            $obUser->email = $email;
 
-        $senha = $paramsValidated["senha"] ?? "";
-           
-        $obUser = new User;
+            $userVerify = $obUser->getUserByEmail();
 
-        $obUser->email = $email;
+            if (!$userVerify || !password_verify($senha, $userVerify[0]["senha"])) {
 
-        $userVerify = $obUser->getUserByEmail();
+                return self::authGetPage("authContent", "
+                    A senha informada está incorreta. Verifique suas credenciais e tente novamente.");
 
-        if(!password_verify($senha, $userVerify[0]["senha"])){
+            }
 
-            return self::authGetPage("authContent", "
-                A senha informada está incorreta. Verifique suas credenciais e tente novamente.");
+            Session::setVars([
+                "id" => $userVerify[0]["id"],
+                "nome" => $userVerify[0]["nome"],
+                "email" => $userVerify[0]["email"]
+            ]);
+
+            $_SESSION["login_msg"] = true;
+
+            return self::$request->getRouter()->redirect("");
+
+        } catch (Exception $e) {
+        
+            return self::$request->getRouter()->redirect("/Account");
 
         }
-
-        Session::setVars([
-            "id" => $userVerify[0]["id"],
-            "nome" => $userVerify[0]["nome"],
-            "email" => $userVerify[0]["email"]
-        ]);
-
-        $_SESSION["login_msg"] = true;
-
-        return self::$request->getRouter()->redirect("");
 
     }
 
@@ -167,43 +173,48 @@ class Auth extends Page{
      */
     private function setNewUser($postVars)
     {
+        try {
 
-        $paramsValidated = $this->validateInputsRegister($postVars);
+            $paramsValidated = $this->validateInputsRegister($postVars);
 
-        $email = $paramsValidated["email"] ?? "";
+            $email = $paramsValidated["email"] ?? "";
+            $nome = $paramsValidated["nome"] ?? "";
+            $senha = $paramsValidated["senha"] ?? "";
+            
+            $obUser = new User;
+            $obUser->email = $email;
 
-        $nome = $paramsValidated["nome"] ?? "";
+            $verifyDuplicateEmail = $obUser->getUserByEmail();
 
-        $senha = $paramsValidated["senha"] ?? "";
-        
-        $obUser = new User;
+            if (!empty($verifyDuplicateEmail)) {
 
-        $obUser->email = $email;
+                return self::authGetPage("authContent", "
+                    O e-mail informado já está cadastrado em nosso sistema. Utilize outro e-mail ou recupere sua conta.");
 
-        $verifyDuplicateEmail = $obUser->getUserByEmail();
+            }
 
-        if(!empty($verifyDuplicateEmail)){
+            self::$verifyEmailCode = isset($_SESSION["emailCode"]) ? $_SESSION["emailCode"] : rand(100000, 999999);
 
-            return self::authGetPage("authContent", "
-                O e-mail informado já está cadastrado em nosso sistema. Utilize outro e-mail ou recupere sua conta.");
+            $_SESSION["emailCode"] = self::$verifyEmailCode;
+
+            self::$userInfos = [
+                "nome" => $nome,
+                "email" => $email,
+                "senha" => $senha
+            ];
+
+            $_SESSION["userInfos"] = self::$userInfos;
+
+            return $this->sendEmailVerify($email, "register", self::$verifyEmailCode);
+
+        } catch (Exception $e) {
+            
+            return self::$request->getRouter()->redirect("/Account");
 
         }
 
-        self::$verifyEmailCode = isset($_SESSION["emailCode"]) ? $_SESSION["emailCode"] : rand(100000, 999999);
-
-        $_SESSION["emailCode"] = self::$verifyEmailCode;
-
-        self::$userInfos = [
-            "nome" => $nome,
-            "email" => $email,
-            "senha" => $senha
-        ];
-
-        $_SESSION["userInfos"] = self::$userInfos;
-
-        return $this->sendEmailVerify($email, "register", self::$verifyEmailCode);
-
     }
+
 
     /**
      * Método responsável por enviar emails
@@ -264,63 +275,71 @@ class Auth extends Page{
      */
     public static function codeVerify()
     {
-        
-        $postVars = self::$request->getPostVars();
-        
-        $code = "";     
+        try {
 
-        if(isset($postVars)){
+            $postVars = self::$request->getPostVars();
+            $code = "";     
 
-            foreach($postVars as $key=>$value){
+            if (isset($postVars)) {
 
-                if(str_contains($key, "digit")){
+                foreach ($postVars as $key => $value) {
 
-                    $code.=$value;
+                    if (str_contains($key, "digit")) {
+
+                        $code .= $value;
+
+                    }
+
+                }
+
+                if (strlen($code) == 6 && (string)$code == (string)self::$verifyEmailCode) {
+
+                    self::$userInfos = $_SESSION["userInfos"];
+
+                    $nome = self::$userInfos["nome"];
+
+                    $email = self::$userInfos["email"];
+
+                    $senha = self::$userInfos["senha"];
+
+                    $obUser = new User;
+
+                    $obUser->nome = $nome;
+
+                    $obUser->email = $email;
+
+                    $obUser->senha = password_hash($senha, PASSWORD_DEFAULT);
+
+                    $obUser->cadastrar();
+
+                    Session::setVars([
+                        "id" => $_SESSION["last_id"],
+                        "nome" => self::$userInfos["nome"],
+                        "email" => self::$userInfos["email"]
+                    ]);
+
+                    $_SESSION["register_msg"] = true;
+
+                    return self::$request->getRouter()->redirect("");
 
                 }
 
             }
 
-            if(strlen($code) == 6  && (string)$code == (string)self::$verifyEmailCode){
+            unset($_SESSION["emailCode"]);
 
-                self::$userInfos = $_SESSION["userInfos"];
+            return self::authGetPage("authContent", "
+                Não foi possível obter o código digitado. Por favor, tente novamente.");
 
-                $nome = self::$userInfos["nome"];
+        } catch (Exception $e) {
 
-                $email = self::$userInfos["email"];
-
-                $senha = self::$userInfos["senha"];
-
-                $obUser = new User;
-                        
-                $obUser->nome = $nome;
-
-                $obUser->email = $email;
-
-                $obUser->senha = password_hash($senha, PASSWORD_DEFAULT);
-
-                $userVerify = $obUser->cadastrar();
-                
-                Session::setVars([
-                    "id" => $_SESSION["last_id"],
-                    "nome" => self::$userInfos["nome"],
-                    "email" => self::$userInfos["email"]
-                ]);
-
-                $_SESSION["register_msg"] = true;
-
-                return self::$request->getRouter()->redirect("");
-
-            }
+            
+            return self::$request->getRouter()->redirect("/Account");
 
         }
         
-        unset($_SESSION["emailCode"]);
-        
-        return self::authGetPage("authContent", "
-                Não foi possivel obter o código digitado. Por favor, tente novamente.");
-
     }
+
 
     /**
      * Método responsável por retornar a página de auth

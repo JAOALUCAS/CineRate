@@ -120,7 +120,7 @@ class Database{
         
         $fields = array_keys($values);
 
-        $sql = "UPDATE ".$this->table." SET (".implode("=?",$fields)."=? WHERE ".$where;
+        $sql = "UPDATE ".$this->table." SET ".implode(" = ?, ", $fields)." = ? WHERE ".$where;
 
         return $this->execute($sql, array_values($values));
 

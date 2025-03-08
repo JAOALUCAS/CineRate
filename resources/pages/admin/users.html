@@ -1,0 +1,66 @@
+<link rel="stylesheet" href="../../../resources/assets/css/admin/users.css">
+
+<div class="users">
+
+    <h1>Usuários do painel de controle</h1>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>id</th>
+
+                    <th>nome</th>
+
+                    <th>email</th>
+
+                    <th>ações</th>    
+
+                </tr>
+            
+            </thead>
+
+            <tbody>
+
+                {{admins}}
+                
+            </tbody>
+
+        </table>
+
+        <div class="pagination-container">
+
+            <button class="pagination-button" onclick="paginaAnterior()" id="prevBtn">⭠</button>
+
+            <span id="pageIndicator">1</span>
+
+            <button class="pagination-button" onclick="proximaPagina()" id="nextBtn">⭢</button>
+
+        </div>
+
+    </div>
+
+    <div class="form-admin">
+
+        <h2>Cadastrar um novo usuário ao painel de controle</h2>
+
+        <p><strong>Antes de adicionar um novo membro, lembre-se que o mesmo terá acesso: manipulação e inserção
+            de usuários admins, mudar o status de manutenção do site, lidar com denuncias e formulário de ajuda, 
+            adicionar filmes e atores ao catálogo.</strong>
+        </p>
+
+        <form method="post" class="new-admin">
+
+            <input type="email" name="newAdminEmail" placeholder="Digite o email do novo usuário">
+
+            <button class="btn-cadastro">Cadastrar</button>
+
+        </form>
+
+    </div>
+
+</div>

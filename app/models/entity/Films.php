@@ -50,8 +50,10 @@ class Films{
     /**
      * Método responsável por atualizar o cadastro de filmes
      */
-    public static function atualizar()
+    public static function atualizar($id, $dados)
     {
+
+        return (new Database("filmes"))->update(" id = ". $id, $dados);
 
     }
 

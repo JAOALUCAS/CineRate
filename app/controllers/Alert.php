@@ -8,8 +8,6 @@ class Alert{
 
     /**
      * Método responsável por a mensagem de erro
-     * @param string $message
-     * @return string
      */   
      public static function getError($message)
      {
@@ -24,8 +22,6 @@ class Alert{
 
     /**
      * Método responsável por a mensagem de sucesso
-     * @param string $message
-     * @return string
      */
     public static function getSucess($message)
     {
@@ -34,6 +30,20 @@ class Alert{
             "tipo" => "success",
             "mensagem" => $message,
             "src" => "../../../resources/assets/icons/icons8-aprovado-50.png"
+        ]);
+
+    }
+
+    /**
+     * Método responsável por retornar a mensagem de alerta
+     */
+    public static function getAlert($message)
+    {
+
+        return View::renderPage("pages/alert", [
+            "tipo" => "warning",
+            "mensagem" => $message,
+            "src" => "../../../resources/assets/icons/icons8-atencao-50.png"
         ]);
 
     }

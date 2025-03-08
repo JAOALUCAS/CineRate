@@ -1,0 +1,137 @@
+
+.last-insert{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    color: white;
+}
+
+.time-insert{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid white;
+}
+
+.time-insert select{
+    margin-bottom: 20px;
+}
+
+.time-insert select {
+    background-color: #1e1e1e; 
+    color: #ffffff; 
+    border: 1px solid #444; 
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.time-insert select:hover {
+    border-color: #666;
+}
+
+.time-insert select:focus {
+    border-color: #fd5624;
+    box-shadow: 0 0 5px #fd5624;
+}
+
+.time-insert option {
+    cursor: pointer;
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+.time-insert, .relatorios{
+    width: 100%;
+}
+
+.time-insert p{
+    width: 100%;
+    font-size: 18px;
+}
+
+.relatorios{
+    height: 200px;
+    overflow-y: auto;
+}
+
+.selects-insert{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.selects-insert img{
+    height: 18px;
+    margin: 0 5px -5px 15px;
+}
+
+.selects-insert .btn-cadastro, .relatorio-container .infos .btn-cadastro, .most-especific-infos .btn-especifics-actions button{
+    height: 30px;
+    font-size: 13px;
+    padding: 0 10px;
+    margin-left: 20px;
+}
+
+.relatorio-container{
+    height: 70px;
+    width: 100%;
+    background-color: #0f131b;
+    color: white;
+    margin: 10px 0;
+}
+
+.relatorios p{
+    margin-top: 20px;
+}
+
+.relatorio-container .infos{
+    height: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.most-especific-infos{
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #1c2128;
+    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    z-index: 999;
+    height: 500px;
+    width: 800px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    color: white;
+    top: 10%;
+    left: 24%;
+    border: 1px #52505077 solid;
+}
+
+.most-especific-infos p{
+    margin-top: 520px;
+}
+
+.most-especific-infos input{
+    width: 90%;
+    margin: 5px 0;
+    padding: 10px;
+    color: #7a8598;
+}
+
+.most-especific-infos .btn-especifics-actions{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 100%;
+    padding: 20px 50px;
+}

@@ -26,8 +26,10 @@ class Actors{
     /**
      * Método responsável por atualizar os registros de atores
      */
-    public static function atualizar()
+    public static function atualizar($id, $dados)
     {
+
+        return (new Database("atores"))->update(" id = ".$id, $dados);
 
     }
 
