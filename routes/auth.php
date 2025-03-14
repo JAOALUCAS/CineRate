@@ -26,4 +26,7 @@ $router->add("POST", "/Account/Code", [Auth::class, "codeVerify"]);
 // Rota de logout
 $router->add("GET", "/Account/Logout", [Session::class, "logout"]);
 
+$router->add("GET", "/Account/Passoword",  Auth::authGetPage("senhaApiContent"));
+
+
 $router->run($request);

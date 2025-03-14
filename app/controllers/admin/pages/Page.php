@@ -25,7 +25,7 @@ class Page{
      * @param string $view
      * @return string
      */
-    public static function callRenderPage($view, $title, $pageContent)
+    public static function callRenderPage($view, $title, $pageContent, $getHeader = true)
     {
 
 
@@ -33,7 +33,7 @@ class Page{
 
         return View::renderPage($viewName, [
             "title" => $title,
-            "header" => self::getHeader(),
+            "header" => $getHeader ? self::getHeader() : "",
             "pageContent" => $pageContent
         ]);
         

@@ -4,43 +4,55 @@
 
     <div class="estatistics">
 
-        <div class="visits">
+        <div class="visits grafic-d" id="v-g">
 
-            <img src="../../../resources/assets/icons/icons8-gráfico-de-barras-50.png">
+            <div class="graf-text">
+                    
+                <img src="../../../resources/assets/icons/icons8-gráfico-de-barras-50.png">
 
-            <div class="text">
+                <div class="text">
 
-                <h3>Visitas no mês</h3>
+                    <h3>Visitas no mês</h3>
 
-                <p>{{visits}}</p>
+                    <p>{{visits}}</p>
+
+                </div>
 
             </div>
 
         </div>
 
-        <div class="unique-visits">
+        <div class="unique-visits grafic-d" id="uv-g">
 
-            <img src="../../../resources/assets/icons/menor-que-e-linha-unica-diferente-do-sinal-matematico.png">
+            <div class="graf-text">
+                
+                <img src="../../../resources/assets/icons/menor-que-e-linha-unica-diferente-do-sinal-matematico.png">
 
-            <div class="text">
+                <div class="text">
 
-                <h3>Visitas únicas no mês</h3>
+                    <h3>Visitas únicas no mês</h3>
 
-                <p>{{uniqueVisits}}</p>
+                    <p>{{uniqueVisits}}</p>
 
-            </div>  
+                </div>  
+                
+            </div>
 
         </div>
 
-        <div class="new-users">
+        <div class="new-users grafic-d" id="new-g">
 
-            <img src="../../../resources/assets/icons/icons8-novo-60.png">
+            <div class="graf-text">
 
-            <div class="text">
+                <img src="../../../resources/assets/icons/icons8-novo-50.png">
 
-                <h3>Novos usuários</h3>
+                <div class="text">
 
-                <p>{{newUsers}}</p>
+                    <h3>Novos usuários</h3>
+
+                    <p>{{newUsers}}</p>
+
+                </div>
 
             </div>
 
@@ -48,9 +60,7 @@
 
     </div>   
 
-    <div class="calendar-container">
-
-        <h1>Dashboard</h1>
+    <div class="dash-container">
 
         <div class="middlewares">
 
@@ -70,27 +80,8 @@
 
             </div>
 
-            
-            <div class="option-config">
-                    
-                <h2>Apagar eventos do calendário? </h2>
-
-                <button class="btn-warning" id="delete-all-calendar-events">Apagar todos eventos</button>
-
-            </div>
-
         </div>
-
-        <div class="top-calendar-container">
-            
-            <h2>Eventos cadastrados:</h2>
-
-            <button class="btn-cadastro">Cadastrar evento</button>
-
-        </div>
-
-        <div class="" id="calendar"></div>
 
     </div>
-
+    
 </div>

@@ -9,7 +9,7 @@ use \App\models\entity\User;
 use \App\models\entity\Admin;
 use App\controllers\admin\ActorsControllers;
 use \App\controllers\admin\FilmsControllers;
-use \App\controllers\admin\InsertsController;
+use \App\controllers\admin\ContentController;
 use \App\controllers\admin\DashboardController;
 use \Exception;
 
@@ -102,7 +102,7 @@ class AdminLogin extends Page{
 
         try {
 
-            $uri = str_contains(self::$request->getUri(), "/admin") ? true : false;
+            $uri = !str_contains(self::$request->getUri(), "/admin") ? true : false;
 
             if (!isset($_SESSION["id"]) && $uri) {
 
@@ -112,21 +112,35 @@ class AdminLogin extends Page{
 
             $userVerify = Admin::getAdmins();
 
+            $idsUsuarios = [];
+
             foreach ($userVerify as $user) {
 
-                if (!isset($user["id"]) && $uri) {
+               array_push($idsUsuarios, $user["usuario_id"]);
 
-                    die();
+            }
 
+            if(!in_array($_SESSION["id"], $idsUsuarios)){
+
+                die();
+
+            }
+
+            foreach($userVerify as $user){
+
+                if($_SESSION["id"] == $user["usuario_id"]){
+
+                    self::$userInfos = $user;        
+                    
                 }
 
             }
 
-            self::$userInfos = $userVerify[0];
-
             if (isset($_SESSION["admin_id"])) {
 
                 return "panelContent";
+
+                Admin::$id = $_SESSION["admin_id"];
 
             }
 
@@ -429,7 +443,7 @@ class AdminLogin extends Page{
     private static function getSelectsInsercoes()
     {
 
-        return InsertsController::getSelectsInsercoes();
+        return ContentController::getSelectsInsercoes();
                 
     }
 
@@ -439,7 +453,7 @@ class AdminLogin extends Page{
     private static function getGenericInsercoes()
     {
         
-        return InsertsController::getGenericInsercoes();
+        return ContentController::getGenericInsercoes();
 
     }
 
@@ -449,7 +463,7 @@ class AdminLogin extends Page{
     private static function getInsercoes()
     {
 
-        return InsertsController::getInsercoes();
+        return ContentController::getInsercoes();
 
     }
 
@@ -638,6 +652,10 @@ class AdminLogin extends Page{
     private static function getContentsView()
     {
 
+        $relatoriosEspecificos = isset($_SESSION["especific_inserts"]) ? $_SESSION["especific_inserts"] : null;
+        
+        unset($_SESSION["especific_inserts"]);
+
         return View::renderPage("pages/admin/content", [
             "selects" => self::getSelectsInsercoes(),
             "relatorios" => isset($relatoriosEspecificos) ? $relatoriosEspecificos : self::getGenericInsercoes()
@@ -670,7 +688,7 @@ class AdminLogin extends Page{
      */
     public static function loginGetPage($errorMessage = null)
     {
-        
+
         unset($_POST["deleteAdmin"]);
 
         $view = "";
@@ -699,13 +717,13 @@ class AdminLogin extends Page{
 
         $status = !is_null($errorMessage) ? Alert::getError($errorMessage) : "";
 
-        $statusApi = !is_null($errorMessageApi) ? Alert::getError($errorMessageApi) : (!is_null($sucessMessageApi) ? Alert::getSucess($sucessMessageApi) : (!is_null($warningMessageApi) ? Alert::getAlert($warningMessageApi) : ""));
+        $statusApi = !is_null($errorMessageApi) ? Alert::getError($errorMessageApi) : (!is_null($sucessMessageApi) ? Alert::getSucess($sucessMessageApi) : '');
+
+        $statusApi = !is_null($warningMessageApi) ? Alert::getAlert($warningMessageApi) : $statusApi;
 
         $pageContent = "";
 
-        $relatoriosEspecificos = isset($_SESSION["especific_inserts"]) ? $_SESSION["especific_inserts"] : null;
-
-        unset($_SESSION["especific_inserts"]);
+        $getHeader = true;
 
         if($view == "panelContent"){
                 
@@ -726,11 +744,13 @@ class AdminLogin extends Page{
                 "status" => $status
             ]);
 
+            $getHeader = false;
+
         }
 
         self::insertDbApi();
 
-        return parent::callRenderPage("template", "Cinerate - Panel Login", $pageContent);
+        return parent::callRenderPage("template", "Cinerate - Panel Login", $pageContent, $getHeader);
 
     }
 

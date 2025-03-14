@@ -103,7 +103,7 @@ class ActorsControllers{
     public static function insertActor($jsonsActor)
     {
 
-        $numInsercoes = 0;
+        $numInsercoes = count($jsonsActor);
 
         try {
 
@@ -112,6 +112,12 @@ class ActorsControllers{
                 $dados = [];
 
                 $actors = self::verifyActorDuplicated($jsonsActor);
+
+                if(count($actors) !== count($jsonsActor)){
+
+                    $numInsercoes--;
+
+                }
 
                 foreach($actors as $json){
 
@@ -125,8 +131,6 @@ class ActorsControllers{
                         ];
 
                         if(count($dados) > 0 && strlen($dados["nome"]) !== 0){
-
-                            $numInsercoes++;
 
                             Actors::cadastrar($dados);
 
@@ -194,7 +198,7 @@ class ActorsControllers{
     public static function insertActorMan($postActor)
     {
 
-        $numInsercoes = 0;
+        $numInsercoes = count($postActor);
 
         try {
 
@@ -203,6 +207,12 @@ class ActorsControllers{
                 $dados = [];
 
                 $verifyDuplicated = self::verifyActorDuplicatedMan($postActor);
+
+                if(count($verifyDuplicated) !== count($postActor)){
+
+                    $numInsercoes--;
+
+                }
 
                 if($verifyDuplicated){
 
@@ -216,8 +226,6 @@ class ActorsControllers{
                     ];
 
                     if(count($dados) > 0){  
-
-                        $numInsercoes++;
 
                         Actors::cadastrar($dados);
 

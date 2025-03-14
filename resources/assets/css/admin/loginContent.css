@@ -1,3 +1,7 @@
+*{
+    overflow: hidden;
+}
+
 .form-container{
     margin-top: 50px;
     display: flex;
@@ -40,7 +44,7 @@ form h2{
     color: white;
     height: 50px;
     width: 380px;
-    background-color: #141820;
+    background-color: #090912;
     outline: none;
     border: none;
     padding-left: 30px;
@@ -67,8 +71,4 @@ form h2{
     position: absolute;
     margin-right: -305px;
     margin-top: -40px;
-}
-
-header{
-    display: none;
 }

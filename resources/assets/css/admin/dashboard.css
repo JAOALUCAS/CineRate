@@ -1,28 +1,14 @@
-
-.dashboard h1{
-    margin-top: 600px;
-    margin-bottom: 30px;
-    color: white;
-}
-
-
-.dashboard .calendar-container{
+.dashboard .dash-container{
     margin-top: 30px;
     width: 100%;
-    height: 400px;
+    height: 100%;
     padding: 20px;
-    background-color: #141820;
-    overflow-y: scroll;
+    background-color: #090912;
+    overflow-y: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding-top: 500px;
-}
-
-#calendar{
-    position: relative;
-    z-index: 1;
 }
 
 .visits, .unique-visits, .new-users{
@@ -32,7 +18,7 @@
 }
 
 .visits img, .unique-visits img, .new-users img{
-    height: 40px;
+    height: 50px;
 }
 
 .text{
@@ -41,67 +27,13 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    color: white;
 }
 
 .text h3{
-    color: #444546;
     margin-bottom: 20px;
+    border-bottom: 1px white solid;
 }
-
-.text p{
-    color: white;
-}
-
-.fc {
-    width: 90%;
-    background-color: #222 !important;
-    color: #fff !important;
-}
-  
-.fc-toolbar-title {
-    color: #fd5624 !important;
-    font-size: 20px;
-}
-
-.fc-col-header-cell {
-    background-color: #444 !important;
-    color: white !important;
-    text-transform: uppercase;
-    font-weight: bold;
-}
-  
-.fc-daygrid-day-number {
-    color: white !important;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.fc-daygrid-day-frame {
-    border: 1px solid #666 !important;
-}
-  
-.fc-daygrid-day {
-    background-color: #333 !important;
-}
-  
-.fc-day-other {
-    background-color: #222 !important;
-    color: #777 !important;
-}
-  
-.top-calendar-container{
-    width: 100%;
-    padding: 0px 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.top-calendar-container h2{
-    color: white;
-}
-
 
 .middlewares{
     width: 100%;
@@ -109,9 +41,8 @@
     justify-content: space-between;
     align-items: center;
     color: white;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    padding: 50px;
+    margin: 10px 0;
+    padding: 15px;
     border-bottom: 1px white solid;
 }
 
@@ -122,7 +53,6 @@
     align-items: center;
     flex-direction: column;
     padding: 50px;
-    margin-bottom: 50px;
     color: white;
 }
 
@@ -143,3 +73,61 @@
 .option-config h2{
     font-size: 15px;
 }
+
+#v-g{
+    background-color: #A4831D;
+}
+
+#uv-g{
+    background-color: #0390dd;
+}
+
+#new-g{
+    background-color: #266A1C;
+}
+
+.grafic-d{
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.graf-text{
+    display: flex;
+    z-index: 3;
+}
+
+.grafic-d::before{
+    content: "";
+    position: absolute;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.74);
+    border-top-left-radius: 15%;
+    height: 100%;
+    width: 10%;
+    top: 100%;
+    left: 100%;
+    transition: top 0.2s ease-in-out, left 0.2s ease-in-out, width 0.2s ease-in-out;
+}
+
+.grafic-d:hover::before{
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-top-left-radius: 0%;
+}
+
+.grafic-d:hover .text{
+    color: #fd5624;
+}
+
+
+.grafic-d:hover .text h3{
+    border-color: #fd5624;
+}
+
+.grafic-d.selected{
+    
+    background-color: white;
+}
+

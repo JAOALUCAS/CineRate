@@ -36,7 +36,7 @@ class FilmsControllers{
         
         if($tamanhoArray !== $numInsercoes){
 
-            $_SESSION["warning_insercoes"] = "Houve algum erro com o número de insercões, apenas " . $tamanhoArray - $numInsercoes . "foram feitas!";
+            $_SESSION["warning_insercoes"] = "Houve algum erro com o número de insercões, apenas " . $tamanhoArray - $numInsercoes . " foram feitas!";
 
         }
 
@@ -108,7 +108,7 @@ class FilmsControllers{
     public static function insertMovie($jsonsFilm)
     {
 
-        $numInsercoes = 0;
+        $numInsercoes = count($jsonsFilm);
 
         try {
 
@@ -117,6 +117,12 @@ class FilmsControllers{
                 $dados = [];
 
                 $films = self::verifyFilmDuplicated($jsonsFilm);
+
+                if(count($films) !== count($jsonsFilm)){
+
+                    $numInsercoes--;
+
+                }
 
                 foreach ($films as $json) {
 
@@ -144,9 +150,7 @@ class FilmsControllers{
                             "streaming_disponivel" => isset($json->homepage) ? self::validateInputsInsert($json->homepage) : null
                         ];                        
 
-                        if (count($dados) > 0 && strlen($dados["titulos"]) !== 0 && strlen($dados["descricao"] !== 0)) {
-
-                            $numInsercoes++;
+                        if (count($dados) > 0 && strlen($dados["titulo"]) !== 0 && strlen($dados["descricao"] !== 0)) {
 
                             Films::cadastrar($dados);
 
@@ -215,7 +219,7 @@ class FilmsControllers{
     public static function insertMovieMan($postFilm)
     {
 
-        $numInsercoes = 0;
+        $numInsercoes = count($postFilm);
 
         try {
 
@@ -224,6 +228,12 @@ class FilmsControllers{
                 $dados = [];
 
                 $verifyDuplicated = self::verifyFilmDuplicatedMan($postFilm);
+
+                if(count($verifyDuplicated) !== $postFilm){
+
+                    $numInsercoes--;
+
+                }
                 
                 if($verifyDuplicated){
 

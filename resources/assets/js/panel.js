@@ -17,7 +17,6 @@ const filmApi =  document.querySelector(".film-api-form");
 const actorApi = document.querySelector(".actor-api-form");
 const customOption = document.querySelectorAll(".custom-option");
 const confirmCustomOption = document.querySelectorAll(".confirm-custom-option");
-const carregando = document.querySelector(".carregando");
 
 let labels = [];
 
@@ -969,6 +968,39 @@ function showEspecififcRelatorio(){
 
 }
 
+function customImgGraphics(){
+
+    const graficD = document.querySelectorAll(".grafic-d");
+
+    graficD.forEach((grafic)=>{
+
+        grafic.addEventListener("mouseover", ()=>{
+
+            const imgSelected = grafic.querySelector(".graf-text img");
+
+            if(imgSelected){
+
+                imgSelected.src = imgSelected.src.replace(".png", "-selected.png");
+
+            }
+
+        });
+
+        grafic.addEventListener("mouseout", ()=>{
+
+            const imgSelected = grafic.querySelector(".graf-text img");
+
+            if(imgSelected){
+
+                imgSelected.src = imgSelected.src.replace("-selected.png", ".png");
+
+            }
+
+        });
+
+    });
+
+}
 
 showForm();
 showMenu();
@@ -986,3 +1018,4 @@ tablePagination();
 defineManutenance();
 filterContent();
 showEspecififcRelatorio();
+customImgGraphics();

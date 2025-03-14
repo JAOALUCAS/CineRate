@@ -8,6 +8,7 @@ use \App\models\entity\User;
 use \App\session\Session;
 use \App\communication\Email;
 use \Exception;
+use Google\Client as GoogleClient;
 
 class Auth extends Page{
 
@@ -25,18 +26,90 @@ class Auth extends Page{
 
         $postVars = self::$request->getPostVars();
 
-        $instancia = new self();
+        switch (true) {
+            case isset($postVars["nome"]):
+                return self::setNewUser($postVars);
 
-        if(isset($postVars["nome"])){
-            
-            return $instancia->setNewUser($postVars);
+            default:
+                return self::setLogin($postVars);
+        }
 
-        }else{
+    }
+
+    /**
+     * Método responsável por definir login usando o google
+     */
+    private static function setLoginGoogle($postVars)
+    {
+
+        $cookie = $_COOKIE["g_csrf_token"] ?? "";
+
+        if($postVars["g_csrf_token"] !== $cookie){
             
-            return $instancia->setLogin($postVars);
+            return self::authGetPage("authContent", "
+                Cookie diferente do enviado.");
 
         }
+
+        $client = new GoogleClient(['client_id' =>"992528994741-pq014lbfqv5jq6h440sbdl5i3r738kkp.apps.googleusercontent.com"]); 
+                
+        $payload = $client->verifyIdToken($postVars["credential"]);
+
+        if (isset($payload["email"])){
+
+            try{
+                
+                $obUser = new User;
+                $obUser->email = $payload["email"];
+
+                $userVerify = $obUser->getUserByEmail();
+
+                if($userVerify){          
+                            
+                    Session::setVars([
+                        "id" => $userVerify[0]["id"],
+                        "nome" => $userVerify[0]["nome"],
+                        "email" => $userVerify[0]["email"]
+                    ]);
+                    
+                    $_SESSION["login_msg"] = true;
+
+                    return self::$request->getRouter()->redirect("");
+
+                }
+                    
+                return self::authGetPage("authContent",
+                    "O email não existe no sistema, cadastre-se primeiro");     
+
+            }catch (Exception $e) {
         
+                return self::$request->getRouter()->redirect("/Account");
+    
+            }
+        
+        } 
+
+        return self::authGetPage("authContent",
+            "Erro ao fazer login, por favor tente novamente mais tarde");
+
+    }
+
+    /**
+     * Método responsável por cadastrar um usuário com o login google
+     */
+    private static function setNewUserGoogle($postVars)
+    {
+
+        print_r($postVars);
+        die();
+
+    
+
+    }
+
+
+    private static function decideApiGoogle()
+    {
 
     }
 
@@ -46,7 +119,7 @@ class Auth extends Page{
      * @param array $postVars
      * @return array
      */
-    private function validateInputsLogin($postVars)
+    private static function validateInputsLogin($postVars)
     {
 
         $email = trim(filter_var($postVars["email"], FILTER_SANITIZE_EMAIL)); 
@@ -74,11 +147,17 @@ class Auth extends Page{
      *
      * @param array $postVars
      */
-    private function setLogin($postVars)
+    private static function setLogin($postVars)
     {
         try {
 
-            $paramsValidated = $this->validateInputsLogin($postVars);
+            if(isset($postVars["credential"]) || isset($postVars["g_csrf_token"])){
+
+                return self::setLoginGoogle($postVars);
+
+            }
+
+            $paramsValidated = self::validateInputsLogin($postVars);
             
             $email = $paramsValidated["email"] ?? "";
             $senha = $paramsValidated["senha"] ?? "";
@@ -119,7 +198,7 @@ class Auth extends Page{
      * @param array $postVars
      * @return array
      */
-    private function validateInputsRegister($postVars)
+    private static function validateInputsRegister($postVars)
     {
 
         $email = trim(filter_var($postVars["email"], FILTER_SANITIZE_EMAIL)); 
@@ -171,11 +250,11 @@ class Auth extends Page{
      *
      * @param array $postVars
      */
-    private function setNewUser($postVars)
+    private static function setNewUser($postVars)
     {
         try {
 
-            $paramsValidated = $this->validateInputsRegister($postVars);
+            $paramsValidated = self::validateInputsRegister($postVars);
 
             $email = $paramsValidated["email"] ?? "";
             $nome = $paramsValidated["nome"] ?? "";
@@ -205,7 +284,7 @@ class Auth extends Page{
 
             $_SESSION["userInfos"] = self::$userInfos;
 
-            return $this->sendEmailVerify($email, "register", self::$verifyEmailCode);
+            return self::sendEmailVerify($email, "register", self::$verifyEmailCode);
 
         } catch (Exception $e) {
             
@@ -222,7 +301,7 @@ class Auth extends Page{
      * @param string $address
      * @param string $action
      */
-    private function sendEmailVerify($address, $action, $verifyEmailCode = null)
+    private static function sendEmailVerify($address, $action, $verifyEmailCode = null)
     {
 
         $subject = "";
@@ -332,7 +411,6 @@ class Auth extends Page{
                 Não foi possível obter o código digitado. Por favor, tente novamente.");
 
         } catch (Exception $e) {
-
             
             return self::$request->getRouter()->redirect("/Account");
 
@@ -353,6 +431,12 @@ class Auth extends Page{
         self::$verifyEmailCode = isset($_SESSION["emailCode"]) ? $_SESSION["emailCode"] : null;
 
         $url = self::$request->getUri();
+        
+        if(isset($_SESSION["id"]) && strtolower($url) == "/account"){
+            
+            return self::$request->getRouter()->redirect("");
+
+        }
 
         if(str_contains($url, "code")){
 

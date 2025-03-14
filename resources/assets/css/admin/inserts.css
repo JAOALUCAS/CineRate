@@ -1,6 +1,6 @@
 
 .insert {
-    background-color: #141820;
+    background-color: #090912;
     height: 70%;
     color: white;
     padding: 30px;
@@ -438,7 +438,6 @@
     filter: grayscale(0.4);
 }
 
-
 .custom-option{
     width: 90%;
 }
@@ -497,7 +496,7 @@
     top: 2px;
     width: 5px;
     height: 10px;
-    border: solid #141820;
+    border: solid #090912;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
 }

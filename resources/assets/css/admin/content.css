@@ -51,17 +51,16 @@
 }
 
 .time-insert p{
-    width: 100%;
     font-size: 18px;
 }
 
 .relatorios{
-    height: 200px;
+    height: 400px;
     overflow-y: auto;
 }
 
 .selects-insert{
-    width: 100%;
+    width: 80%;
     display: flex;
     justify-content: end;
 }

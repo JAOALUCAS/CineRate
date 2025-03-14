@@ -1,8 +1,6 @@
 const manForm = document.querySelectorAll(".man-form");
 
 function formManDb(){
-    
-    const carregando = document.querySelector(".carregando");
 
     manForm.forEach((manForm)=>{
 

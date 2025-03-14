@@ -4,6 +4,7 @@ let jsonContentExample;
 const castCheck = document.querySelector(".custom-checkbox input");
 const upcreasePage = document.querySelectorAll(".upcreasePage");
 const decreasePage = document.querySelectorAll(".decreasePage");
+var carregando = document.querySelector(".carregando");
 
 const apiFormCadastro = document.querySelectorAll(".api-form .api-cadastro");
 
@@ -416,8 +417,6 @@ function pageApiUpdate(){
 }
 
 function formApiDb(){
-
-    const carregando = document.querySelector(".carregando");
 
     if(apiFormCadastro){
 

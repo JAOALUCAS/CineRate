@@ -5,7 +5,6 @@ const linkFakesignin = document.getElementById("link-fake-signin");
 const linkFakesignup = document.getElementById("link-fake-signup");
 const senhaReveal = document.querySelectorAll(".senhaReveal");
 const forms = document.querySelectorAll(".form-sign");
-const carregando = document.querySelector(".carregando");
 
 function signUpMode() {
 
